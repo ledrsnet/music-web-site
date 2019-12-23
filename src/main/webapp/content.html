@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/assert/css/bootstrap.css">
+    <script src="/assert/js/jquery.js"></script>
+    <script src="/assert/js/bootstrap.js"></script>
+    <script src="/assert/js/audio.js"></script>
+</head>
+<body>
+首页内容
+
+<button onclick="playMusic({
+            'cover': '/assert/images/audio/cover5.jpg',
+            'src': 'http://m7.music.126.net/20191119195332/e8ee421a405b04eaca93dca0a364575a/ymusic/1757/f129/0225/0aec35c482b0f1bfabbb5bc78f969001.mp3',
+            'title': 'SAD'
+        })">播放</button>
+<script>
+    function playMusic(song) {
+        //iframe获取父页面中js变量
+        window.parent.audioFn.newSong({
+            'cover':song.cover,
+            'src':song.src,
+            'title':song.title
+        },true);
+
+
+    }
+</script>
+</body>
+</html>
