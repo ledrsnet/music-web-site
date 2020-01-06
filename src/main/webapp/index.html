@@ -1,28 +1,551 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/assert/css/bootstrap.css">
-    <script src="/assert/js/jquery.js"></script>
-    <script src="/assert/js/bootstrap.js"></script>
-    <!--引入头部JS-->
-    <script src="/assert/js/includeHeader.js"></script>
-    <!--引入播放器JS-->
-    <script src="/assert/js/includePlayer.js"></script>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>TTmusic</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,820" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+        <link rel="stylesheet" href="/assert/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/assert/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="/assert/css/fontAwesome.css">
+        <link rel="stylesheet" href="/assert/css/hero-slider.css">
+        <link rel="stylesheet" href="/assert/css/owl-carousel.css">
+        <link rel="stylesheet" href="/assert/css/templatemo-style.css">
+        <link rel="stylesheet" href="/assert/css/lightbox.css">
+        <link rel="stylesheet" href="/assert/css/font-awesome.4.6.0.css">
+        <link rel="stylesheet" href="/assert/css/style.css">
+        <link rel="stylesheet" type="text/css" href="/assert/css/banner.css">
+        <link rel="stylesheet" href="/assert/css/search/style.css" media="screen" type="text/css">
 
-</head>
+        <audio autoplay="autoplay">
+            <source src="/assert/music/Coldplay%20-%20Always%20In%20My%20Head%20%5Bmqms2%5D.mp3" />
+        </audio>
 
-
+    </head>
 
 <body>
-<!--导航栏-->
-<div id="header" ></div>
-<!--内容之内联框架-->
-<iframe src="content.html" id="contentIframe" name="contentIframe" width="100%" frameborder="0" height="500"></iframe>
-<!--播放器-->
-<div id="player" ></div>
+     <div class="header">
+        <div class="container">
+            <nav class="navbar navbar-inverse" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" id="nav-toggle" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="/index.html" class="navbar-brand scroll-top"><em><img  alt="Brand" src="/assert/img/logo.ico">听语阁</em></a>
 
+                </div>
+                <!--/.navbar-header-->
+                <div id="main-nav" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li><a href="#" class="scroll-top">主页</a></li>
+                        <li><a href="#" class="scroll-link" data-id="about">我的音乐</a></li>
+                        <li><a href="#" class="scroll-link" data-id="portfolio">歌单</a></li>
+                        <li><a href="#" class="scroll-link" data-id="testimonial">专辑</a></li>
+                        <li><a href="#" class="scroll-link" data-id="blog">歌手</a></li>
+                        <li><a href="#" class="scroll-link" data-id="contact-us">排行榜</a></li>
+                        <li><a href="#" class="scroll-link" data-id="contact-us">猜歌闯关</a></li>
+                    </ul>
+                    <section class="webdesigntuts-workshop">
+                        <form  action="" method="" >
+                            <input type="search"  placeholder="What are you looking for?">
+                            <button>Search</button>
+                        </form>
+                    </section>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/login.html">登录</a></li>
+                    </ul>
+
+                </div>
+                <!--/.navbar-collapse-->
+            </nav>
+            <!--/.navbar-->
+        </div>
+        <!--/.container-->
+    </div>
+    <!--/.header-->
+
+
+    <div class="parallax-content baner-content" id="home">
+        <div class="container">
+            <div class="text-content">
+                <!--<div class="primary-white-button">-->
+                    <!--<a href="#" class="scroll-link" data-id="about">Let's Start</a>-->
+                <!--</div>-->
+				<h4 style="color:#c8e5bc;margin-top:380px">古镇中，少年一袭白衣若雪站在姻缘树下，精致的桃花眼即邪魅又冰冷，纤白修长骨节分明的手指中缠绕着一根红线，红线的另一端有着一位一袭红衣的姑娘，唇红齿白，精致的眉眼如同一涡清泉般洁净，还带着一丝戏溺和玩味.</h4>
+
+            </div>
+        </div>
+    </div>
+
+
+    <section id="about" class="page-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="service-item">
+                        <div class="icon">
+                            <img src="/assert/img/service_icon_01.png" alt="">
+                        </div>
+                        <h4>1.际——满江</h4>
+                        <div class="line-dec"></div>
+                        <p>2.喜欢——张悬</p>
+                        <p>3.傻女——陈慧娴</p>
+                        <p>4.远走高飞——金志文</p>
+                        <p>5.除此之外——范逸臣</p>
+                        <div class="primary-blue-button">
+                            <a href="#" class="scroll-link" data-id="portfolio">推荐时刻</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="service-item">
+                        <div class="icon">
+                            <img src="/assert/img/service_icon_02.png" alt="">
+                        </div>
+                        <h4>1.呼唤——齐秦</h4>
+                        <div class="line-dec"></div>
+                        <p>2.open up your door——Richard Hawley</p>
+                        <p>3.17岁——刘德华</p>
+                        <p>4.I Lived——OneRepublic</p>
+                        <p>5.OnlyTime——Enya</p>
+                        <div class="primary-blue-button">
+                            <a href="#" class="scroll-link" data-id="portfolio">曼妙收藏</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="service-item">
+                        <div class="icon">
+                            <img src="/assert/img/service_icon_03.png" alt="">
+                        </div>
+                        <h4>1.船与海鸥——杨旭凯</h4>
+                        <div class="line-dec"></div>
+                        <p>2.理想三旬——陈鸿宇</p>
+                        <p>3.苏菲小姐——鱼果</p>
+                        <p>4.美好事物——房东的猫</p>
+                        <p>5.最初的姓名——性人盒</p>
+                        <div class="primary-blue-button">
+                            <a href="#" class="scroll-link" data-id="portfolio">最近播放</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="service-item">
+                        <div class="icon">
+                            <img src="/assert/img/service_icon_04.png" alt="">
+                        </div>
+                        <h4>1.The Rose——Westlife</h4>
+                        <div class="line-dec"></div>
+                        <p>2.Beauty Queen——Foxes</p>
+                        <p>3.当爱已成往事——张国荣</p>
+                        <p>4.一千个伤心的理由——张学友</p>
+                        <p>5.好久不见——陈奕迅</p>
+                        <div class="primary-blue-button">
+                            <a href="#" class="scroll-link" data-id="portfolio">私人频道</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio">
+        <div class="content-wrapper">
+            <div class="inner-container container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="section-heading">
+                            <h4>歌单</h4>
+                            <div class="line-dec"></div>
+                            <p>TT音乐歌单,为你提供不同“曲风流派、心情感受、主题场合“的歌曲精选集,正能量、经典、摇滚、中国风、感动、爱情、伤感、DJ,尽在TT音乐</p>
+                            <div class="filter-categories">
+                                <ul class="project-filter">
+                                    <li class="filter" data-filter="all"><span>展开全部</span></li>
+                                    <li class="filter" data-filter="branding"><span>推荐</span></li>
+                                    <li class="filter" data-filter="graphic"><span>最新</span></li>
+                                    <li class="filter" data-filter="nature"><span>最热</span></li>
+                                    <li class="filter" data-filter="animation"><span>电台</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="projects-holder-3">
+                            <div class="projects-holder">
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 project-item mix graphic nature">
+                                        <div class="zoom-container">
+                                            <div class="zoom-caption">
+                                                <div class="thumb">
+                                                    <div class="image">
+                                                        <a href="/assert/img/portfolio_big_item_01.jpg" data-lightbox="image-1">
+                                                            <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <img src="/assert/img/portfolio_item_01.png">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 project-item mix graphic animation">
+                                        <div class="zoom-container">
+                                            <div class="zoom-caption">
+                                                <div class="thumb">
+                                                    <div class="image">
+                                                        <a href="/assert/img/portfolio_big_item_02.jpg" data-lightbox="image-1">
+                                                            <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <img src="/assert/img/portfolio_item_02.png">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 project-item mix branding">
+                                        <div class="zoom-container">
+                                            <div class="zoom-caption">
+                                                <div class="thumb">
+                                                    <div class="image">
+                                                        <a href="/assert/img/portfolio_big_item_03.jpg" data-lightbox="image-1">
+                                                            <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <img src="/assert/img/portfolio_item_03.png">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 project-item mix graphic nature">
+                                        <div class="zoom-container">
+                                            <div class="zoom-caption">
+                                                <div class="thumb">
+                                                    <div class="image">
+                                                        <a href="/assert/img/portfolio_big_item_04.jpg" data-lightbox="image-1">
+                                                            <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <img src="/assert/img/portfolio_item_04.png">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 project-item mix branding">
+                                        <div class="zoom-container">
+                                            <div class="zoom-caption">
+                                                <div class="thumb">
+                                                    <div class="image">
+                                                        <a href="/assert/img/portfolio_big_item_05.jpg" data-lightbox="image-1">
+                                                            <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <img src="/assert/img/portfolio_item_05.png">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 project-item mix graphic animation">
+                                        <div class="zoom-container">
+                                            <div class="zoom-caption">
+                                                <div class="thumb">
+                                                    <div class="image">
+                                                        <a href="/assert/img/portfolio_big_item_06.jpg" data-lightbox="image-1">
+                                                            <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <img src="/assert/img/portfolio_item_06.png">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </section>
+
+
+    <section id="testimonial">
+        <h2>最新专辑</h2>
+        <!--<div class="container">-->
+            <div class="banner" id="banner2" style="margin: 50px auto;">
+                <div class="banner-view"></div>
+                <div class="banner-btn"></div>
+                <div class="banner-number"></div>
+                <div class="banner-progres"></div>
+            <!--<div class="row">-->
+                <!--<div class="col-md-6 col-md-offset-3">-->
+                    <!--<div id="owl-testimonials" class="owl-carousel owl-theme">-->
+                        <!--<div class="item">-->
+                            <!--<div class="testimonials-item">-->
+                                <!--<img src="banner2_01.jpg.jpg">-->
+                                <!--<p>"石头计划”作品发布后，我们听到了很多支持与期待的声音，同时也听见了每一位错过了征集活动、或渴望再次参加征集活动的音乐人的呼喊。所以，应朝阳群众的热烈要求，第二季的“石头计划”原创歌曲征集活动正式开启！</p>-->
+                                <!--<h4>第二季征集歌曲</h4>-->
+                                <!--<span>石头计划</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="item">-->
+                            <!--<div class="testimonials-item">-->
+                                <!--<img src="banner2_02.jpg.jpg">-->
+                                <!--<p>不管什么歌曲只要喜欢，学友就想尽力唱到好。相隔七年发行的国语新专辑《Wake up Dreaming 醒着做梦》学友不敢预期乐迷朋友的接受程度，只能做到无愧于心，做到自己最满意就够了。</p>-->
+                                <!--<h4>醒着做梦</h4>-->
+                                <!--<span>张学友</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="item">-->
+                            <!--<img src="banner2_03.jpg.jpg">-->
+                            <!--<div class="testimonials-item">-->
+                                <!--<p>因为音乐市场不景气，各位歌手各家公司都开始尝试迷你专辑，单曲发行。或许是我眼界有限，《Ghost Stories》这张碟，留白，大段前奏，间奏，尾奏，流畅得让我一时觉得次碟举世无两。如果影视作品有电影和电视剧之分，那这张专辑绝不是12首歌，而是某种完整的音乐表现形式。完整听一遍，你会懂的。</p>-->
+                                <!--<h4>Ghost Stories</h4>-->
+                                <!--<span>coldplay</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="item">-->
+                            <!--<img src="banner2_04.jpg.jpg">-->
+                            <!--<div class="testimonials-item">-->
+                                <!--<p>倾诉孤独就听《the one》 呐喊那生活的痛苦听《bloodstream》 不堪那生活平凡听《don"t say》 希望梦想照应现实听《something just like this》 追求自由听《paris》 追随那豪放不羁的年轻听《young》</p>-->
+                                <!--<h4>Memories...Do Not Open</h4>-->
+                                <!--<span>The Chainsomkers</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <!--</div>-->
+        </div>
+    </section>
+
+    <div class="tabs-content" id="blog">
+        <div class="container">
+            <div class="row">
+                <div class="wrapper">
+                    <div class="col-md-4">
+                        <div class="section-heading">
+                            <h4>歌手</h4>
+                            <div class="line-dec"></div>
+                            <p>TT音乐制作指的是作曲、作词、编曲、录制、混音、母带、后期制作等一系列创作工作，以前称为音乐编辑，主要从事音乐的创作和制作方面的工作。</p>
+                            <ul class="tabs clearfix" data-tabgroup="first-tab-group">
+                                <li><a href="#tab1" class="active">每日热搜</a></li>
+                                <li><a href="#tab2">青年才华</a></li>
+                                <li><a href="#tab3">榜样模仿</a></li>
+                                <li><a href="#tab4">熟练大师</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <section id="first-tab-group" class="tabgroup">
+                            <div id="tab1">
+                                <img src="/assert/img/blog_item_1.jpg" style="height: 420px;width: 820px" alt="">
+                                <div class="text-content">
+                                    <span><a href="#">赵雷</a> / <a href="#">China</a> / <a href="#">1986.7.20</a></span>
+                                    <p>2011年，赵雷发行个人第一张唱片《赵小雷》，专辑收录的主打歌曲《南方姑娘》被众多歌手及乐迷翻唱，赵雷也因此被更多人认识受到关注[1-2]  。2014年发行第二张个人专辑《吉姆餐厅》[3-4]  。2016年12月21日，赵雷发行专辑《无法长大》[5]  ；2月，赵雷参加湖南卫视综艺节目《歌手》第三期，作为补位歌手演唱歌曲《成都》突围成功</p>
+                                </div>
+                            </div>
+                            <div id="tab2">
+                                <img src="/assert/img/blog_item_2.jpg" style="height: 420px;width: 820px" alt="">
+                                <div class="text-content">
+                                    <span><a href="#">Declan Galbraith</a> / <a href="#">Britain</a> / <a href="#">1991.12.19</a></span>
+                                    <p>一位堪称歌唱奇才的少年迪克兰·加尔布雷斯，被英国媒体推崇为“终生难得一见的歌唱奇才”的迪克兰，他最出名的是他2002年的单曲《tell me why》，达到在英国排行榜#29 ，当时才10岁，并以他的首张专辑《Declan》轰动欧洲。</p>
+                                </div>
+                            </div>
+                            <div id="tab3">
+                                <img src="/assert/img/blog_item_3.jpg" style="height: 420px;width: 820px" alt="">
+                                <div class="text-content">
+                                    <span><a href="#">Taylor Swift</a> / <a href="#">America</a> / <a href="#">1989.12.13</a></span>
+                                    <p>9岁时，泰勒随家人搬到宾夕法尼亚州的怀奥米辛；10岁时，泰勒开始写歌，并在卡拉OK大赛、节日以及家乡周围一带演唱，她撰写了一篇350页的小说，但未出版；[29]  受《周六夜现场》的启发，泰勒加入了儿童短喜剧团队TheatreKids Live，成为其中的一员，在团队中，她显示了与生俱来的喜剧天赋；在观看了她的卡拉OK表演后，柯克·克里默的母亲建议泰勒致力于乡村音乐而不是戏剧表演，[30]  泰勒还以一篇3页长的诗歌《我壁橱里的怪物》赢得了全国诗歌大赛，但她更专注于歌曲的创作。</p>
+                                </div>
+                            </div>
+                            <div id="tab4">
+                                <img src="/assert/img/blog_item_4.jpg" style="height: 420px;width: 820px" alt="">
+                                <div class="text-content">
+                                    <h4></h4>
+                                    <span><a href="#">杨千嬅</a> / <a href="#">HongKong</a> / <a href="#">1974.2.3</a></span>
+                                    <p>1995年参加无线电视第14届《新秀歌唱大赛》获得季军进入歌坛。2000年以《少女的祈祷》一曲获得香港乐坛四台颁奖典礼多个金曲奖项。2002年发行专辑《Miriam's Music Box》，其中歌曲《可惜我是水瓶座》成为其代表作之一。2002年、2008年与2009年三度夺得十大劲歌金曲最受欢迎女歌星。2005年凭借电影《千杯不醉》获第42届台湾电影金马奖最佳女主角提名。</p>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="contact-us">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-heading">
+                        <h4>联系我们</h4>
+                        <div class="line-dec"></div>
+                        <p>亲！如果你对本网站有更好的建议和改进，请务必发表你的宝贵的建议和想法</p>
+                        <div class="pop-button">
+                            <h4>发送</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="pop">
+                        <span>✖</span>
+                        <form id="contact" action="#" method="post">
+                            <div class="row">
+                                <div class="col-md-12">
+                                  <fieldset>
+                                    <input name="name" type="text" class="form-control" id="name" placeholder="Your name..." required="">
+                                  </fieldset>
+                                </div>
+                                <div class="col-md-12">
+                                  <fieldset>
+                                    <input name="email" type="email" class="form-control" id="email" placeholder="Your email..." required="">
+                                  </fieldset>
+                                </div>
+                                <div class="col-md-12">
+                                  <fieldset>
+                                    <textarea name="message" rows="6" class="form-control" id="message" placeholder="Your message..." required=""></textarea>
+                                  </fieldset>
+                                </div>
+                                <div class="col-md-12">
+                                  <fieldset>
+                                    <button type="submit" id="form-submit" class="btn">Send Message</button>
+                                  </fieldset>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-12">
+                    <div class="location">
+                        <h4>加入vip</h4>
+                        <ul>
+                            <li>在线申请 <br>微信：leo5</li>
+                            <li>离线申请 <br>电话：3434342(小熊)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="location">
+                        <h4>公司地址</h4>
+                        <ul>
+                            <li>珠海市 <br>北京师范大学珠海分校</li>
+                            <li>北京市 <br>北京师范大学</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <div class="contact-info">
+                        <h4>更多详情</h4>
+                        <ul>
+                            <li><em>电话</em>: 010-020-0340</li>
+                            <li><em>邮箱</em>: tk@company.co</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <div class="connect-us">
+                        <h4>与我们获得联系</h4>
+                        <ul>
+                            <li><a href="#" target="_parent"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#o" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#"><i class="fa fa-rss"></i></a></li>
+                            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/assert/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="/assert/js/vendor/jquery-1.11.2.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assert/js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+    <script src="/assert/js/vendor/bootstrap.min.js"></script>
+    <script src="/assert/js/plugins.js"></script>
+    <script src="/assert/js/main.js"></script>
+    <script type="text/javascript" src="/assert/js/banner.js"></script>
+    <script type="text/javascript" src="/assert/js/vendor/jquery-1.11.2.min.js"></script>
+    <script src="/assert/js/searchbar/jquery.min(1).js"></script>
+    <script src="/assert/js/searchbar/jquery.min(2).js"></script>
+
+
+    <script type="text/javascript">
+
+        //碎片化图片
+        var banenr2 = new FragmentBanner({
+            container : "#banner2",//选择容器 必选
+            imgs : ['/assert/img/banner2_01.jpg','/assert/img/banner2_02.jpg','/assert/img/banner2_03.jpg','/assert/img/banner2_04.jpg'],//图片集合
+            size : {
+                width : 850,
+                height : 450
+            },//容器的大小 可选
+            //行数与列数 可选
+            grid : {
+                line : 12,
+                list : 14
+            },
+            index: 0,//图片集合的索引位置 可选
+            type : 2,//切换类型 1 ， 2 可选
+            boxTime : 5000,//小方块来回运动的时长 可选
+            fnTime : 10000//banner切换的时长 可选
+
+        });
+
+        //拖拽拉动
+    $(document).ready(function() {
+        // navigation click actions 
+        $('.scroll-link').on('click', function(event){
+            event.preventDefault();
+            var sectionID = $(this).attr("data-id");
+            scrollToID('#' + sectionID, 750);
+        });
+        // scroll to top action
+        $('.scroll-top').on('click', function(event) {
+            event.preventDefault();
+            $('html, body').animate({scrollTop:0}, 'slow');         
+        });
+        // mobile nav toggle
+        $('#nav-toggle').on('click', function (event) {
+            event.preventDefault();
+            $('#main-nav').toggleClass("open");
+        });
+    });
+    // scroll function
+    function scrollToID(id, speed){
+        var offSet = 50;
+        var targetOffset = $(id).offset().top - offSet;
+        var mainNav = $('#main-nav');
+        $('html,body').animate({scrollTop:targetOffset}, speed);
+        if (mainNav.hasClass("open")) {
+            mainNav.css("height", "1px").removeClass("in").addClass("collapse");
+            mainNav.removeClass("open");
+        }
+    }
+    if (typeof console === "undefined") {
+        console = {
+            log: function() { }
+        };
+    }
+
+    </script>
 </body>
-
 </html>
