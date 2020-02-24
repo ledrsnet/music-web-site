@@ -4,6 +4,7 @@ import com.maple.music.dao.UserDao;
 import com.maple.music.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -35,5 +36,24 @@ public class UserDaoImpl implements UserDao {
 
 		//使用getCurrentSession后，hibernate 自己维护session的关闭，写了反而会报错
 
+	}
+
+	@Override
+	public User getUserByName(String username) {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM User U where U.username = :name";
+		Query query = session.createQuery(hql);
+		query.setParameter("name",username);
+		Object o = query.uniqueResult();
+		return (User) o;
+	}
+
+	@Override
+	public Integer keepAlive() {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "select 1 from User";
+		Query query = session.createQuery(hql);
+		Object o = query.uniqueResult();
+		return (Integer) o;
 	}
 }

@@ -20,4 +20,7 @@ public interface UserDao {
 	 */
 	void saveUser(User user);
 
+	User getUserByName(String username);
+
+	Integer keepAlive();
 }

@@ -1,14 +1,20 @@
-<!DOCTYPE web-app PUBLIC
-        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
-        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<web-app
 
-<web-app>
+        version="3.0"
+
+        xmlns="http://java.sun.com/xml/ns/javaee"
+
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+
   <display-name>ssh</display-name>
 
   <!--  指定spring的配置文件-->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:applicationContext.xml</param-value>
+    <param-value>classpath:spring/applicationContext.xml,classpath:spring/spring-quartz.xml</param-value>
   </context-param>
 
   <!--  配置struts2的前端拦截-->
@@ -30,4 +36,50 @@
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
+
+<!--  kaptcha验证码-->
+  <servlet>
+    <servlet-name>Kaptcha</servlet-name>
+    <servlet-class>com.google.code.kaptcha.servlet.KaptchaServlet</servlet-class>
+    <init-param>
+      <param-name>kaptcha.image.width</param-name>
+      <param-value>150</param-value>
+    </init-param>
+    <init-param>
+      <param-name>kaptcha.image.height</param-name>
+      <param-value>50</param-value>
+    </init-param>
+    <init-param>
+      <param-name>kaptcha.textproducer.font.size</param-name>
+      <param-value>30</param-value>
+    </init-param>
+    <init-param>
+      <param-name>kaptcha.textproducer.char.length</param-name>
+      <param-value>4</param-value>
+    </init-param>
+    <init-param>
+      <param-name>kaptcha.border</param-name>
+      <param-value>no</param-value>
+    </init-param>
+    <init-param>
+      <param-name>kaptcha.textproducer.font.color</param-name>
+      <param-value>black</param-value>
+    </init-param>
+    <init-param>
+      <param-name>kaptcha.textproducer.char.space</param-name>
+      <param-value>2</param-value>
+    </init-param>
+    <init-param>
+      <param-name>kaptcha.obscurificator.impl</param-name>
+      <param-value>com.google.code.kaptcha.impl.ShadowGimpy</param-value>
+    </init-param>
+    <init-param>
+      <param-name>kaptcha.textproducer.font.names</param-name>
+      <param-value>Arial, Courier</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Kaptcha</servlet-name>
+    <url-pattern>/Kaptcha.jpg</url-pattern>
+  </servlet-mapping>
 </web-app>

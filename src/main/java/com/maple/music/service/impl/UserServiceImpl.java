@@ -26,4 +26,14 @@ public class UserServiceImpl implements UserService {
 	public void saveUser(User user) {
 		userDao.saveUser(user);
 	}
+
+	@Override
+	public User getUserByName(String username) {
+		return userDao.getUserByName(username);
+	}
+
+	@Override
+	public Integer keepAlive() {
+		return userDao.keepAlive();
+	}
 }

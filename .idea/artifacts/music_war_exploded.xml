@@ -5,6 +5,7 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="music" />
+          <element id="jpa-descriptors" facet="music/jpa/JPA" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.hibernate:hibernate-core:5.2.12.Final" />
@@ -39,6 +40,17 @@
           <element id="library" level="project" name="Maven: aspectj:aspectjweaver:1.5.0" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.0.5" />
           <element id="library" level="project" name="Maven: c3p0:c3p0:0.9.1.2" />
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.5" />
+          <element id="library" level="project" name="Maven: com.google.code.kaptcha:kaptcha:2.3" />
+          <element id="library" level="project" name="Maven: com.alibaba:druid:1.0.9" />
+          <element id="library" level="module" name="Maven: com.alibaba:jconsole:1.8.0" module-name="music" />
+          <element id="library" level="module" name="Maven: com.alibaba:tools:1.8.0" module-name="music" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.7" />
+          <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:1.1.7" />
+          <element id="library" level="project" name="Maven: ch.qos.logback:logback-access:1.1.7" />
+          <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.1.7" />
+          <element id="library" level="project" name="Maven: org.quartz-scheduler:quartz:2.2.1" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context-support:4.1.4.RELEASE" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="music/web/Web" />

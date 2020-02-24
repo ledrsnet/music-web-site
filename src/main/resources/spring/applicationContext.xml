@@ -14,18 +14,21 @@
         <property name="location" value="classpath:jdbc.properties"/>
     </bean>
 
-    <!--    配置c3p0数据源-->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <property name="driverClass" value="${mysql.driverClassName}"/>
-        <property name="jdbcUrl" value="${mysql.url}"/>
-        <property name="user" value="${mysql.username}"/>
-        <property name="password" value="${mysql.password}"/>
-
-        <property name="maxPoolSize" value="50"/>
-        <property name="minPoolSize" value="5"/>
-        <property name="initialPoolSize" value="5"/>
+    <!--    配置druid数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+        <property name="driverClassName" value="${mysql.driverClassName}"></property>
+        <property name="url" value="${mysql.url}"></property>
+        <property name="username" value="${mysql.username}"></property>
+        <property name="password" value="${mysql.password}"></property>
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="10" />
+        <property name="minIdle" value="10" />
+        <property name="maxActive" value="20" />
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="60000" />
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="stat" />
     </bean>
-
     <!--    hibernate管理-->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <!--        引用上文配置的数据源-->
@@ -39,8 +42,8 @@
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.format_sql">true</prop>
                 <prop key="max_fetch_depth">3</prop>
-                <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/ssh_music</prop>
-                <prop key="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</prop>
+                <prop key="hibernate.connection.url">jdbc:mysql://121.36.244.33:3306/ssh_music</prop>
+                <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
                 <!-- 解决session关闭问题 -->
                 <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
             </props>
@@ -56,7 +59,7 @@
         <property name="mappingLocations">
             <list>
                 <value>classpath:com/maple/music/entity/MUser.hbm.xml</value>
-                <value>classpath:MUser.hbm.xml</value>
+<!--                <value>classpath:MUser.hbm.xml</value>-->
             </list>
         </property>
     </bean>

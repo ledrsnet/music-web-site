@@ -21,4 +21,8 @@ public interface UserService {
 	 * @param user
 	 */
 	void saveUser(User user);
+
+	User getUserByName(String username);
+
+	Integer keepAlive();
 }
