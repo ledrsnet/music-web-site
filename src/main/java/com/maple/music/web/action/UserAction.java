@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,9 +40,11 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 	// 接受页面的验证码
 	private String checkCode;
 
+	// 提供验证码的setter方法
 	public void setCheckCode(String checkCode) {
 		this.checkCode = checkCode;
 	}
+
 
 	//依赖service
 	@Resource
@@ -58,16 +61,31 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 	}
 
 	/**
-	 * 保存用户
+	 * 用户注册，保存用户
 	 * @return
 	 */
 	public String saveUser(){
-		User user = new User();
-
-		user.setUsername("事务提交");
-		userService.saveUser(user);
-
-		return SUCCESS;
+		Date date =new Date();
+		user.setCreatTime(date);
+		user.setLastTime(date);
+		user.setState(1);
+		String password = user.getPassword();
+		String encryptPassword = MD5.encryptPassword(password, "123");
+		user.setPassword(encryptPassword);
+		Map<String,Object> map = new HashMap<>();
+		try {
+			userService.saveUser(user);
+			map.put("resultStatus",true);
+		} catch (Exception e) {
+			logger.error("保存用户异常");
+			map.put("resultStatus",false);
+		}
+		try {
+			ResultUtils.toJson(ServletActionContext.getResponse(),map);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 
@@ -107,9 +125,48 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 		return null;
 	}
 
+	/**
+	 * 用户注销方法
+	 * @return
+	 */
 	public String logout(){
 		ActionContext.getContext().getSession().remove("user");
 		return SUCCESS;
 	}
 
+	/**
+	 * 校验昵称是否存在
+	 * @return
+	 */
+	public String checkNickname(){
+		boolean b = userService.checkNickName(user.getNickname());
+		Map<String,Object> map = new HashMap<>();
+		map.put("resultStatus",b);
+		try {
+			ResultUtils.toJson(ServletActionContext.getResponse(),map);
+		} catch (IOException e) {
+			logger.error("校验昵称是否存在结构转换json出错");
+		}
+		return null;
+	}
+
+	/**
+	 * 校验用户名是否存在
+	 * @return
+	 */
+	public String checkUsername(){
+		User resUser = userService.getUserByName(this.user.getUsername());
+		Map<String,Object> map = new HashMap<>();
+		if(resUser!=null){
+			map.put("resultStatus",false);
+		}else{
+			map.put("resultStatus",true);
+		}
+		try {
+			ResultUtils.toJson(ServletActionContext.getResponse(),map);
+		} catch (IOException e) {
+			logger.error("校验用户名是否存在结果转换json出错");
+		}
+		return null;
+	}
 }

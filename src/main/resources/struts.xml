@@ -11,7 +11,7 @@
     <package name="user" extends="struts-default" namespace="/">
         <action name="user_*" class="userAction" method="{1}">
             <result name="success" type="redirect">/index.html</result>
-            <allowed-methods>m1,saveUser,login,logout</allowed-methods><!-- struts 2.5 之后，使用通配符必须加上这一行 ，否则无法使用通配符访问-->
+            <allowed-methods>m1,saveUser,login,logout,checkNickname,checkUsername</allowed-methods><!-- struts 2.5 之后，使用通配符必须加上这一行 ，否则无法使用通配符访问-->
         </action>
     </package>
     <package name="getParam" extends="struts-default" namespace="/">

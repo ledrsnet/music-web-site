@@ -23,4 +23,6 @@ public interface UserDao {
 	User getUserByName(String username);
 
 	Integer keepAlive();
+
+	boolean checkNickName(String nickname);
 }

@@ -426,7 +426,7 @@
     $(function () {
         $.post("/getParam_user",{},function (data) {
             if(data.resultStatus===true){
-                $("#isLogin").html('<li><a href="/myMusic.html" style="text-transform: none;display: inline-block">'+data.user.username+'</a>&nbsp;&nbsp;<a href="/user_logout" style="display:inline-block">注销</a></li>');
+                $("#isLogin").html('<li><a href="/myMusic.html" style="text-transform: none;display: inline-block">'+data.user.nickname+'</a>&nbsp;&nbsp;<a href="/user_logout" style="display:inline-block">注销</a></li>');
             }else{
                 $("#isLogin").html('<li><a href="/login.html"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登录</a></li>');
             }

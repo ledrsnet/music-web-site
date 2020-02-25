@@ -1,14 +1,10 @@
 package com.maple.music.task;
 
 import com.maple.music.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@Component
 public class MyQuartzTask {
 
     @Resource

@@ -7,6 +7,7 @@
     <class name="com.maple.music.entity.User" table="m_user">
         <!--建立类中的属性与表中的主键映射-->
         <id name="id" column="id">
+            <generator class="native"></generator>
         </id>
         <!--建立类中的普通属性与表中的属性映射-->
         <property name="username" column="username"/>
@@ -15,5 +16,6 @@
         <property name="creatTime" column="creat_time"/>
         <property name="lastTime" column="last_time"/>
         <property name="state" column="state"/>
+        <property name="emailAddress" column="emailAddress"/>
     </class>
 </hibernate-mapping>

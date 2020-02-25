@@ -1,7 +1,7 @@
 package com.maple.music.entity;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * @author LiangDong
@@ -14,9 +14,10 @@ public class User {
 	private String username;
 	private String password;
 	private String nickname;
-	private Timestamp creatTime;
-	private Timestamp lastTime;
-	private Byte state;
+	private Date creatTime;
+	private Date lastTime;
+	private Integer state;
+	private String emailAddress;
 
 	@Id
 	@Column(name = "id")
@@ -60,32 +61,42 @@ public class User {
 
 	@Basic
 	@Column(name = "creat_time")
-	public Timestamp getCreatTime() {
+	public Date getCreatTime() {
 		return creatTime;
 	}
 
-	public void setCreatTime(Timestamp creatTime) {
+	public void setCreatTime(Date creatTime) {
 		this.creatTime = creatTime;
 	}
 
 	@Basic
 	@Column(name = "last_time")
-	public Timestamp getLastTime() {
+	public Date getLastTime() {
 		return lastTime;
 	}
 
-	public void setLastTime(Timestamp lastTime) {
+	public void setLastTime(Date lastTime) {
 		this.lastTime = lastTime;
 	}
 
 	@Basic
 	@Column(name = "state")
-	public Byte getState() {
+	public Integer getState() {
 		return state;
 	}
 
-	public void setState(Byte state) {
+	public void setState(Integer state) {
 		this.state = state;
+	}
+
+	@Basic
+	@Column(name = "emailAddress")
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
 
 	@Override
@@ -93,17 +104,16 @@ public class User {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		User User = (User) o;
+		User user = (User) o;
 
-		if (id != User.id) return false;
-		if (username != null ? !username.equals(User.username) : User.username != null) return false;
-		if (password != null ? !password.equals(User.password) : User.password != null) return false;
-		if (nickname != null ? !nickname.equals(User.nickname) : User.nickname != null) return false;
-		if (creatTime != null ? !creatTime.equals(User.creatTime) : User.creatTime != null) return false;
-		if (lastTime != null ? !lastTime.equals(User.lastTime) : User.lastTime != null) return false;
-		if (state != null ? !state.equals(User.state) : User.state != null) return false;
-
-		return true;
+		if (id != user.id) return false;
+		if (username != null ? !username.equals(user.username) : user.username != null) return false;
+		if (password != null ? !password.equals(user.password) : user.password != null) return false;
+		if (nickname != null ? !nickname.equals(user.nickname) : user.nickname != null) return false;
+		if (creatTime != null ? !creatTime.equals(user.creatTime) : user.creatTime != null) return false;
+		if (lastTime != null ? !lastTime.equals(user.lastTime) : user.lastTime != null) return false;
+		if (state != null ? !state.equals(user.state) : user.state != null) return false;
+		return emailAddress != null ? emailAddress.equals(user.emailAddress) : user.emailAddress == null;
 	}
 
 	@Override
@@ -115,6 +125,7 @@ public class User {
 		result = 31 * result + (creatTime != null ? creatTime.hashCode() : 0);
 		result = 31 * result + (lastTime != null ? lastTime.hashCode() : 0);
 		result = 31 * result + (state != null ? state.hashCode() : 0);
+		result = 31 * result + (emailAddress != null ? emailAddress.hashCode() : 0);
 		return result;
 	}
 }

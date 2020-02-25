@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html >
+<head>
+<meta charset="UTF-8">
+<title>注册</title>
+<link rel="stylesheet" href="/assert/css/login/login.css">
+
+
+</head>
+
+<body>
+
+<main>
+
+  <form class="form" id="form1"  onsubmit="return false" action="#" method="post" style="height: 600px">
+    <div class="form__cover"></div>
+    <div class="form__loader">
+      <div class="spinner active">
+        <svg class="spinner__circular" viewBox="25 25 50 50">
+          <circle class="spinner__path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
+        </svg>
+      </div>
+    </div>
+    <div class="form__content">
+      <h1>注册</h1>
+      <div class="styled-input">
+        <input id="nickname" type="text" class="styled-input__input" name="nickname">
+        <div class="styled-input__placeholder"> <span class="styled-input__placeholder-text">Nickname</span> </div>
+        <div class="styled-input__circle"></div>
+      </div>
+      <div class="styled-input">
+          <input id="username" type="text" class="styled-input__input" name="username">
+          <div class="styled-input__placeholder"> <span class="styled-input__placeholder-text">Username</span> </div>
+          <div class="styled-input__circle"></div>
+       </div>
+
+      <div class="styled-input">
+        <input id="password" type="password" class="styled-input__input" name="password">
+        <div class="styled-input__placeholder"> <span class="styled-input__placeholder-text">Password</span> </div>
+        <div class="styled-input__circle"></div>
+      </div>
+      <div class="styled-input">
+        <input id="repassword" type="password" class="styled-input__input" name="rePassword">
+        <div class="styled-input__placeholder"> <span class="styled-input__placeholder-text">rePassword</span> </div>
+        <div class="styled-input__circle"></div>
+      </div>
+      <div class="styled-input">
+        <input id="email" type="email" class="styled-input__input" name="emailAddress">
+        <div class="styled-input__placeholder"> <span class="styled-input__placeholder-text">Email</span> </div>
+        <div class="styled-input__circle"></div>
+      </div>
+
+      <a href="/login.html" style="font-size: 15px;margin-bottom:10px;color: yellow">已有账号？请登录</a>
+      <button type="button" onclick="register()" class="styled-button"> <span class="styled-button__real-text-holder"> <span class="styled-button__real-text">Submit</span> <span class="styled-button__moving-block face"> <span class="styled-button__text-holder"> <span class="styled-button__text">注册</span> </span> </span><span class="styled-button__moving-block back"> <span class="styled-button__text-holder"> <span class="styled-button__text">注册</span> </span> </span> </span> </button>
+    </div>
+  </form>
+</main>
+<div id='stars'></div>
+<div id='stars2'></div>
+<div id='stars3'></div>
+<script src="/assert/js/jquery.js"></script>
+<script  src="/assert/js/login/login.js"></script>
+<script src="/assert/js/common.js"></script>
+<script>
+  function register() {
+    if(checkForm()){
+      $.ajax({
+        //几个参数需要注意一下
+        type: "POST",//方法类型
+        dataType: "json",//预期服务器返回的数据类型
+        url: "/user_saveUser" ,//url
+        data: $('#form1').serialize(),
+        success:function (result) {
+            if(result.resultStatus===true){
+              alert("注册成功");
+              location.href="/login.html";
+            }else{
+              alert("注册失败！");
+            }
+        }
+      });
+    }
+  }
+
+  function checkForm(){
+    /**校验用户名*/
+            //1.获取用户输入的数据
+    var uValue = document.getElementById("username").value;
+    //alert(uValue);
+    if(uValue==""){
+      //2.给出错误提示信息
+      alert("用户名不能为空!");
+      return false;
+    }
+      //alert("aa");
+      /*校验昵称*/
+    var nValue = document.getElementById("nickname").value;
+    var nFlag=true;
+    $.ajaxSetup({
+      async : false
+    });
+     $.post("/user_checkNickname",{"nickname":nValue},function (result) {
+        if(result.resultStatus===false){//false昵称存在，true昵称不存在
+          alert("该昵称已存在");
+          nFlag= false;
+        }
+    });
+    $.post("/user_checkUsername",{"username":uValue},function (result) {
+      if(result.resultStatus===false){//false用户名存在，true用户名不存在
+        alert("用户名已存在");
+        nFlag= false;
+      }
+    });
+    $.ajaxSetup({
+      async : true
+    });
+    if(!nFlag){
+      return false;
+    }
+
+
+      /*校验密码*/
+      var pValue = document.getElementById("password").value;
+      if(pValue==""){
+        alert("密码不能为空!");
+        return false;
+      }
+
+      /**校验确认密码*/
+      var rpValue = document.getElementById("repassword").value;
+      if(rpValue!=pValue){
+        alert("两次密码输入不一致!");
+        return false;
+      }
+
+      /*校验邮箱*/
+      var eValue = document.getElementById("email").value;
+      if(!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(eValue)){
+        alert("邮箱格式不正确!");
+        return false;
+      }
+      return true;
+  }
+</script>
+</body>
+</html>

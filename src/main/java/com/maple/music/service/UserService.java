@@ -25,4 +25,6 @@ public interface UserService {
 	User getUserByName(String username);
 
 	Integer keepAlive();
+
+	boolean checkNickName(String nickname);
 }

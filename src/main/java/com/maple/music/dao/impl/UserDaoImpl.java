@@ -32,7 +32,6 @@ public class UserDaoImpl implements UserDao {
 	public void saveUser(User user) {
 		Session session = sessionFactory.getCurrentSession();
 		session.save(user);
-		System.out.println("======="+user.getUsername());
 
 		//使用getCurrentSession后，hibernate 自己维护session的关闭，写了反而会报错
 
@@ -55,5 +54,18 @@ public class UserDaoImpl implements UserDao {
 		Query query = session.createQuery(hql);
 		Object o = query.uniqueResult();
 		return (Integer) o;
+	}
+
+	@Override
+	public boolean checkNickName(String nickname) {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM User U where U.nickname = :name";
+		Query query = session.createQuery(hql);
+		query.setParameter("name",nickname);
+		Object o = query.uniqueResult();
+		if(o!=null){
+			return false;
+		}
+		return true;
 	}
 }

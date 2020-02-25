@@ -36,4 +36,9 @@ public class UserServiceImpl implements UserService {
 	public Integer keepAlive() {
 		return userDao.keepAlive();
 	}
+
+	@Override
+	public boolean checkNickName(String nickname) {
+		return userDao.checkNickName(nickname);
+	}
 }
