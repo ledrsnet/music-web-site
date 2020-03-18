@@ -17,11 +17,11 @@
             margin-top: 70px;
             background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
         }
+
         a:focus {
             color: #FFFFFF;
         }
     </style>
-
 
 
 </head>
@@ -41,7 +41,8 @@
 
                 <ul class="playlist_tag__tags">
                     <li class="playlist_tag__itembox" v-for="tag in tags_array[key]">
-                        <a href="javascript:void(0);" class="playlist_tag__item js_tag" :data-id=" tag " v-cloak>{{ tag }}</a>
+                        <a href="javascript:void(0);" class="playlist_tag__item js_tag" :data-id=" tag " v-cloak>{{ tag
+                            }}</a>
                     </li>
                 </ul>
             </div>
@@ -50,23 +51,31 @@
         <div class="mod_part_detail">
             <div class="part_detail__hd">
                 <h2 class="part_detail__tit" style="color: navajowhite">全部歌单</h2>
-                <div class="part_switch" id="sortbox" aria-label="排列方式"><a href="javascript:;" class="part_switch__item js_sort part_switch__item--left part_switch__item--select" title="最热" data-id="hot" data-sort="5">最热</a><a href="javascript:;" class="part_switch__item part_switch__item--right js_sort" title="最新" data-id="new" data-sort="2">最新</a></div>
+                <div class="part_switch" id="sortbox" aria-label="排列方式"><a href="javascript:;"
+                                                                           class="part_switch__item js_sort part_switch__item--left part_switch__item--select"
+                                                                           title="最热" data-id="hot" data-sort="5">最热</a><a
+                        href="javascript:;" class="part_switch__item part_switch__item--right js_sort" title="最新"
+                        data-id="new" data-sort="2">最新</a></div>
             </div>
             <div class="mod_playlist mod_playlist--all">
                 <div id="stars1"></div>
                 <div id='stars3'></div>
                 <ul class="playlist__list" id="playlist_box">
-                    <li v-for="playlist in playlists" class="playlist__item playlist__item--hover" onmouseover="this.className=(this.className+' playlist__item--hover')" onmouseout="this.className=this.className.replace(/ playlist__item--hover/, '')">
+                    <li v-for="playlist in playlists" class="playlist__item playlist__item--hover"
+                        onmouseover="this.className=(this.className+' playlist__item--hover')"
+                        onmouseout="this.className=this.className.replace(/ playlist__item--hover/, '')">
                         <div class="playlist__item_box">
                             <div class="playlist__cover mod_cover" style="visibility: visible;">
                                 <a :href="toPlaylistPage(playlist.id)" class="js_playlist" :title="playlist.name">
-                                    <img :src="'http://121.36.244.33:8080/'+playlist.coverImgUrl" :alt="playlist.name" class="playlist__pic" style="display: block; visibility: visible;">
+                                    <img :src="'http://121.36.244.33:8080/'+playlist.coverImgUrl" :alt="playlist.name"
+                                         class="playlist__pic" style="display: block; visibility: visible;">
                                     <i class="mod_cover__icon_play js_play"></i>
                                 </a>
                             </div>
                             <h4 class="playlist__title">
 									<span class="playlist__title_txt" style="height: 44px">
-										<a :href="toPlaylistPage(playlist.id)" class="js_playlist" :title="playlist.name">
+										<a :href="toPlaylistPage(playlist.id)" class="js_playlist"
+                                           :title="playlist.name">
 											{{ playlist.name }}
 										</a>
 									</span>
@@ -94,13 +103,17 @@
             <div style="width:600px;margin:0 auto; padding:20px 0;">
                 <p style="margin:10px 0px;">
                     <b>Copyright © 2019
-                        <a href="https://superBoyJack.cn" target="_blank" title="superBoyJack"> superBoyJack</a> 版权所有 Powered By
-                        <a href="http://wpa.qq.com/msgrd?uin=2656288235" target="_blank" title="superBoyJack">superBoyJack</a> Design.&nbsp;&nbsp;
+                        <a href="https://superBoyJack.cn" target="_blank" title="superBoyJack"> superBoyJack</a> 版权所有
+                        Powered By
+                        <a href="http://wpa.qq.com/msgrd?uin=2656288235" target="_blank" title="superBoyJack">superBoyJack</a>
+                        Design.&nbsp;&nbsp;
                     </b>
                     <!-- 备案信息代码 -->
                 </p>
-                <a target="_blank" href="#" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
-                    <img src="https://superboyjack.cn/upload/2019/11/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87-b8473f72b5dc4bf1885d394815c38a9a.png" style="float:left;"/>
+                <a target="_blank" href="#"
+                   style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+                    <img src="https://superboyjack.cn/upload/2019/11/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87-b8473f72b5dc4bf1885d394815c38a9a.png"
+                         style="float:left;"/>
                     <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">
                         鲁公网安备 99988882000110号 鲁ICP备99998888号
                     </p>
@@ -120,90 +133,91 @@
 <script src="/assert/js/playlists/jquery.base64.js"></script>
 </body>
 <script>
+        var tag = '华语';
+        var order = 'hot';
+        setTimeout(function () {
+            $(document).ready(function () {
+                $(".playlist_tag__tags li a").click(function () {
+                    $(this).parent().parent().parent().siblings().children().children().children().removeClass("playlist_tag__item--select");
+                    $(this).addClass("playlist_tag__item--select").parent().siblings().children().removeClass("playlist_tag__item--select");
+                    tag = this.dataset.id;
+                    get_playlist();
+                    console.log(tag + order);
+                });
+                $(".part_switch a").click(function () {
+                    $(this).addClass("part_switch__item--select").siblings().removeClass("part_switch__item--select");
+                    order = this.dataset.id;
+                    get_playlist();
+                    console.log(tag + order);
+                });
 
-    var tag = '华语';
-    var order = 'hot';
-    setTimeout(function () {
-        $(document).ready(function() {
-            $(".playlist_tag__tags li a").click(function() {
-                $(this).parent().parent().parent().siblings().children().children().children().removeClass("playlist_tag__item--select");
-                $(this).addClass("playlist_tag__item--select").parent().siblings().children().removeClass("playlist_tag__item--select");
-                tag = this.dataset.id;
-                get_playlist();
-                console.log(tag + order);
+
             });
-            $(".part_switch a").click(function(){
-                $(this).addClass("part_switch__item--select").siblings().removeClass("part_switch__item--select");
-                order = this.dataset.id;
-                get_playlist();
-                console.log(tag + order);
-            });
+        }, 2000);
 
 
-        });
-    }, 200);
-
-
-
-    $.getJSON(
-        "/playlists_getCategories",
-        function(data) {
-            if(data.code == 200){
-                playlistsVue.categories = data.categories;
-                playlistsVue.tags = data.sub;
-                for(var tag of playlistsVue.tags){
-                    if(playlistsVue.tags_array[tag.category].length <9){
-                        playlistsVue.tags_array[tag.category].push(tag.name);
-                    }
-                }
-                $("div#playlists").removeClass("hidden");
-            }
-        }
-    );
-
-    $.getJSON(
-        "/playlists_getPlaylists",
-        function(data) {
-            if(data.code == 200){
-                playlistsVue.playlists = data.playlists;
-            }
-        }
-    );
-
-    function get_playlist(){
-        var tag_var = "cat=" + tag;
-        var order_var = "order=" + order;
         $.getJSON(
-            "/playlists_getPlaylists?" + tag_var + "&" + order_var,
-            function(data) {
-                if(data.code == 200){
+            "/playlists_getCategories",
+            function (data) {
+                if (data.code == 200) {
+                    playlistsVue.categories = data.categories;
+                    playlistsVue.tags = data.sub;
+                    for (var tag of playlistsVue.tags) {
+                        if (playlistsVue.tags_array[tag.category].length < 9) {
+                            playlistsVue.tags_array[tag.category].push(tag.name);
+                        }
+                    }
+                    $("div#playlists").removeClass("hidden");
+                }
+            }
+        );
+
+        $.getJSON(
+            "/playlists_getPlaylists",
+            function (data) {
+                if (data.code == 200) {
                     playlistsVue.playlists = data.playlists;
                 }
             }
         );
-    }
 
-    var playlistsVue = new Vue({
-        el: '#playlists',
-        data: {
-            categories: '',
-            tags: [],
-            tags_array:[[],[],[],[],[]],
-            tag_num: 0,
-            playlists: [],
-        },
-        methods: {
-            // 传送至相应的歌手详情页面
-            toPlaylistPage: function (id) {
-                return '/playlist.html?' + $.base64.encode('id=' + id);
+        function get_playlist() {
+            var tag_var = "cat=" + tag;
+            var order_var = "order=" + order;
+            $.getJSON(
+                "/playlists_getPlaylists?" + tag_var + "&" + order_var,
+                function (data) {
+                    if (data.code == 200) {
+                        playlistsVue.playlists = data.playlists;
+                    }
+                }
+            );
+        }
+
+        var playlistsVue = new Vue({
+            el: '#playlists',
+            data: {
+                categories: '',
+                tags: [],
+                tags_array: [[], [], [], [], []],
+                tag_num: 0,
+                playlists: [],
             },
-            formatPlayCount: function (count){
-                if(count >= 100000)
-                    return (count/10000).toFixed(2) + "万";
-                else
-                    return count;
+            methods: {
+                // 传送至相应的歌手详情页面
+                toPlaylistPage: function (id) {
+                    return '/playlist.html?' + $.base64.encode('id=' + id);
+                },
+                formatPlayCount: function (count) {
+                    if (count >= 100000)
+                        return (count / 10000).toFixed(2) + "万";
+                    else
+                        return count;
+                },
             },
-        },
-    });
+        });
+
+
+
 </script>
 </html>
