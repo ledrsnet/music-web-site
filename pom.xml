@@ -27,9 +27,17 @@
       <!--      单元测试-->
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
+    <!-- spring-test -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>5.0.2.RELEASE</version>
+      <scope>test</scope>
+    </dependency>
+
     <!--    hibernate-->
     <dependency>
       <groupId>org.hibernate</groupId>
@@ -99,7 +107,7 @@
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>5.0.5</version>
+      <version>5.1.48</version>
     </dependency>
 
     <!--druid连接池-->
@@ -108,20 +116,28 @@
       <artifactId>druid</artifactId>
       <version>1.0.9</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+    <!-- Gson用来帮助strus2返回json字符串到前端-->
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
       <version>2.8.5</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+    <!-- 用于爬取数据解析数据，不用Gson这种需要对应实体Bean的 -->
+    <dependency>
+      <groupId>net.sf.json-lib</groupId>
+      <artifactId>json-lib</artifactId>
+      <version>2.4</version>
+    </dependency>
+
+
+    <!-- 用于request，response，session等对象的操作使用 -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <version>3.1.0</version>
       <scope>provided</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+    <!-- kaptcha验证码 -->
     <dependency>
       <groupId>com.google.code.kaptcha</groupId>
       <artifactId>kaptcha</artifactId>
@@ -160,6 +176,45 @@
       <artifactId>spring-context-support</artifactId>
       <version>4.1.4.RELEASE</version>
     </dependency>
+
+    <!--FastDFS客户端-->
+    <dependency>
+      <groupId>com.github.tobato</groupId>
+      <artifactId>fastdfs-client</artifactId>
+      <version>1.25.4-RELEASE</version>
+    </dependency>
+
+    <!--用于发起http请求-->
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.3</version>
+    </dependency>
+
+    <!--redis相关-->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-pool2</artifactId>
+      <version>2.4.2</version>
+    </dependency>
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+      <version>2.3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-redis</artifactId>
+      <version>1.3.4.RELEASE</version>
+    </dependency>
+    <!-- 将汉字转为拼音，为redis的动态key作用。redis使用中文作为key有问题 -->
+    <dependency>
+      <groupId>com.belerweb</groupId>
+      <artifactId>pinyin4j</artifactId>
+      <version>2.5.1</version>
+    </dependency>
+
+
   </dependencies>
 
   <build>

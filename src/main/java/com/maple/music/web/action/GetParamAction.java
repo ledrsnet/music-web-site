@@ -2,7 +2,6 @@ package com.maple.music.web.action;
 
 import com.maple.music.entity.User;
 import com.maple.music.util.ResultUtils;
-import com.mysql.jdbc.log.LogFactory;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.ServletActionContext;
@@ -10,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import sun.rmi.runtime.Log;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -20,6 +18,7 @@ import java.util.Map;
 /**
  * @author LiangDong
  * @Date 2020/2/24
+ * @Description 获取session中的参数返回前端，前缀统一 getParam_xxx  xxx指方法名；
  */
 @Controller("getParamAction")
 @Scope("prototype")

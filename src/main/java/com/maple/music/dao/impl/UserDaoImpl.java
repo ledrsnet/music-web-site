@@ -50,7 +50,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public Integer keepAlive() {
 		Session session = sessionFactory.getCurrentSession();
-		String hql = "select 1 from User";
+		String hql = "select 1 from User where id =1";
 		Query query = session.createQuery(hql);
 		Object o = query.uniqueResult();
 		return (Integer) o;

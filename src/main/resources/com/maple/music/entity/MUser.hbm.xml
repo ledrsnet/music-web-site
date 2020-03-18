@@ -10,6 +10,7 @@
             <generator class="native"></generator>
         </id>
         <!--建立类中的普通属性与表中的属性映射-->
+        <property name="userId" column="user_id"/>
         <property name="username" column="username"/>
         <property name="password" column="password"/>
         <property name="nickname" column="nickname"/>
@@ -17,5 +18,8 @@
         <property name="lastTime" column="last_time"/>
         <property name="state" column="state"/>
         <property name="emailAddress" column="emailAddress"/>
+        <property name="signature" column="signature"/>
+        <property name="avatarUrl" column="avatar_url"/>
+        <property name="gender" column="gender"/>
     </class>
 </hibernate-mapping>

@@ -20,9 +20,23 @@ public interface UserDao {
 	 */
 	void saveUser(User user);
 
+	/**
+	 * 根据用户名查找用户
+	 * @param username
+	 * @return
+	 */
 	User getUserByName(String username);
 
+	/**
+	 * quartz保活数据库连接用
+	 * @return
+	 */
 	Integer keepAlive();
 
+	/**
+	 * 检查昵称是否存在
+	 * @param nickname
+	 * @return
+	 */
 	boolean checkNickName(String nickname);
 }

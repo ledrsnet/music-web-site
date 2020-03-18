@@ -19,4 +19,17 @@
             <allowed-methods>user</allowed-methods><!-- struts 2.5 之后，使用通配符必须加上这一行 ，否则无法使用通配符访问-->
         </action>
     </package>
+    <package name="crawler" extends="struts-default" namespace="/">
+        <action name="crawler_*" class="crawlerAction" method="{1}">
+            <allowed-methods>
+                <!--insertCateGories,testDownloadAndUploadImage,testDelImage,insertPlaylists-->
+                testDownloadAndUploadImage,insertPlaylists
+            </allowed-methods><!--爬取数据的，预防不下心重复抓取，爬取完成就直接取消访问权限-->
+        </action>
+    </package>
+    <package name="playlists" extends="struts-default" namespace="/">
+        <action name="playlists_*" class="playlistsAction" method="{1}">
+            <allowed-methods>getCategories,getPlaylists</allowed-methods><!-- struts 2.5 之后，使用通配符必须加上这一行 ，否则无法使用通配符访问-->
+        </action>
+    </package>
 </struts>

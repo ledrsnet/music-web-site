@@ -29,6 +29,7 @@
         <!-- 配置监控统计拦截的filters -->
         <property name="filters" value="stat" />
     </bean>
+
     <!--    hibernate管理-->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <!--        引用上文配置的数据源-->
@@ -58,7 +59,7 @@
 
         <property name="mappingLocations">
             <list>
-                <value>classpath:com/maple/music/entity/MUser.hbm.xml</value>
+                <value>classpath:com/maple/music/entity/*.xml</value>
 <!--                <value>classpath:MUser.hbm.xml</value>-->
             </list>
         </property>
@@ -69,4 +70,32 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     <tx:annotation-driven transaction-manager="transactionManager"/>
+
+
+
+    <!--==========增加fastdfs客户端的配置==========-->
+    <!--配置扫描包-->
+    <context:component-scan base-package="com.github.tobato.fastdfs.service,com.github.tobato.fastdfs.domain"/>
+    <!--配置连接管理器-->
+    <bean id="trackerConnectionManager" class="com.github.tobato.fastdfs.conn.TrackerConnectionManager">
+        <constructor-arg name="pool" ref="fdfsConnectionPool">
+        </constructor-arg>
+        <!--配置fastDFS tracker 服务器 ip:port 地址-->
+        <property name="trackerList">
+            <list>
+                <value>121.36.244.33:22122</value>
+            </list>
+        </property>
+    </bean>
+    <!--配置连接池-->
+    <bean id="fdfsConnectionPool" class="com.github.tobato.fastdfs.conn.FdfsConnectionPool">
+        <!--注入连接池配置-->
+        <constructor-arg name="config" >
+            <bean class="com.github.tobato.fastdfs.conn.ConnectionPoolConfig"/>
+        </constructor-arg>
+        <!--注入连接池工厂-->
+        <constructor-arg name="factory" >
+            <bean class="com.github.tobato.fastdfs.conn.PooledConnectionFactory"/>
+        </constructor-arg>
+    </bean>
 </beans>

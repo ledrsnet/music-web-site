@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <!--建立类与表的映射关系-->
+    <class name="com.maple.music.entity.CategoriesConfig" table="m_categories_config">
+        <!--建立类中的属性与表中的主键映射-->
+        <id name="id" column="id">
+            <generator class="native"></generator>
+        </id>
+        <!--建立类中的普通属性与表中的属性映射-->
+        <property name="name" column="name"/>
+        <property name="category" column="category"/>
+        <property name="hot" column="hot"/>
+    </class>
+</hibernate-mapping>
