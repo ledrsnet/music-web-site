@@ -3,7 +3,9 @@ package com.maple.music.dao;
 import com.maple.music.entity.CategoriesBigConfig;
 import com.maple.music.entity.CategoriesConfig;
 import com.maple.music.entity.Playlists;
+import com.maple.music.entity.Songs;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -38,4 +40,24 @@ public interface PlaylistsDao {
 	 */
 	List<Map<String,Object>> getPlaylists();
 
+	/**
+	 * 获取歌单信息
+	 * @param id
+	 * @return
+	 */
+	Playlists getPlaylistInfo(BigInteger id);
+
+	/**
+	 * 获取歌单里所有歌曲的ID
+	 * @param id
+	 * @return
+	 */
+	List<BigInteger> getSongIds(BigInteger id);
+
+	/**
+	 * 获取歌单里所有歌曲的信息
+	 * @param ids
+	 * @return
+	 */
+	List<Map<String,Object>> getSongsByIds(String ids);
 }

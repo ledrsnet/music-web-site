@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <link rel="icon" href="img/favicon.ico">
+    <title>歌手</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/assert/css/bootstrap.css">
+    <link rel="stylesheet" href="/assert/css/playlists/main.css">
+    <link rel="stylesheet" href="/assert/css/playlists/star.css">
+    <style>
+        body {
+            margin-top: 50px;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .main,.singer_list__item_box,.mod_singer_tag,.singer_list__item{
+            background-color: transparent;
+        }
+
+        a:focus {
+            color: #FFFFFF;
+        }
+
+        .color {
+            color: yellowgreen;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main hidden" id="main">
+<div id="stars1"></div>
+<div id="stars2"></div>
+<div id="stars3"></div>
+<div class="mod_singer_tag" id="tag_box">
+
+    <div oninvalid="area" class="singer_tag__list js_area">
+
+        <a id="area_huayu" href="javascript:;" class="singer_tag__item singer_tag__item--select"
+           onclick="show_area(this.id)" data-id="10" data-key="area" hidefocus="">华语</a>
+
+        <a id="area_ea" href="javascript:;" class="singer_tag__item" onclick="show_area(this.id)" data-id="20"
+           data-key="area" hidefocus="">欧美</a>
+
+        <a id="area_japaness" href="javascript:;" class="singer_tag__item" onclick="show_area(this.id)" data-id="60"
+           data-key="area" hidefocus="">日本</a>
+
+        <a id="area_korean" href="javascript:;" class="singer_tag__item" onclick="show_area(this.id)" data-id="70"
+           data-key="area" hidefocus="">韩国</a>
+
+        <a id="area_other" href="javascript:;" class="singer_tag__item" onclick="show_area(this.id)" data-id="40"
+           data-key="area" hidefocus="">其他</a>
+
+    </div>
+
+    <div oninvalid="sex" class="singer_tag__list js_sex">
+
+        <a id="sex_male" href="javascript:;" class="singer_tag__item singer_tag__item--select" data-key="sex"
+           onclick="show_sex(this.id)" data-id="01" hidefocus="">男</a>
+
+        <a id="sex_female" href="javascript:;" class="singer_tag__item" data-key="sex" onclick="show_sex(this.id)"
+           data-id="02" hidefocus="">女</a>
+
+        <a id="sex_com" href="javascript:;" class="singer_tag__item" data-key="sex" onclick="show_sex(this.id)"
+           data-id="03" hidefocus="">组合</a>
+
+    </div>
+
+</div>
+
+<div id="mod-singerlist">
+    <div class="mod_singer_list" id="singers">
+        <ul class="singer_list__list js_avtar_list">
+            <li class="singer_list__item" v-for="singer in singers">
+                <div class="singer_list__item_box">
+                    <a :href="toSingerPage(singer.id)" class="singer_list__cover js_singer" hidefocus="true"
+                       title="周杰伦">
+                        <img class="singer_list__pic" :src="singer.img1v1Url + '?param=200y200'" alt="周杰伦">
+                    </a>
+                    <h3 class="singer_list__title"><a :href="toSingerPage(singer.id)" class="js_singer" title="周杰伦">{{
+                        singer.name }}</a></h3>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div style="text-decoration:none; text-align:center; padding:20px 0;">
+            <div style="width:600px;margin:0 auto; padding:20px 0;">
+                <p style="margin:10px 0px;">
+                    <b>Copyright © 2019
+                        <a href="https://superBoyJack.cn" target="_blank" title="superBoyJack"> superBoyJack</a> 版权所有
+                        Powered By
+                        <a href="http://wpa.qq.com/msgrd?uin=2656288235" target="_blank" title="superBoyJack">superBoyJack</a>
+                        Design.&nbsp;&nbsp;
+                    </b>
+                    <!-- 备案信息代码 -->
+                </p>
+                <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=41152502000110"
+                   style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+                    <img src="https://superboyjack.cn/upload/2019/11/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87-b8473f72b5dc4bf1885d394815c38a9a.png"
+                         style="float:left;"/>
+                    <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">
+                        豫公网安备 41152502000110号 豫ICP备19039675号
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script src="/assert/js/jquery.js"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script src="/assert/js/vendor/bootstrap.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+<script src="/assert/js/playlists/vue.js"></script>
+<script src="/assert/js/playlists/jquery.base64.js"></script>
+</body>
+<script>
+    var var_area = "10"; //默认语种
+    var var_sex = "01"; //默认类别
+    var var_id = '1001'; //默认发送码
+    var var_table = { //发送码表
+        area_huayu: '10',
+        area_ea: '20',
+        area_japaness: '60',
+        area_korean: '70',
+        area_other: '40',
+        sex_male: '01',
+        sex_female: '02',
+        sex_com: '03',
+    };
+
+    function switch_area(id) {
+        var areas = ["area_huayu", "area_ea", "area_japaness", "area_korean", "area_other"];
+        //var_cat = id;
+        for (var i = 0, len = areas.length; i < len; i++) {
+            if (areas[i] == id)
+                $("#" + areas[i]).attr("class", "singer_tag__item singer_tag__item--select");
+            else
+                $("#" + areas[i]).attr("class", "singer_tag__item");
+        }
+    };
+
+    function switch_sex(id) {
+        var sexs = ["sex_male", "sex_female", "sex_com"];
+        //var_sex = id;
+        for (var i = 0, len = sexs.length; i < len; i++) {
+            if (sexs[i] == id)
+                $("#" + sexs[i]).attr("class", "singer_tag__item singer_tag__item--select");
+            else
+                $("#" + sexs[i]).attr("class", "singer_tag__item");
+        }
+    };
+
+    // 通过id判断是否有相应的数据,节省网络资源,防止重复加载
+    function get_data(id) {
+        var type = singersVue.data_table[id];
+        if (singersVue._data[type].length == 0) {
+            $.getJSON(
+                "https://api.music.superboyjack.cn/artist/list?cat=" + id,
+                function (data) {
+                    if (data.code == 200) {
+                        singersVue._data[type] = data.artists;
+                        singersVue.singers = singersVue._data[type];
+                    }
+                }
+            );
+        }
+        ;
+        // return singersVue._data[type];
+    }
+
+    function show_area(id) {
+        switch_area(id);
+        $("#singers").attr("style", "display:none;");
+        var btn = document.getElementById(id);
+        var_area = btn.dataset.id; //10
+        var_id = var_area + var_sex; //1002
+        get_data(var_id);
+        singersVue.singers = singersVue._data[singersVue.data_table[var_id]];
+        console.log(var_id);
+        $("#singers").attr("style", "display:block;");
+    };
+
+    function show_sex(id) {
+        switch_sex(id);
+        $("#singers").attr("style", "display:none;");
+        var btn = document.getElementById(id);
+        var_sex = btn.dataset.id;
+        var_id = var_area + var_sex;
+        get_data(var_id);
+        singersVue.singers = singersVue._data[singersVue.data_table[var_id]];
+        console.log(var_id);
+        $("#singers").attr("style", "display:block;");
+    };
+    $.getJSON(
+        "https://api.music.superboyjack.cn/artist/list",
+        function (data) {
+            if (data.code == 200) {
+                singersVue.huayu_male = data.artists;
+                singersVue.singers = singersVue.huayu_male;
+                $("div#main").removeClass("hidden");
+            }
+        }
+    );
+
+    var singersVue = new Vue({
+        el: '#singers',
+        data: {
+            singers: [], //展示数据
+            huayu_male: [], //华语男歌手 1001
+            huayu_female: [], //华语女歌手 1002
+            huayu_com: [], //华语组合/乐队 1003
+            ea_male: [], //欧美男歌手 2001
+            ea_female: [], //欧美女歌手 2002
+            ea_com: [], //欧美组合/乐队 2003
+            japaness_male: [], //日本男歌手 6001
+            japaness_female: [], //日本女歌手 6002
+            japaness_com: [], //日本组合/乐队 6003
+            korean_male: [], //韩国男歌手 7001
+            korean_female: [], //韩国女歌手 7002
+            korean_com: [], //韩国组合/乐队 7003
+            other_male: [], //其他男歌手4001
+            other_female: [],//其他女歌手4002
+            other_com: [],//其他组合/乐队4003
+            data_table: { //id发送码与数据数组的映射表
+                '1001': 'huayu_male',
+                '1002': 'huayu_female',
+                '1003': 'huayu_com',
+                '2001': 'ea_male',
+                '2002': 'ea_female',
+                '2003': 'ea_com',
+                '6001': 'japaness_male',
+                '6002': 'japaness_female',
+                '6003': 'japaness_com',
+                '7001': 'korean_male',
+                '7002': 'korean_female',
+                '7003': 'korean_com',
+                '4001': 'other_male',
+                '4002': 'other_female',
+                '4003': 'other_com',
+            },
+        },
+        methods: {
+            // 传送至相应的歌手详情页面
+            toSingerPage: function (id) {
+                return 'singer.html?' + $.base64.encode('id=' + id);
+            },
+            //根据行列得到元素在数组里的下表
+            get_index: function (rows, colum) {
+                if (rows == 1)
+                    return (colum - 1) * rows;
+                else
+                    return (colum - 1) + (rows - 1) * 5;
+            },
+        },
+    });
+
+
+</script>
+</html>

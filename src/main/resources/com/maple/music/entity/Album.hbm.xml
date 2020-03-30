@@ -3,20 +3,17 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
+
     <!--建立类与表的映射关系-->
-    <class name="com.maple.music.entity.Playlists" table="m_playlists">
+    <class name="com.maple.music.entity.Album" table="m_album">
         <!--建立类中的属性与表中的主键映射-->
         <id name="id" column="id"></id>
         <!--建立类中的普通属性与表中的属性映射-->
         <property name="name" column="name"/>
-        <property name="userId" column="user_id"/>
-        <property name="createTime" column="create_time"/>
-        <property name="updateTime" column="update_time"/>
-        <property name="subscribedCount" column="subscribed_count"/>
-        <property name="trackCount" column="track_count"/>
-        <property name="coverImgUrl" column="cover_img_url"/>
         <property name="description" column="description"/>
-        <property name="playCount" column="play_count"/>
-        <property name="tags" column="tags"/>
+        <property name="picUrl" column="pic_url"/>
+        <property name="alias" column="alias"/>
+        <property name="size" column="size"/>
+        <property name="singerId" column="singer_id"/>
     </class>
 </hibernate-mapping>

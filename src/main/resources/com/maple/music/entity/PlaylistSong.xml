@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <!--建立类与表的映射关系-->
+    <class name="com.maple.music.entity.PlaylistSong" table="m_playlist_song">
+        <id name="id" column="id">
+            <generator class="native"></generator>
+        </id>
+        <!---->
+        <property name="playlistId" column="playlist_id"/>
+        <property name="songId" column="song_id"/>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>我的音乐</title>
+    <!-- Bootstrap -->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/assert/css/bootstrap.css">
+    <link rel="stylesheet" href="/assert/css/playlists/main.css">
+    <link rel="stylesheet" href="/assert/css/playlists/star.css">
+    <style>
+        body {
+            margin-top: 70px;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        a:focus {
+            color: #FFFFFF;
+        }
+        .color {
+            color: yellowgreen;
+        }
+        .table-hover > tbody > tr:hover {
+            background-color: black;
+        }
+        #stars3:after{
+            top: 800px;
+        }
+        #stars2:after{
+            top: 800px;
+        }
+        #stars1:after{
+            top: 800px;
+        }
+    </style>
+</head>
+<body>
+<div id="stars2"></div>
+<div id="stars1"></div>
+<div id="stars3"></div>
+<div class="container hidden" id="list">
+
+    <div class="row">
+        <div class="col-md-3" id="subPlaylist">
+            <h3 style="color: navajowhite">我收藏的歌单</h3>
+            <div class="media">
+                <div class="media-left">
+                    <img src="/assert/img/temp/19027048718765608.jpg-param=62y62.jpg" />
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading color">我喜欢的音乐</h4>
+                    <table>
+                        <tr>
+                            <td style="float: left" class="color">by 谁谁谁</td>
+                            <td style="float: right;width: 100px"><a href="javascript:void(0)" onclick="deSubscrib()"><img src="/assert/img/playlist/删除.png" style="width: 15px;height: 15px;float: right;background-color: #b2dba1"></a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9" >
+            <div class="row mod_data">
+                <div class="col-md-4 data__cover">
+                    <img class="img-responsive data__photo" :src="coverImgUrl + '?param=400y400'" />
+                </div>
+                <div class="col-md-7 data__cont">
+                    <div class="row data__row">
+                        <h2 class="color">{{ name }}</h2>
+                    </div>
+                    <div class="row data__row">
+                        <h4 style="color: navajowhite">标签:
+                            <span v-for="tag in tags" class="label label-info">
+					<a href="#" style="color:yellow">
+						{{ tag }} &nbsp;
+					</a>
+				</span>
+                        </h4>
+                    </div>
+                    <div class="row data__row ">
+                        <span style="color: navajowhite">创建人: <span class="web-font">{{ ownerName }}</span></span>
+                    </div>
+                    <div class="row data__row ">
+                        <span style="color: navajowhite">播放量: <span class="web-font">{{ playCount }}</span></span>
+                    </div>
+                    <div class="data_play__all">
+                        <a class="a_play_all" href="javascript:void(0)" @click="toAllSongPage(id)">
+                            <span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
+                            播放全部
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-hover" style="color: yellowgreen">
+                        <thead>
+                        <tr>
+                            <td></td>
+                            <td>歌曲</td>
+                            <td>歌手</td>
+                            <td>专辑</td>
+                            <td>时长</td>
+                        </tr>
+                        </thead >
+                        <tbody >
+
+                        <tr v-for="(song,index) in songs">
+                            <td><span >{{ index+1 }}</span></td>
+                            <td>
+                                <a href="javascript:void(0)" @click="toSongPage(song.id)">
+                                    <span>{{ song.name }}</span>
+                                    <span v-if="song.alia.length>0" > ({{ song.alia[0] }})</span>
+                                </a>
+                            </td>
+                            <td>
+                                <!-- 遍历出歌手 -->
+                                <span v-for="(singer,index) in song.ar" >
+									<a :href="toSingerPage(singer.id)">
+										{{ singer.name }}
+									</a>
+
+                                    <!-- 判断是否加入分隔符 -->
+									<span v-if="index < song.ar.length-1">/</span>
+								</span>
+
+                            </td>
+                            <td><a :href="toAlbumPage(song.al.id)">{{ song.al.name }}</a></td>
+                            <td><span >{{ song.dt }}</span></td>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div style="text-decoration:none; text-align:center; padding:20px 0;">
+            <div style="width:600px;margin:0 auto; padding:20px 0;">
+                <p style="margin:10px 0px;">
+                    <b>Copyright © 2019
+                        <a href="#" target="_blank" title="mapleLeafs"> mapleLeafs</a> 版权所有 Powered By
+                        <a href="#" target="_blank" title="mapleLeafs">mapleLeafs</a> Design.&nbsp;&nbsp;
+                    </b>
+                    <!-- 备案信息代码 -->
+                </p>
+                <a target="_blank" href="#" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+                    <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">
+                        鲁公网安备 99988882000110号 鲁ICP备99998888号
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script src="/assert/js/jquery.js"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script src="/assert/js/vendor/bootstrap.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+<script src="/assert/js/playlists/vue.js"></script>
+<script src="/assert/js/playlists/jquery.base64.js"></script>
+</body>
+<script>
+    var title;
+    var idString = '';
+    var fastDfsPath='http://121.36.244.33:8080/';
+    //接收一个值
+    function oneValues(){
+        var result;
+        var errors = ['404.html','505.html'];
+        var url=(window.location.search); //获取url中"?"符后的字串
+        try{
+            var decodeUrl = $.base64.decode(url.substring(1));
+        }catch(e){
+            window.location.href=errors[Math.floor(Math.random() * errors.length)];
+        }
+        if(url.indexOf("?")!=-1){
+            result = decodeUrl.substr(decodeUrl.indexOf("=")+1);
+        }
+        return result;
+    }
+
+    //接收多值
+    function manyValues(){
+        var url=window.location.search;
+        if(url.indexOf("?")!=-1){
+            var str = url.substr(1);
+            strs = str.split("&");
+            var key=new Array(strs.length);
+            var value=new Array(strs.length);
+            for(i=0;i<strs.length;i++){
+                key[i]=strs[i].split("=")[0]
+                value[i]=unescape(strs[i].split("=")[1]);
+                alert(key[i]+"="+value[i]);
+            }
+        }
+    }
+    // 格式化播放次数
+    function formatPlayCount(count){
+        if(count >= 100000)
+            return (count/10000).toFixed(2) + "万";
+        else
+            return count;
+    }
+    // 格式化音乐时长
+    function formatDuraton(time){
+        if(time > -1){
+            var temp;
+            var sec = Math.floor(time/1000);
+            //var min = Math.floor(time/60) % 60;
+            var min = Math.floor(sec/60);
+            sec = sec - min*60;
+            if(min < 10){
+                temp = "0" + min + ":";
+            }else
+                temp = min + ":";
+            if(sec < 10){
+                temp += "0" + sec ;
+            }else
+                temp += sec ;
+        }
+        return temp;
+    }
+
+    function deSubscrib(id) {
+        if(confirm("你确定要删除吗？")){
+            $.getJSON("/user_deSubscrib?playlistId="+id,function (data) {
+                if(data.code==200){
+                    alert("取消收藏成功！");
+                    getUserFavorite();
+                }
+            });
+        }
+    }
+
+    function getUserFavorite() {
+        $.getJSON("/user_getUserFavorite",function (data) {
+            var subStr = '<h3 style=\"color: navajowhite\">我收藏的歌单</h3>';
+            if(data.code==200){
+                for (let i = 0; i < data.data.length; i++) {
+                    subStr+='<div class="media">\n' +
+                        '                <div class="media-left">\n' +
+                        '                    <img src="'+fastDfsPath+data.data[i].cover_img_url+'" style="width: 40px;height: 40px"/>\n' +
+                        '                </div>\n' +
+                        '                <div class="media-body">\n' +
+                        '                    <p class="media-heading color"><a href="javascript:void(0)" onclick="getPlaylistInfo('+data.data[i].id+')"> '+data.data[i].name.substr(0,10)+'</a></p>\n' +
+                        '                    <table>\n' +
+                        '                        <tr style="width: 200px;">\n' +
+                        '                            <td style="float: left;width: 150px;color: gray" >by '+data.data[i].nickname+'</td>\n' +
+                        '                            <td style="float: right;width: 10px"><a href="javascript:void(0)" onclick="deSubscrib('+data.data[i].id+')"><img src="/assert/img/playlist/删除.png" style="width: 15px;height: 15px;float: right;background-color: #b2dba1"></a></td>\n' +
+                        '                        </tr>\n' +
+                        '                    </table>\n' +
+                        '                </div>\n' +
+                        '            </div>';
+                }
+                $("#subPlaylist").html(subStr);
+                subStr='';
+                getPlaylistInfo(data.data[0].id);
+            }else{
+                alert("用户没有登录！");
+            }
+        });
+    }
+    function getPlaylistInfo(id) {
+        $.getJSON(
+            "/playlists_getPlaylistDetail?id=" + id,
+            function(data) {
+                if(data.code == 200){
+                    playlistVue.id = id;
+                    playlistVue.coverImgUrl =fastDfsPath+data.playlist.coverImgUrl;//歌单图片
+                    playlistVue.name = data.playlist.name;//歌单名
+                    playlistVue.playCount = formatPlayCount(data.playlist.playCount);//歌单播放次数
+                    playlistVue.ownerName = data.nickname;//创建人名称
+                    playlistVue.trackCount = data.playlist.trackCount;//歌单歌曲数量
+                    playlistVue.description = data.playlist.description;//歌单描述
+                    playlistVue.tags = [];
+                    for(var i=0;i<data.tags.length;i++){
+                        playlistVue.tags.push(data.tags[i]);//歌单标签
+                    }
+                    playlistVue.idLists = [];
+                    idString = '';
+                    playlistVue.songs= [];
+                    for(var i=0;i<data.trackIds.length;i++){
+                        // 向推荐歌单数组里遍历添加歌单
+                        playlistVue.idLists.push(
+                            data.trackIds[i]
+                        );
+                        // 将歌曲的id拼装成接口参数字符串
+                        if(i<data.trackIds.length-1)
+                            idString += playlistVue.idLists[i] + ",";
+                        else
+                            idString += playlistVue.idLists[i];
+                    }
+                    document.title = playlistVue.name;
+                    $.getJSON(
+                        "/playlists_getPlaySongs?ids="+ idString,
+                        function(data2) {
+                            console.log(data2);
+                            for(var j=0;j<data2.songs.length;j++){
+                                playlistVue.songs.push({
+                                    id:data2.songs[j].id, //歌曲id
+                                    name:data2.songs[j].name, //歌曲名
+                                    ar: data2.songs[j].singers, //歌手
+                                    alia:data2.songs[j].alia, //别名
+                                    al: data2.songs[j].album, //专辑
+                                    dt: formatDuraton(data2.songs[j].dateTime), //时长
+                                });
+                            }
+                        }
+                    );
+                    $("div#list").removeClass("hidden");
+                }
+            }
+        );
+    }
+    var playlistVue = new Vue({
+        el: '#list',
+
+        data: {
+            id: '',
+            coverImgUrl: '',
+            name: '',
+            playCount: '',
+            trackCount: '',
+            ownerName: '',
+            description: '',
+            singer: {
+                id: '',
+                name: ''
+            },
+            song: {
+                id:'',//歌曲id
+                name: '',//歌名
+                ar: [],//歌手数组
+                alia: [],//别名
+                al: {},//专辑
+                dt: '',//时长
+
+            },
+            idLists: [
+
+            ],
+            songs: [
+
+            ],
+            tags: [
+
+            ],
+
+        },
+        methods: {
+            // 传送至相应的歌手详情页面
+            toSingerPage: function (id) {
+                return 'singer.html?' +$.base64.encode('id=' + id);
+            },
+            toAllSongPage: function (id) {
+                $("#player",parent.document).attr("data-id",id);
+                $("#player",parent.document).attr("data-type","playlist");
+                $("#player",parent.document).attr("data-autoplay",true);
+                console.log($("#player",parent.document).data());
+                window.parent.loadMeting();
+            },
+            toSongPage: function (id) {
+                $("#player",parent.document).attr("data-id",id);
+                $("#player",parent.document).attr("data-type","song");
+                $("#player",parent.document).attr("data-autoplay",true);
+                window.parent.loadMeting();
+
+            },
+            //传送至相应的专辑详情页面
+            toAlbumPage: function (id) {
+                return 'album.html?' +$.base64.encode('id=' + id);
+            },
+        }
+    });
+    getUserFavorite();
+
+
+
+</script>
+</html>

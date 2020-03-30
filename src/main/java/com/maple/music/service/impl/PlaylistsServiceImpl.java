@@ -2,10 +2,8 @@ package com.maple.music.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.maple.music.dao.PlaylistsDao;
-import com.maple.music.dao.UserDao;
-import com.maple.music.entity.CategoriesBigConfig;
-import com.maple.music.entity.CategoriesConfig;
+import com.maple.music.dao.*;
+import com.maple.music.entity.*;
 import com.maple.music.redisclient.RedisService;
 import com.maple.music.service.PlaylistsService;
 import com.maple.music.util.PinYinUtil;
@@ -18,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Type;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +35,12 @@ public class PlaylistsServiceImpl implements PlaylistsService {
 	private PlaylistsDao playlistsDao;
 	@Resource
 	private UserDao userDao;
-
+	@Resource
+	private CategorieDao categorieDao;
+	@Resource
+	private AlbumDao albumDao;
+	@Resource
+	private SingerDao singerDao;
 
 
 	@Override
@@ -122,4 +127,87 @@ public class PlaylistsServiceImpl implements PlaylistsService {
 		}
 		return list;
 	}
+
+	@Override
+	public Map<String, Object> getPlaylistDetail(BigInteger id) {
+		Map<String,Object> map = new HashMap<>();
+		// 获取歌单信息
+		Playlists playlist= playlistsDao.getPlaylistInfo(id);
+		map.put("playlist",playlist);
+		// 获取创建人信息
+		map.put("nickname",userDao.getNicknameByUserId((playlist.getUserId()).longValue()));
+		// 获取分类信息数组
+		String tags = playlist.getTags();
+		if(StringUtils.isNotBlank(tags)){
+			String[] tagsArray = tags.split(",");
+			String[] names = new String[3];
+			for (int i = 0; i < tagsArray.length; i++) {
+				names[i]=categorieDao.getNameById((Integer.parseInt(tagsArray[i])));
+			}
+			map.put("tags",names);
+		}
+
+		// 获取歌单关联的歌曲
+		List<BigInteger> list = playlistsDao.getSongIds(id);
+		map.put("trackIds",list);
+
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> getSongsByIds(String ids) {
+		// redis服务及类型准备
+		RedisService redisService = RedisTool.getRedisService();
+		Map<String,Object> map = new HashMap<>();
+		map = redisService.getMapValue(ids);
+		if(!map.isEmpty()){
+			log.info("========map缓存命中========");
+			return map;
+		}else{
+			List<Map<String, Object>> songs = playlistsDao.getSongsByIds(ids);
+			List<SongsDto> songsDtos = new ArrayList<>();
+			if(songs!=null&&songs.size()>0){
+				for (int i = 0; i < songs.size(); i++) {
+					SongsDto songsDto = new SongsDto();
+					songsDto.setAlbum(new Album((BigInteger) songs.get(i).get("albumId"),(String)songs.get(i).get("albumName")));
+					songsDto.setId((BigInteger) songs.get(i).get("songId"));
+					songsDto.setName((String) songs.get(i).get("songName"));
+					songsDto.setDateTime((Integer) songs.get(i).get("dt"));
+					String alia = (String) songs.get(i).get("alia");
+					String[] split = new String[0];
+					if(StringUtils.isNotBlank(alia)){
+						split = alia.split(",");
+					}
+					songsDto.setAlia(split);
+					String singerId = (String) songs.get(i).get("singerId");
+					String singerName = (String) songs.get(i).get("singerName");
+					String[] singerIds = singerId.split(",");
+					String[] singerNames = singerName.split(",");
+					List<Singer> singerList = new ArrayList<>();
+					for (int i1 = 0; i1 < singerIds.length; i1++) {
+						Singer singer = new Singer();
+						singer.setId(new BigInteger(singerIds[i1]));
+						if(i1<singerNames.length){
+							singer.setName(singerNames[i1]);
+						}else{
+							singer.setName("");
+						}
+						singerList.add(singer);
+					}
+					songsDto.setSingers(singerList);
+					songsDtos.add(songsDto);
+				}
+				map.put("songs",songsDtos);
+				map.put("code",200);
+			}else{
+				map.put("code",500);
+			}
+			log.info("========map缓存未命中========");
+			redisService.setMap(ids,map);
+			log.info("========map写入缓存========");
+		}
+
+		return map;
+	}
+
 }

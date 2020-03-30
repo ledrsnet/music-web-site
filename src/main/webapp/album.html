@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>专辑</title>
+    <!-- Bootstrap -->
+	  <!-- Bootstrap -->
+	  <link rel="stylesheet" href="/assert/css/bootstrap.css">
+	  <link rel="stylesheet" href="/assert/css/playlists/main.css">
+	  <link rel="stylesheet" href="/assert/css/playlists/star.css">
+	  <style>
+		  body {
+			  margin-top: 70px;
+			  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+		  }
+
+		  a:focus {
+			  color: #FFFFFF;
+		  }
+		  .color {
+			  color: yellowgreen;
+		  }
+		  .table-hover > tbody > tr:hover {
+			  background-color: black;
+		  }
+		  #stars3:after{
+			  top: 800px;
+		  }
+		  #stars2:after{
+			  top: 800px;
+		  }
+		  #stars1:after{
+			  top: 800px;
+		  }
+	  </style>
+  </head>
+  <body>
+  <div id="stars2"></div>
+  <div id="stars1"></div>
+  <div id="stars3"></div>
+	<div class="container hidden" id="album" v-cloak>
+		<div class="row mod_data">
+			<div class="col-md-4 data__cover">
+				<span class="data__cover">
+					<img class="img-responsive data__photo" :src="blurPicUrl + '?param=500y500'" />
+					<i class="data__cover_mask"></i>
+				</span>
+			</div>
+		<div class="col-md-4 data__cont">
+			<div class="row data__row">
+				<h1  class="color">
+					{{ name }}
+					<span v-for="alia in alias" >
+						{{ alia }}
+					</span>
+				</h1>
+			</div>
+			<div class="row data__row">
+				<a :href="toSingerPage(singer.id)">
+					<h4 style="color: navajowhite">歌手: <span>{{ singer.name }}</h4>
+				</a>
+			</div>
+			<div class="row data__row">
+				<h4 style="color: navajowhite">单曲数: <span>{{ size }}</span></h4>
+			</div>
+			<div class="data_play__all">
+				<a class="a_play_all" href="javascript:void(0)" @click="toAllSongPage(id)">
+					<span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
+					播放全部
+				</a>
+			</div>
+		</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2">
+				<h3 style="color: navajowhite">全部歌曲</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-9">
+				<table class="table table-hover" style="color: yellowgreen">
+					<thead> 
+						<tr> 
+							<td></td>
+							<td>歌曲</td>
+							<td>歌手</td>
+							<td>时长</td>
+						</tr>
+					</thead > 
+					<tbody v-for="(song,index) in songs">
+
+						<tr> 
+							<td>{{ index+1 }}</td> 
+							<td>
+								<a :href="toSongPage(song.id)" target="_blank">
+									{{ song.name }}
+									<span v-if="song.alia.length>0"> ({{ song.alia[0] }})</span>
+								</a>
+							</td> 
+							<td>
+								<span v-for="singer in song.ar">
+									<a :href="toSingerPage(singer.id)">
+										{{ singer.name }}
+										<span v-for="alia in singer.alias">{{ alia }}</span>
+									</a>
+								</span>
+								
+							</td>
+							 <td> {{ formatTime(song.dt) }} </td>
+						</tr> 
+					</tbody> 
+				 </table> 
+			</div>
+			<div class="col-md-3">
+				<h3 style="color: navajowhite">专辑简介</h3>
+				<p class="web-font color">
+					{{ description }}
+				</p>
+			</div>
+		</div>
+
+	</div>
+	
+	<footer class="footer">
+	    <div class="container">	
+			<div style="text-decoration:none; text-align:center; padding:20px 0;">
+				<div style="width:600px;margin:0 auto; padding:20px 0;">
+					<p style="margin:10px 0px;">
+					<b>Copyright © 2019
+					<a href="https://superBoyJack.cn" target="_blank" title="superBoyJack"> superBoyJack</a> 版权所有 Powered By 
+					<a href="http://wpa.qq.com/msgrd?uin=2656288235" target="_blank" title="superBoyJack">superBoyJack</a> Design.&nbsp;&nbsp;
+					</b>
+					<!-- 备案信息代码 -->
+					</p>
+					<a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=41152502000110" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+						<img src="https://superboyjack.cn/upload/2019/11/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87-b8473f72b5dc4bf1885d394815c38a9a.png" style="float:left;"/>
+						<p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">
+						豫公网安备 41152502000110号 豫ICP备19039675号
+						</p>
+					</a>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+	<script src="/assert/js/jquery.js"></script>
+	<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+	<script src="/assert/js/vendor/bootstrap.js"></script>
+	<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+	<script src="/assert/js/playlists/vue.js"></script>
+	<script src="/assert/js/playlists/jquery.base64.js"></script>
+	<script src="/assert/js/singer/main.js"></script>
+  </body>
+  <script>
+	  //接收一个值
+	  function getId(){
+	  	var result;
+	  	var errors = ['404.html','505.html'];
+	  	var url=(window.location.search); //获取url中"?"符后的字串
+	  	try{
+	  		var decodeUrl = $.base64.decode(url.substring(1));
+	  	}catch(e){
+	  		window.location.href=errors[Math.floor(Math.random() * errors.length)];
+	  	}
+	  	if(url.indexOf("?")!=-1){
+	  		result = decodeUrl.substr(decodeUrl.indexOf("=")+1);
+	  	}
+	  	return result;
+	  }
+	  var albumVue = new Vue({
+		  el: '#album',
+		  data: {
+			id: '',
+			name: '',
+			description: '', // 歌手简介
+			blurPicUrl: '',//歌手图
+			alias: [],//别名
+			size: '',//歌曲数
+			songs: [], //热门歌曲
+			publishTime: '',
+			singer: {},
+		  },
+		  methods: {
+		  	// 传送至相应的歌手详情页面
+		  	toSingerPage: function (id) {
+		  		return 'singer.html?' + $.base64.encode('id=' + id);
+		  	},
+		  	
+		  	toSongPage: function (id) {
+		  		return 'player.html?' + $.base64.encode('id=' + id);
+		  	},
+			// 格式化时间
+			formatTime: function(time){
+				if(time > -1){
+					var temp;
+					var sec = Math.floor(time/1000);
+					//var min = Math.floor(time/60) % 60;
+					var min = Math.floor(sec/60);
+					sec = sec - min*60;
+					if(min < 10){
+						temp = "0" + min + ":";
+					}else
+						temp = min + ":";
+					if(sec < 10){
+						temp += "0" + sec ;
+					}else
+						temp += sec ;
+				}
+				return temp;
+			},
+			//时间戳转换为日期
+			timestampToTime: function(timestamp) {
+				var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+				var Y = date.getFullYear() ;
+				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) ;
+				var D = date.getDate() ;
+				var h = date.getHours() ;
+				if(h < 10)
+					h = '0' + h;
+				var m = date.getMinutes() ;
+				if(m < 10)
+					m = '0' + m;
+				var s = date.getSeconds();
+				return Y + '年' + M + '月' + D + '日';
+			}
+		    }
+	  });
+	  $.getJSON(
+	      "https://api.music.superboyjack.cn/album?id=" + getId(),
+	      function(data) {
+	  	  if(data.code == 200){
+			  albumVue.name = data.album.name;
+			  albumVue.id = data.album.id;
+			  albumVue.description = data.album.description;
+			  albumVue.blurPicUrl = data.album.blurPicUrl;
+			  albumVue.alias = data.album.alias;
+			  albumVue.size = data.album.size;
+			  albumVue.songs = data.songs;
+			  albumVue.publishTime = data.album.publishTime;
+			  albumVue.singer = data.album.artist;
+			  document.title = albumVue.name;
+			  // 关闭加载动画
+			  $("div#album").removeClass("hidden");
+	  	  }
+	      }
+	  );
+	
+
+	  
+  </script>
+</html>

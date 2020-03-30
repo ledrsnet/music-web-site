@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <!--建立类与表的映射关系-->
+    <class name="com.maple.music.entity.Singer" table="m_singer">
+        <!--建立类中的属性与表中的主键映射-->
+        <id name="id" column="id"></id>
+        <!--建立类中的普通属性与表中的属性映射-->
+        <property name="name" column="name"/>
+        <property name="picUrl" column="pic_url"/>
+        <property name="musicSize" column="music_size"/>
+        <property name="albumSize" column="album_size"/>
+        <property name="briefDesc" column="brief_desc"/>
+        <property name="singerType" column="singer_type"/>
+    </class>
+</hibernate-mapping>

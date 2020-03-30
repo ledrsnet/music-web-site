@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>我的音乐</title>
+    <!-- Bootstrap -->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/assert/css/bootstrap.css">
+    <link rel="stylesheet" href="/assert/css/playlists/main.css">
+    <link rel="stylesheet" href="/assert/css/playlists/star.css">
+    <style>
+        body {
+            margin-top: 70px;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        a:focus {
+            color: #FFFFFF;
+        }
+        .color {
+            color: yellowgreen;
+        }
+        .table-hover > tbody > tr:hover {
+            background-color: black;
+        }
+        #stars3:after{
+            top: 800px;
+        }
+        #stars2:after{
+            top: 800px;
+        }
+        #stars1:after{
+            top: 800px;
+        }
+    </style>
+</head>
+<body>
+<div id="stars2"></div>
+<div id="stars1"></div>
+<div id="stars3"></div>
+<div class="container hidden" id="list">
+
+    <div class="row">
+        <div class="col-md-3" id="subPlaylist">
+            <h3 style="color: navajowhite">音乐排行榜</h3>
+            <div class="media">
+                <div class="media-left">
+                    <img src="assert/img/rank/飙升榜400y400.jpg" height="55" width="55"/>
+                </div>
+                <div class="media-body" style="padding-top: 7px">
+                    <h4 class="media-heading color"><a href="javascript:void(0)" onclick="toRankType('soar')"> 飙升榜</a></h4>
+                    <p style="float: left;color: grey;font-size: 10px">每天更新</p>
+                </div>
+            </div>
+            <div class="media">
+                <div class="media-left">
+                    <img src="assert/img/rank/新歌榜400y400.jpg" height="55" width="55"/>
+                </div>
+                <div class="media-body" style="padding-top: 7px">
+                    <h4 class="media-heading color"><a href="javascript:void(0)" onclick="toRankType('new')"> 新歌榜</a></h4>
+                    <p style="float: left;color: grey;font-size: 10px">每天更新</p>
+                </div>
+            </div>
+            <div class="media">
+                <div class="media-left">
+                    <img src="assert/img/rank/热歌榜400y400.jpg" height="55" width="55"/>
+                </div>
+                <div class="media-body" style="padding-top: 7px">
+                    <h4 class="media-heading color"><a href="javascript:void(0)" onclick="toRankType('hot')"> 热歌榜</a></h4>
+                    <p style="float: left;color: grey;font-size: 10px">每周四更新</p>
+                </div>
+            </div>
+            <div class="media">
+                <div class="media-left">
+                    <img src="assert/img/rank/歌手榜400y400.jpg" height="55" width="55"/>
+                </div>
+                <div class="media-body" style="padding-top: 7px">
+                    <h4 class="media-heading color"><a href="javascript:void(0)" onclick="toRankType('singer')"> 歌手榜</a></h4>
+                    <p style="float: left;color: grey;font-size: 10px">每周四更新</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9" >
+            <div class="row mod_data">
+                <div class="col-md-4 data__cover">
+                    <img class="img-responsive data__photo" :src="coverImgUrl + '?param=400y400'" />
+                </div>
+                <div class="col-md-7 data__cont">
+                    <div class="row data__row">
+                        <h2 class="color">{{ name }}</h2>
+                    </div>
+                    <div class="row data__row">
+                        <h4 style="color: navajowhite">更新时间:
+                           {{updateTime}}
+                        </h4>
+                    </div>
+                    <div class="row data__row ">
+                        <span style="color: navajowhite">创建人: <span class="web-font">{{ ownerName }}</span></span>
+                    </div>
+                    <span v-if="name!='歌手榜'"><div class="data_play__all">
+                        <a class="a_play_all" href="javascript:void(0)" @click="toAllSongPage(name)">
+                            <span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
+                            播放全部
+                        </a>
+                    </div></span>
+                    <span v-else></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-hover" style="color: yellowgreen">
+                        <thead>
+                        <tr>
+                            <td></td>
+                            <td><span v-if="name!='歌手榜'">歌曲</span>
+                                <span v-else>歌手类别</span>
+                            </td>
+                            <td>歌手</td>
+                            <td><span v-if="name!='歌手榜'">专辑</span>
+                                <span v-else>播放量</span>
+                            </td>
+                            <td><span v-if="name!='歌手榜'">时长</span>
+                                <span v-else></span>
+                            </td>
+                        </tr>
+                        </thead >
+                        <tbody >
+
+                        <tr v-for="(song,index) in songs">
+                            <td><span >{{ index+1 }}</span></td>
+                            <td><span v-if="name!='歌手榜'">
+                                <a href="javascript:void(0)" @click="toSongPage(song.id)">
+                                    <span>{{ song.name }}</span>
+                                    <span v-if="song.alia.length>0" > ({{ song.alia[0] }})</span>
+                                </a>
+                                </span>
+                                <span v-else>
+                                    <span v-if="song.cat==null">其他男歌手</span>
+                                    <span v-else>{{song.cat}}歌手</span>
+                                </span>
+                            </td>
+                            <td>
+                                <span v-if="name!='歌手榜'">
+                                    <!-- 遍历出歌手 -->
+                                    <span v-for="(singer,index) in song.ar" >
+                                        <a :href="toSingerPage(singer.id)">
+                                            {{ singer.name }}
+                                        </a>
+
+                                        <!-- 判断是否加入分隔符 -->
+                                        <span v-if="index < song.ar.length-1">/</span>
+                                    </span>
+                                </span>
+                                <span v-else><a :href="toSingerPage(song.id)">
+                                                  {{ song.name }}
+                                             </a>
+                                </span>
+
+                            </td>
+                            <td><span v-if="name!='歌手榜'"><a :href="toAlbumPage(song.al.id)">{{ song.al.name }}</a></span>
+                                <span v-else>{{song.playCount}}</span>
+                            </td>
+                            <td><span v-if="name!='歌手榜'">{{ song.dt }}</span>
+                                <span v-else></span>
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div style="text-decoration:none; text-align:center; padding:20px 0;">
+            <div style="width:600px;margin:0 auto; padding:20px 0;">
+                <p style="margin:10px 0px;">
+                    <b>Copyright © 2019
+                        <a href="#" target="_blank" title="mapleLeafs"> mapleLeafs</a> 版权所有 Powered By
+                        <a href="#" target="_blank" title="mapleLeafs">mapleLeafs</a> Design.&nbsp;&nbsp;
+                    </b>
+                    <!-- 备案信息代码 -->
+                </p>
+                <a target="_blank" href="#" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+                    <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">
+                        鲁公网安备 99988882000110号 鲁ICP备99998888号
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script src="/assert/js/jquery.js"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script src="/assert/js/vendor/bootstrap.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+<script src="/assert/js/playlists/vue.js"></script>
+<script src="/assert/js/playlists/jquery.base64.js"></script>
+</body>
+<script>
+    var title;
+    var idString = '';
+    var fastDfsPath='http://121.36.244.33:8080/';
+    //接收一个值
+    function oneValues(){
+        var result;
+        var errors = ['404.html','505.html'];
+        var url=(window.location.search); //获取url中"?"符后的字串
+        try{
+            var decodeUrl = $.base64.decode(url.substring(1));
+        }catch(e){
+            window.location.href=errors[Math.floor(Math.random() * errors.length)];
+        }
+        if(url.indexOf("?")!=-1){
+            result = decodeUrl.substr(decodeUrl.indexOf("=")+1);
+        }
+        return result;
+    }
+
+    //接收多值
+    function manyValues(){
+        var url=window.location.search;
+        if(url.indexOf("?")!=-1){
+            var str = url.substr(1);
+            strs = str.split("&");
+            var key=new Array(strs.length);
+            var value=new Array(strs.length);
+            for(i=0;i<strs.length;i++){
+                key[i]=strs[i].split("=")[0]
+                value[i]=unescape(strs[i].split("=")[1]);
+                alert(key[i]+"="+value[i]);
+            }
+        }
+    }
+    // 格式化播放次数
+    function formatPlayCount(count){
+        if(count >= 100000)
+            return (count/10000).toFixed(2) + "万";
+        else
+            return count;
+    }
+    // 格式化音乐时长
+    function formatDuraton(time){
+        if(time > -1){
+            var temp;
+            var sec = Math.floor(time/1000);
+            //var min = Math.floor(time/60) % 60;
+            var min = Math.floor(sec/60);
+            sec = sec - min*60;
+            if(min < 10){
+                temp = "0" + min + ":";
+            }else
+                temp = min + ":";
+            if(sec < 10){
+                temp += "0" + sec ;
+            }else
+                temp += sec ;
+        }
+        return temp;
+    }
+
+
+    function toRankType(rank_type) {
+        $.getJSON(
+            "/rank_getRankInfoByType?rank_type=" + rank_type,
+            function(data) {
+                if(data.code == 200){
+                    rankVue.name=data.name;//排行榜名称
+                    rankVue.coverImgUrl = data.coverImgUrl;
+                    rankVue.ownerName = 'GM001';
+                    rankVue.updateTime = data.updateTime;
+                    rankVue.idLists = [];
+                    idString = '';
+                    rankVue.songs= [];
+                    for(var i=0;i<data.trackIds.length;i++){
+                        // 向推荐歌单数组里遍历添加歌单
+                        rankVue.idLists.push(
+                            data.trackIds[i]
+                        );
+                        // 将歌曲的id拼装成接口参数字符串
+                        if(i<data.trackIds.length-1)
+                            idString += rankVue.idLists[i] + ",";
+                        else
+                            idString += rankVue.idLists[i];
+                    }
+                    document.title = rankVue.name;
+                    if("singer"===rank_type){
+                        $.getJSON(
+                            "/rank_getSingerRankInfo?ids="+ idString,
+                            function(data3) {
+                                console.log(data3);
+                                for(var j=0;j<data3.songs.length;j++){
+                                    rankVue.songs.push({
+                                        id:data3.songs[j].id, //歌手id
+                                        name:data3.songs[j].name, //歌手名
+                                        playCount:data3.songs[j].play_count, //播放量
+                                        cat:data3.songs[j].singer_text_c, //歌手类别
+                                    });
+                                }
+                            }
+                        );
+                    }else{
+                        $.getJSON(
+                            "/rank_getSongForRank?rank_type="+ rank_type,
+                            function(data2) {
+                                console.log(data2);
+                                for(var j=0;j<data2.songs.length;j++){
+                                    rankVue.songs.push({
+                                        id:data2.songs[j].id, //歌曲id
+                                        name:data2.songs[j].name, //歌曲名
+                                        ar: data2.songs[j].singers, //歌手
+                                        alia:data2.songs[j].alia, //别名
+                                        al: data2.songs[j].album, //专辑
+                                        dt: formatDuraton(data2.songs[j].dateTime), //时长
+                                    });
+                                }
+                            }
+                        );
+                    }
+                    $("div#list").removeClass("hidden");
+                }
+            }
+        );
+    }
+    var rankVue = new Vue({
+        el: '#list',
+
+        data: {
+            id: '',
+            coverImgUrl: '',
+            name: '',
+            playCount: '',
+            trackCount: '',
+            ownerName: '',
+            updateTime: '',
+            description: '',
+            singer: {
+                id: '',
+                name: ''
+            },
+            song: {
+                id:'',//歌曲id
+                name: '',//歌名
+                ar: [],//歌手数组
+                alia: [],//别名
+                al: {},//专辑
+                dt: '',//时长
+                playCount: '',
+                cat: ''
+            },
+            idLists: [
+
+            ],
+            songs: [
+
+            ],
+            tags: [
+
+            ],
+
+        },
+        methods: {
+            // 传送至相应的歌手详情页面
+            toSingerPage: function (id) {
+                return 'singer.html?' +$.base64.encode('id=' + id);
+            },
+            toAllSongPage: function (name) {
+                let cat = 222;
+                if(name==='新歌榜'){
+                    cat = 111;
+                }else if(name==='飙升榜'){
+                    cat = 222;
+                }else if(name==='热歌榜'){
+                    cat = 333;
+                }
+                $("#player",parent.document).attr("data-id",cat);
+                $("#player",parent.document).attr("data-type","rank");
+                $("#player",parent.document).attr("data-autoplay",true);
+                console.log($("#player",parent.document).data());
+                window.parent.loadMeting();
+            },
+            toSongPage: function (id) {
+                $("#player",parent.document).attr("data-id",id);
+                $("#player",parent.document).attr("data-type","song");
+                $("#player",parent.document).attr("data-autoplay",true);
+                window.parent.loadMeting();
+
+            },
+            //传送至相应的专辑详情页面
+            toAlbumPage: function (id) {
+                return 'album.html?' +$.base64.encode('id=' + id);
+            },
+        }
+    });
+    toRankType('soar');
+
+
+
+</script>
+</html>

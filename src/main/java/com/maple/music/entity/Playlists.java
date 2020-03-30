@@ -1,6 +1,7 @@
 package com.maple.music.entity;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -11,25 +12,26 @@ import java.util.Date;
 @Entity
 @Table(name = "m_playlists", schema = "ssh_music")
 public class Playlists {
-	private long id;
+	private BigInteger id;
 	private String name;
-	private Long userId;
+	private BigInteger userId;
 	private Date createTime;
 	private Date updateTime;
-	private Long subscribedCount;
+	private BigInteger subscribedCount;
 	private Integer trackCount;
 	private String coverImgUrl;
 	private String description;
-	private Long playCount;
+	private BigInteger playCount;
 	private String tags;
+	private String tagsText;
 
 	@Id
 	@Column(name = "id")
-	public long getId() {
+	public BigInteger getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 
@@ -45,11 +47,11 @@ public class Playlists {
 
 	@Basic
 	@Column(name = "user_id")
-	public Long getUserId() {
+	public BigInteger getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(BigInteger userId) {
 		this.userId = userId;
 	}
 
@@ -75,11 +77,11 @@ public class Playlists {
 
 	@Basic
 	@Column(name = "subscribed_count")
-	public Long getSubscribedCount() {
+	public BigInteger getSubscribedCount() {
 		return subscribedCount;
 	}
 
-	public void setSubscribedCount(Long subscribedCount) {
+	public void setSubscribedCount(BigInteger subscribedCount) {
 		this.subscribedCount = subscribedCount;
 	}
 
@@ -115,11 +117,11 @@ public class Playlists {
 
 	@Basic
 	@Column(name = "play_count")
-	public Long getPlayCount() {
+	public BigInteger getPlayCount() {
 		return playCount;
 	}
 
-	public void setPlayCount(Long playCount) {
+	public void setPlayCount(BigInteger playCount) {
 		this.playCount = playCount;
 	}
 
@@ -133,43 +135,13 @@ public class Playlists {
 		this.tags = tags;
 	}
 
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		Playlists that = (Playlists) o;
-
-		if (id != that.id) return false;
-		if (name != null ? !name.equals(that.name) : that.name != null) return false;
-		if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
-		if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
-		if (updateTime != null ? !updateTime.equals(that.updateTime) : that.updateTime != null) return false;
-		if (subscribedCount != null ? !subscribedCount.equals(that.subscribedCount) : that.subscribedCount != null)
-			return false;
-		if (trackCount != null ? !trackCount.equals(that.trackCount) : that.trackCount != null) return false;
-		if (coverImgUrl != null ? !coverImgUrl.equals(that.coverImgUrl) : that.coverImgUrl != null) return false;
-		if (description != null ? !description.equals(that.description) : that.description != null) return false;
-		if (playCount != null ? !playCount.equals(that.playCount) : that.playCount != null) return false;
-		if (tags != null ? !tags.equals(that.tags) : that.tags != null) return false;
-
-		return true;
+	@Basic
+	@Column(name = "tags_text")
+	public String getTagsText() {
+		return tagsText;
 	}
 
-	@Override
-	public int hashCode() {
-		int result = (int) (id ^ (id >>> 32));
-		result = 31 * result + (name != null ? name.hashCode() : 0);
-		result = 31 * result + (userId != null ? userId.hashCode() : 0);
-		result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
-		result = 31 * result + (updateTime != null ? updateTime.hashCode() : 0);
-		result = 31 * result + (subscribedCount != null ? subscribedCount.hashCode() : 0);
-		result = 31 * result + (trackCount != null ? trackCount.hashCode() : 0);
-		result = 31 * result + (coverImgUrl != null ? coverImgUrl.hashCode() : 0);
-		result = 31 * result + (description != null ? description.hashCode() : 0);
-		result = 31 * result + (playCount != null ? playCount.hashCode() : 0);
-		result = 31 * result + (tags != null ? tags.hashCode() : 0);
-		return result;
+	public void setTagsText(String tagsText) {
+		this.tagsText = tagsText;
 	}
 }

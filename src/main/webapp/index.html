@@ -48,8 +48,7 @@
                     <li><a href="javascript:void(0)" onclick="jumpIframe('index2')">主页</a></li>
                     <li><a href="javascript:void(0)" onclick="jumpIframe('myMusic')">我的音乐</a></li>
                     <li><a href="javascript:void(0)" onclick="jumpIframe('playlists')">歌单</a></li>
-                    <li><a href="javascript:void(0)" onclick="jumpIframe('album')">专辑</a></li>
-                    <li><a href="javascript:void(0)" onclick="jumpIframe('singer')">歌手</a></li>
+                    <li><a href="javascript:void(0)" onclick="jumpIframe('singers')">歌手</a></li>
                     <li><a href="javascript:void(0)" onclick="jumpIframe('rank')">排行榜</a></li>
                     <li><a href="javascript:void(0)" onclick="jumpIframe('game')">猜歌闯关</a></li>
                 </ul>
@@ -75,9 +74,12 @@
 <iframe src="index2.html" name="contentIframe" id="contentIframe" width="100%" frameborder="0" height="717px"></iframe>
 
 <!-- 音乐播放器 -->
-<div class="aplayer" data-id="2440040711" data-server="netease" data-type="playlist" data-fixed="true"
+<div class="aplayer" id="player" data-id="3204160461" data-cat="soar" data-server="netease" data-type="playlist" data-fixed="true"
      data-autoplay="false" data-volume="0.6"></div>
-<script>var meting_api = 'http://api.mizore.cn/meting/api.php?server=:server&type=:type&id=:id'</script>
+<script>
+    // var meting_api = 'http://api.mizore.cn/meting/api.php?server=:server&type=:type&id=:id'
+    var meting_api = 'http://localhost:8080/playerAction_playerApi?type=:type&id=:id'
+</script>
 
 
 <script src="/assert/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
@@ -94,18 +96,27 @@
 <script src="/assert/js/Meting.min.js"></script>
 <script type="text/javascript">
     $(function () {
-        // 判断用户是否登录
-        $.post("/getParam_user",{},function (data) {
-            if(data.resultStatus===true){
-                $("#isLogin").html('<li><a href="/myMusic.html" style="text-transform: none;display: inline-block">'+data.user.nickname+'</a>&nbsp;&nbsp;<a href="/user_logout" style="display:inline-block">注销</a></li>');
-            }else{
-                $("#isLogin").html('<li><a href="/login.html"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登录</a></li>');
-            }
-        });
+        refreshUserStatus();
+        window.parent.refreshUserStatus();
 
-    })
+    });
+function refreshUserStatus() {
+    // 判断用户是否登录
+    $.post("/getParam_user",{},function (data) {
+        if(data.resultStatus===true){
+            $("#isLogin").html('<li><a href="/myMusic.html" style="text-transform: none;display: inline-block">'+data.user.nickname+'</a>&nbsp;&nbsp;<a href="/user_logout" style="display:inline-block">注销</a></li>');
+        }else{
+            $("#isLogin").html('<li><a href="/login.html"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登录</a></li>');
+        }
+    });
+}
 function jumpIframe(name) {
-        $("#contentIframe").attr("src","/"+name+".html");
+        if(name==='myMusic'){
+            $("#contentIframe").attr("src","/toMyMusic");
+            refreshUserStatus();
+        }else{
+            $("#contentIframe").attr("src","/"+name+".html");
+        }
 }
 
 </script>

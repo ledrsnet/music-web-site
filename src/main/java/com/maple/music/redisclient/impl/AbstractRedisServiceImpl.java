@@ -1,10 +1,16 @@
 package com.maple.music.redisclient.impl;
 
 import com.maple.music.redisclient.RedisService;
+import net.sf.json.util.JSONUtils;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -14,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractRedisServiceImpl<K, V> implements RedisService<K, V> {
 	@Resource
 	private RedisTemplate<K, V> redisTemplate;
+
 
 	public RedisTemplate<K, V> getRedisTemplate() {
 		return redisTemplate;
@@ -46,5 +53,15 @@ public abstract class AbstractRedisServiceImpl<K, V> implements RedisService<K, 
 			redisTemplate.delete(key);
 		}
 	}
+	@Override
+	public void setMap(String mapName, Map<String,Object> modelMap){
+		redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
+		redisTemplate.opsForHash().putAll((K) mapName,modelMap);
+		redisTemplate.expire((K) mapName, 10, TimeUnit.MINUTES);
+	}
 
+	@Override
+	public Map<Object,Object> getMapValue(String mapName){
+		return redisTemplate.opsForHash().entries((K) mapName);
+	}
 }

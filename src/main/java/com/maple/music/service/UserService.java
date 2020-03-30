@@ -3,6 +3,10 @@ package com.maple.music.service;
 
 import com.maple.music.entity.User;
 
+import java.math.BigInteger;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author LiangDong
  * @Date 2019/11/20
@@ -41,4 +45,17 @@ public interface UserService {
 	 * @return
 	 */
 	boolean checkNickName(String nickname);
+
+	/**
+	 * 查询用户收藏的歌单
+	 * @param userId
+	 * @return
+	 */
+	List<Map<String, Object>> getUserFavorite(long userId);
+
+	/**
+	 * 取消用户收藏的指定歌单
+	 * @param id
+	 */
+	int deSubscrib(Long userId,BigInteger id);
 }

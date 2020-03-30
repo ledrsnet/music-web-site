@@ -17,8 +17,11 @@ import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -166,6 +169,57 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 			ResultUtils.toJson(ServletActionContext.getResponse(),map);
 		} catch (IOException e) {
 			logger.error("校验用户名是否存在结果转换json出错");
+		}
+		return null;
+	}
+
+	public String getUserFavorite(){
+		Map<String,Object> map = new HashMap<>();
+		User user = (User) ActionContext.getContext().getSession().get("user");
+
+		if(user==null){
+			map.put("code",500);
+		}else{
+			map.put("code",200);
+			List<Map<String,Object>> list = userService.getUserFavorite(user.getUserId());
+			map.put("data",list);
+		}
+		try {
+			ResultUtils.toJson(ServletActionContext.getResponse(),map);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public String toMyMusic(){
+		return "success";
+	}
+
+	public String deSubscrib(){
+		Map<String,Object> map = new HashMap<>();
+		try {
+			User user = (User) ActionContext.getContext().getSession().get("user");
+			String playlistId = ServletActionContext.getRequest().getParameter("playlistId");
+			if(user!=null){
+				int flag = userService.deSubscrib(user.getUserId(), new BigInteger(playlistId));
+				if(flag==200){
+					map.put("code",200);
+				}else{
+					map.put("code",500);
+				}
+			}else{
+				map.put("code",500);
+			}
+			ResultUtils.toJson(ServletActionContext.getResponse(),map);
+		} catch (Exception e) {
+			map.put("code",500);
+			try {
+				ResultUtils.toJson(ServletActionContext.getResponse(),map);
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+			e.printStackTrace();
 		}
 		return null;
 	}

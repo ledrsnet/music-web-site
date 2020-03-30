@@ -5,11 +5,14 @@ import com.maple.music.util.ResultUtils;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +25,12 @@ import java.util.Map;
 @Scope("prototype")
 public class PlaylistsAction extends ActionSupport {
 
+	private static final Logger log = LoggerFactory.getLogger(PlaylistsAction.class);
+
+	// 歌单ID
+	private BigInteger id;
+	// 歌曲标识
+	private String ids;
 	// 分类标识
 	private String cat;
 	// 最热or最新
@@ -33,6 +42,14 @@ public class PlaylistsAction extends ActionSupport {
 
 	public void setOrder(String order) {
 		this.order = order;
+	}
+
+	public void setId(BigInteger id) {
+		this.id = id;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
 	}
 
 	@Resource
@@ -78,6 +95,45 @@ public class PlaylistsAction extends ActionSupport {
 		try {
 			ResultUtils.toJson(ServletActionContext.getResponse(),map);
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+
+	/**
+	 * 获取歌单详情
+	 * @return
+	 */
+	public String getPlaylistDetail(){
+		Map<String,Object> map =new HashMap<>();
+		try {
+			map = playlistsService.getPlaylistDetail(id);
+			map.put("code",200);
+			ResultUtils.toJson(ServletActionContext.getResponse(),map);
+		} catch (Exception e) {
+			log.error("获取歌单详情失败！！！！！！！！！！");
+			try {
+				ResultUtils.toJson(ServletActionContext.getResponse(),map.put("code",500));
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * 获取歌单里所有歌曲信息
+	 * @return
+	 */
+	public String getPlaySongs(){
+		Map<String,Object> map = new HashMap<>();
+		try {
+			map = playlistsService.getSongsByIds(ids);
+			ResultUtils.toJson(ServletActionContext.getResponse(),map);
+		} catch (Exception e) {
+			log.error("获取歌单详情失败！！！！！！！！！！");
 			e.printStackTrace();
 		}
 		return null;

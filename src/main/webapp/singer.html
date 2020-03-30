@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>歌手</title>
+    <!-- Bootstrap -->
+	  <link rel="stylesheet" href="/assert/css/bootstrap.css">
+	  <link rel="stylesheet" href="/assert/css/playlists/main.css">
+	  <link rel="stylesheet" href="/assert/css/playlists/star.css">
+	  <style>
+		  body {
+			  margin-top: 70px;
+			  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+		  }
+
+		  a:focus {
+			  color: #FFFFFF;
+		  }
+		  .color {
+			  color: yellowgreen;
+		  }
+		  .table-hover > tbody > tr:hover {
+			  background-color: black;
+		  }
+	  </style>
+  </head>
+  <body>
+  <div id="stars1"></div>
+  <div id="stars2"></div>
+  <div id = "stars3"></div>
+	<div class="container hidden" id="body"  v-cloak>
+		<div class="row mod_data">
+		  <div class="col-md-4 data__cover">
+			<img class="img-responsive img-circle data__photo" :src="img1v1Url + '?param=200y200'" />  
+		  </div>
+		<div class="col-md-4 data__cont">
+			<div class="row data__row">
+				<h1 class="color">
+					{{ name }}
+					<span v-for="alia in alias" >
+						{{ alia }}
+					</span>
+				</h1>
+			</div>
+			<div class="row data__row">
+				<h4 style="color: navajowhite">单曲数: <span>{{ musicSize }}</span></h4>
+			</div>
+			<div class="row data__row">
+				<h4 style="color: navajowhite">专辑数: <span>{{ albumSize }}</span></h4>
+			</div>
+			<div class="data_play__all">
+				<a class="a_play_all" href="javascript:void(0)" @click="toAllSongPage(id)">
+					<span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
+					播放全部
+				</a>
+			</div>
+
+		</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2">
+				<h3 class="color">热门歌曲</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-9">
+				<table class="table table-hover" style="color: yellowgreen">
+					<thead> 
+						<tr> 
+							<td></td>
+							<td>歌曲</td>
+							<td>专辑</td>
+							<td>时长</td> 
+						</tr>
+					</thead > 
+					<tbody v-for="(song,index) in hotSongs">
+						<tr>
+							<td>{{ index+1 }}</td> 
+							<td>
+								<a href="javascript:void(0)" @click="toSongPage(song.id)">
+									{{ song.name }}
+									<span v-if="song.alia.length>0"> ({{ song.alia[0] }})</span>
+								</a>
+							</td> 
+							 <td><a :href="toAlbumPage(song.al.id)">{{ song.al.name }}</a></td>
+							 <td> {{ formatTime(song.dt) }} </td>
+
+						</tr> 
+					</tbody> 
+				 </table> 
+			</div>
+			<div class="col-md-3">
+				<h3 style="color: navajowhite">歌手简介</h3>
+				<p class="web-font color">
+					{{ briefDesc }}
+				</p>
+			</div>
+		</div>
+		
+	</div>
+	
+	<div class="container" id="album"  v-cloak>
+		<div class="row">
+			<div class="col-md-2">
+				<h3 style="color: navajowhite">热门专辑</h3>
+			</div>
+		</div>	
+		<div v-for="rows in albumsRows">
+			<div class="row data__row" >
+				<div v-for="column in albumsCloumns">
+					<div class="col-sm-6 col-md-2">
+						<div>
+							<a :href="toAlbumPage(hotAlbums[get_index(rows,column)].id)">
+								<img class="img-responsive" :src="hotAlbums[get_index(rows,column)].blurPicUrl + '?param=200y200' " :alt="hotAlbums[get_index(rows,column)].name" >
+							</a>
+							<div class="caption">
+								<div class="playlist-name">
+									<a :href="toAlbumPage(hotAlbums[get_index(rows,column)].id)">
+										<p >{{ hotAlbums[get_index(rows,column)].name }}</p>  
+									</a>
+								</div>
+								<div class=" decoration">
+									{{ timestampToTime(hotAlbums[get_index(rows,column)].publishTime) }}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<footer class="footer">
+	    <div class="container">	
+			<div style="text-decoration:none; text-align:center; padding:20px 0;">
+				<div style="width:600px;margin:0 auto; padding:20px 0;">
+					<p style="margin:10px 0px;">
+					<b>Copyright © 2019
+					<a href="https://superBoyJack.cn" target="_blank" title="superBoyJack"> superBoyJack</a> 版权所有 Powered By 
+					<a href="http://wpa.qq.com/msgrd?uin=2656288235" target="_blank" title="superBoyJack">superBoyJack</a> Design.&nbsp;&nbsp;
+					</b>
+					<!-- 备案信息代码 -->
+					</p>
+					<a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=41152502000110" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+						<img src="https://superboyjack.cn/upload/2019/11/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87-b8473f72b5dc4bf1885d394815c38a9a.png" style="float:left;"/>
+						<p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">
+						豫公网安备 41152502000110号 豫ICP备19039675号
+						</p>
+					</a>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+	<script src="/assert/js/jquery.js"></script>
+	<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+	<script src="/assert/js/vendor/bootstrap.js"></script>
+	<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+	<script src="/assert/js/playlists/vue.js"></script>
+	<script src="/assert/js/playlists/jquery.base64.js"></script>
+	<script src="/assert/js/singer/main.js"></script>
+  </body>
+  <script>
+	  //接收一个值
+	  function getId(){
+	  	var result;
+	  	var errors = ['404.html','505.html'];
+	  	var url=(window.location.search); //获取url中"?"符后的字串
+	  	try{
+	  		var decodeUrl = $.base64.decode(url.substring(1));
+	  	}catch(e){
+	  		window.location.href=errors[Math.floor(Math.random() * errors.length)];
+	  	}
+	  	if(url.indexOf("?")!=-1){
+	  		result = decodeUrl.substr(decodeUrl.indexOf("=")+1);
+	  	}
+	  	return result;
+	  }
+	  var singerVue = new Vue({
+		  el: '#body',
+		  data: {
+			id: '',
+			name: '',
+			briefDesc: '', // 歌手简介
+			img1v1Url: '',//歌手图
+			alias: [],//别名
+			musicSize: '',//歌曲数
+			albumSize: '', //专辑数
+			mvSize: '', //MV数
+			hotSongs: [], //热门歌曲
+			hotAlbums: [],
+		  },
+		  methods: {
+		  	// 传送至相应的歌手详情页面
+		  	toSingerPage: function (id) {
+		  		return 'singer.html?' + $.base64.encode('id=' + id);
+		  	},
+			 toAllSongPage: function (id) {
+				  $("#player",parent.document).attr("data-id",id);
+				  $("#player",parent.document).attr("data-type","singer");
+				  $("#player",parent.document).attr("data-autoplay",true);
+				  console.log($("#player",parent.document).data());
+				  window.parent.loadMeting();
+			 },
+			  toSongPage: function (id) {
+				  $("#player",parent.document).attr("data-id",id);
+				  $("#player",parent.document).attr("data-type","song");
+				  $("#player",parent.document).attr("data-autoplay",true);
+				  window.parent.loadMeting();
+
+			  },
+		  	//传送至相应的专辑详情页面
+		  	toAlbumPage: function (id) {
+		  		return 'album.html?' + $.base64.encode('id=' + id);
+		  	},
+			// 格式化时间
+			formatTime: function(time){
+				if(time > -1){
+					var temp;
+					var sec = Math.floor(time/1000);
+					//var min = Math.floor(time/60) % 60;
+					var min = Math.floor(sec/60);
+					sec = sec - min*60;
+					if(min < 10){
+						temp = "0" + min + ":";
+					}else
+						temp = min + ":";
+					if(sec < 10){
+						temp += "0" + sec ;
+					}else
+						temp += sec ;
+				}
+				return temp;
+			},
+			//根据行列得到元素在数组里的下表
+			get_index: function (rows,colum){
+				if(rows == 1)
+					return (colum-1)*rows;
+				else
+					return (colum-1)+(rows-1)*6;
+			},
+			//时间戳转换为日期
+			timestampToTime: function(timestamp) {
+				var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+				var Y = date.getFullYear() ;
+				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) ;
+				var D = date.getDate() ;
+				var h = date.getHours() ;
+				if(h < 10)
+					h = '0' + h;
+				var m = date.getMinutes() ;
+				if(m < 10)
+					m = '0' + m;
+				var s = date.getSeconds();
+				return Y + '年' + M + '月' + D + '日';
+			}
+		    }
+	  });
+	  $.getJSON(
+	      "https://api.music.superboyjack.cn/artists?id=" + getId(),
+	      function(data) {
+	  	  if(data.code == 200){
+			  singerVue.name = data.artist.name;
+			  singerVue.id = data.artist.id;
+			  singerVue.briefDesc = data.artist.briefDesc;
+			  singerVue.img1v1Url = data.artist.img1v1Url;
+			  singerVue.alias = data.artist.alias;
+			  singerVue.musicSize = data.artist.musicSize;
+			  singerVue.albumSize = data.artist.albumSize;
+			  singerVue.mvSize = data.artist.mvSize;
+			  singerVue.hotSongs = data.hotSongs;
+			  document.title = singerVue.name;
+			  $("div#body").removeClass("hidden");
+	  	  }
+	      }
+	  );
+	  
+	  var albumVue = new Vue({
+	  		  el: '#album',
+	  		  data: {
+				albumsRows: '',
+				albumsCloumns: '',
+	  			hotAlbums: [],
+	  		  },
+	  		  methods: {
+	  		  	// 传送至相应的歌手详情页面
+	  		  	toSingerPage: function (id) {
+	  		  		return 'singer.html?' + $.base64.encode('id=' + id);
+	  		  	},
+	  		  	
+	  		  	toSongPage: function (id) {
+	  		  		return 'player.html?' + $.base64.encode('id=' + id);
+	  		  	},
+	  		  	//传送至相应的专辑详情页面
+	  		  	toAlbumPage: function (id) {
+	  		  		return 'album.html?' + $.base64.encode('id=' + id);
+	  		  	},
+	  			//根据行列得到元素在数组里的下表
+	  			get_index: function (rows,colum){
+	  				if(rows == 1)
+	  					return (colum-1)*rows;
+	  				else
+	  					return (colum-1)+(rows-1)*6;
+	  			},
+	  			//时间戳转换为日期
+	  			timestampToTime: function(timestamp) {
+	  				var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+	  				var Y = date.getFullYear() ;
+	  				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) ;
+	  				var D = date.getDate() ;
+	  				var h = date.getHours() ;
+	  				if(h < 10)
+	  					h = '0' + h;
+	  				var m = date.getMinutes() ;
+	  				if(m < 10)
+	  					m = '0' + m;
+	  				var s = date.getSeconds();
+	  				return Y + '年' + M + '月' + D + '日';
+	  			},
+	  		    }
+	  });
+	  
+	  $.getJSON(
+	      "https://api.music.superboyjack.cn/artist/album?id=" + getId(),
+	      function(data) {
+			  if(data.code == 200){
+				  albumVue.hotAlbums = data.hotAlbums;
+				  var count = data.hotAlbums.length;
+				  if(count<6){
+					  albumVue.albumsRows = 1;
+					  albumVue.albumsCloumns = count;
+				  }else{
+					  albumVue.albumsRows = parseInt(count / 6) ;
+					  albumVue.albumsCloumns = 6;
+				  }
+				  for(var i=0;i<count;i++){
+					  console.log(albumVue.hotAlbums[i]);
+				  }
+				  
+			  }
+		  });
+	
+
+	
+  </script>
+</html>

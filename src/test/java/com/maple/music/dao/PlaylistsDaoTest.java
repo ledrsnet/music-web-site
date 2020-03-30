@@ -3,6 +3,7 @@ package com.maple.music.dao;
 import com.google.gson.Gson;
 import com.maple.music.util.ResultUtils;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -22,6 +23,8 @@ import java.util.Map;
 public class PlaylistsDaoTest {
 	@Resource
 	private PlaylistsDao playlistsDao;
+	@Resource
+	private CategorieDao categorieDao;
 
 	@Test
 	public void testGetPlaylists(){
@@ -30,5 +33,15 @@ public class PlaylistsDaoTest {
 		Gson gson = new Gson();
 		String result = gson.toJson(playlists);
 		System.out.println(result);
+	}
+
+	@Test
+	public void testGetIdByCat(){
+		String nameById = categorieDao.getNameById(6);
+		System.out.println(nameById);
+	}
+	@Test
+	public void test1(){
+		System.out.println("rank&&&cat".substring(0,4));
 	}
 }

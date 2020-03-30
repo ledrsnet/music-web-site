@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.math.BigInteger;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author LiangDong
@@ -40,5 +43,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean checkNickName(String nickname) {
 		return userDao.checkNickName(nickname);
+	}
+
+	@Override
+	public List<Map<String, Object>> getUserFavorite(long userId) {
+		return userDao.getUserFavorite(userId);
+	}
+
+	@Override
+	public int deSubscrib(Long userId,BigInteger id) {
+		return userDao.deSubscrib(userId,id);
 	}
 }

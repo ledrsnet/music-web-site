@@ -1,5 +1,8 @@
 package com.maple.music.service;
 
+import com.maple.music.entity.PlayerVo;
+
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -27,4 +30,20 @@ public interface PlaylistsService {
 	 * @return
 	 */
 	List<Map<String,Object>> getPlaylists();
+
+	/**
+	 * 获取歌单详情
+	 * @param id
+	 * @return
+	 */
+	Map<String, Object> getPlaylistDetail(BigInteger id);
+
+	/**
+	 * 获取歌单关联的所有歌曲信息
+	 * @param id
+	 * @return
+	 */
+	Map<String, Object> getSongsByIds(String ids);
+
+
 }
