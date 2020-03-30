@@ -210,4 +210,27 @@ public class PlaylistsServiceImpl implements PlaylistsService {
 		return map;
 	}
 
+	@Override
+	public Map<String, Object> getReCommendPlaylist() {
+		// redis服务及类型准备
+		RedisService redisService = RedisTool.getRedisService();
+		Type type = new TypeToken<List<Map<String, Object>>>() {}.getType();
+
+		String playlists = (String) redisService.get("reCommendPlaylist");
+		Map<String,Object> map = new HashMap<>();
+		List<Map<String,Object>> list = new ArrayList<>();
+
+		if(StringUtils.isBlank(playlists)){
+			log.info("======reCommendPlaylist缓存为空========");
+			list = playlistsDao.getReCommendPlaylist();
+			redisService.set("reCommendPlaylist",new Gson().toJson(list,type),1000*60*10);
+			log.info("=====reCommendPlaylist写入缓存成功=====");
+		}else{
+			log.info("=====缓存reCommendPlaylist命中=====");
+			list = new Gson().fromJson(playlists,type);
+		}
+		map.put("playlists",list);
+		return map;
+	}
+
 }

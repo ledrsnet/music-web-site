@@ -74,4 +74,24 @@ public class RankDaoImpl implements RankDao {
 		return currentSession.createSQLQuery(sql).setParameter("type",rank_type).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
 	}
 
+	@Override
+	public List<Map<String, Object>> getSingerRankInfoByType(String type) {
+		Session session = sessionFactory.getCurrentSession();
+		String sql = "SELECT \n" +
+				"  s.id,\n" +
+				"  r.play_count,\n" +
+				"  r.update_time,\n" +
+				"  s.name,\n" +
+				"  t.`singer_text_c` \n" +
+				"FROM\n" +
+				"  m_rank_new r \n" +
+				"  LEFT JOIN m_singer s \n" +
+				"    ON r.song_id = s.id \n" +
+				"  LEFT JOIN m_singer_type_config t \n" +
+				"    ON t.singer_code = s.singer_type \n" +
+				"WHERE r.rank_type = :type " +
+				"ORDER BY r.play_count DESC";
+		return session.createSQLQuery(sql).setParameter("type",type).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+	}
+
 }

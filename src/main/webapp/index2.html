@@ -40,209 +40,130 @@
 
 
 <!--热门歌单-->
-<div class="container">
-            <div class="row">
-                <div class="page-header">
-                    <h2 class="text-center"><b>热 门 歌 单</b> </h2>
-                </div>
+<div class="background" id="recommendation" v-if="! showloading">
+    <div class="container">
+        <div class="row">
+            <div class="page-header">
+                <h2 class="text-center"><b>歌 单 推 荐</b> </h2>
             </div>
+        </div>
+        <div v-for="rows in 2"  v-cloak>
             <div class="row" id="playlist-row-1">
-                <div class="col-sm-6 col-md-2">
-                        <a href="#">
-                            <img src="/assert/img/109951164629744388.jpg" class="img-responsive"/>
-                        </a>
-                        <div class="caption">
-                            <div class="playlist-name">
-                                <a href="#">
-                                    <span class="web-font">你的好运正在派件，请保持心情舒畅</span>
-                                </a>
+                <div v-for="count in 6">
+                    <div class="col-sm-6 col-md-2">
+                        <div>
+                            <a :href="toPlaylistPage(playlists[get_playlist(rows,count)].id)">
+                                <img class="img-responsive" :src="playlists[get_playlist(rows,count)].coverImgUrl + '?param=200y200'" :alt="playlists[(count-1)*rows].name">
+                            </a>
+                            <div class="caption">
+                                <div class="playlist-name">
+                                    <a :href="toPlaylistPage(playlists[get_playlist(rows,count)].id)">
+                                        <span class="web-font">{{ playlists[get_playlist(rows,count)].name }}</span>
+                                    </a>
+                                </div>
+                                <div class="row decoration">播放量: {{ playlists[get_playlist(rows,count)].playCount }}</div>
                             </div>
-                            <div class="row decoration">播放量: 66500</div>
                         </div>
-
-                 </div>
-                <div class="col-sm-6 col-md-2">
-                    <a href="#">
-                        <img src="/assert/img/109951164629744388.jpg" class="img-responsive"/>
-                    </a>
-                    <div class="caption">
-                        <div class="playlist-name">
-                            <a href="#">
-                                <span class="web-font">你的好运正在派件，请保持心情舒畅</span>
-                            </a>
-                        </div>
-                        <div class="row decoration">播放量: 66500</div>
                     </div>
-
-                </div>
-                <div class="col-sm-6 col-md-2">
-                    <a href="#">
-                        <img src="/assert/img/109951164629744388.jpg" class="img-responsive"/>
-                    </a>
-                    <div class="caption">
-                        <div class="playlist-name">
-                            <a href="#">
-                                <span class="web-font">你的好运正在派件，请保持心情舒畅</span>
-                            </a>
-                        </div>
-                        <div class="row decoration">播放量: 66500</div>
-                    </div>
-
-                </div>
-                <div class="col-sm-6 col-md-2">
-                    <a href="#">
-                        <img src="/assert/img/109951164629744388.jpg" class="img-responsive"/>
-                    </a>
-                    <div class="caption">
-                        <div class="playlist-name">
-                            <a href="#">
-                                <span class="web-font">你的好运正在派件，请保持心情舒畅</span>
-                            </a>
-                        </div>
-                        <div class="row decoration">播放量: 66500</div>
-                    </div>
-
-                </div>
-                <div class="col-sm-6 col-md-2">
-                    <a href="#">
-                        <img src="/assert/img/109951164629744388.jpg" class="img-responsive"/>
-                    </a>
-                    <div class="caption">
-                        <div class="playlist-name">
-                            <a href="#">
-                                <span class="web-font">你的好运正在派件，请保持心情舒畅</span>
-                            </a>
-                        </div>
-                        <div class="row decoration">播放量: 66500</div>
-                    </div>
-
-                </div>
-                <div class="col-sm-6 col-md-2">
-                    <a href="#">
-                        <img src="/assert/img/109951164629744388.jpg" class="img-responsive"/>
-                    </a>
-                    <div class="caption">
-                        <div class="playlist-name">
-                            <a href="#">
-                                <span class="web-font">你的好运正在派件，请保持心情舒畅</span>
-                            </a>
-                        </div>
-                        <div class="row decoration">播放量: 66500</div>
-                    </div>
-
-                </div>
-                <div class="col-sm-6 col-md-2">
-                    <a href="#">
-                        <img src="/assert/img/109951164629744388.jpg" class="img-responsive"/>
-                    </a>
-                    <div class="caption">
-                        <div class="playlist-name">
-                            <a href="#">
-                                <span class="web-font">你的好运正在派件，请保持心情舒畅</span>
-                            </a>
-                        </div>
-                        <div class="row decoration">播放量: 66500</div>
-                    </div>
-
                 </div>
             </div>
         </div>
-
+    </div>
+</div>
 <!--排行榜-->
-<section id="testimonial">
+<div class="background">
     <div class="container" id="ranking" name="ranking">
-            <div class="row">
-                <div class="page-header">
-                    <h2 class="text-center"><b>排 行 榜</b> </h2>
-                </div>
-            </div>
-            <div class="row">
-
-                <ul class="toplist__list js_list">
-                    <li class="toplist__item item1 mod_cover col-md-3">
-                        <div class="toplist__box ranking_hot">
-                            <h3 class="toplist__hd"><a href="toPlaylistPage(id)" target="_blank">热歌榜</a> </h3>
-                            <ul class="toplist__songlist">
-                                <div>
-                                    <li class="toplist__song">
-                                        <div class="toplist__number">1</div>
-                                        <div class="toplist__songname">
-                                            <a href="toSongPage(song.id)" target="_blank" onclick="" class="js_song" data-id="244200862" data-stat="y_new.index.toplist.songname">
-                                                大鱼
-                                                <span v-if="song.alia.length>0"> test</span>
-                                            </a>
-                                        </div>
-                                        <div class="toplist__artist">
-                                            <a href="toSingerPage(song.ar[0].id)" target="_blank" onclick="" data-stat="y_new.index.toplist.singername">枫叶</a>
-                                        </div>
-                                    </li>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="toplist__item item1 mod_cover col-md-3">
-                        <div class="toplist__box ranking_new">
-                            <h3 class="toplist__hd"><a href="toPlaylistPage(new_id)" target="_blank">新歌榜</a> </h3>
-                            <ul class="toplist__songlist">
-                                <div>
-                                    <li class="toplist__song">
-                                        <div class="toplist__number">1</div>
-                                        <div class="toplist__songname">
-                                            <a href="toSongPage(song.id)" target="_blank" onclick="" class="js_song" data-id="244200862" data-stat="y_new.index.toplist.songname">
-                                                海棠
-                                                <span> test</span>
-                                            </a>
-                                        </div>
-                                        <div class="toplist__artist">
-                                            <a href="toSingerPage(song.ar[0].id)" target="_blank" onclick="" data-stat="y_new.index.toplist.singername">清枫</a>
-                                        </div>
-                                    </li>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="toplist__item item1 mod_cover col-md-3">
-                        <div class="toplist__box ranking_singer">
-                            <h3 class="toplist__hd"><a href="singer_ranking.html" target="_blank">歌手榜</a> </h3>
-                            <ul class="toplist__songlist">
-                                <div >
-                                    <li class="toplist__song" v-if="index < 8">
-                                        <div class="toplist__number">1</div>
-                                        <div class="toplist__songname">
-                                            <a href="toSingerPage(singer.id)" target="_blank" onclick="" class="js_song" data-id="244200862" data-stat="y_new.index.toplist.songname">
-                                                枫枫
-                                            </a>
-                                        </div>
-                                    </li>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="toplist__item item1 mod_cover col-md-3">
-                        <div class="toplist__box ranking_oumei">
-                            <h3 class="toplist__hd"><a href="toPlaylistPage(oumei_id)" target="_blank">欧美榜</a> </h3>
-                            <ul class="toplist__songlist">
-                                <div >
-                                    <li class="toplist__song" v-if="index < 5">
-                                        <div class="toplist__number">1</div>
-                                        <div class="toplist__songname">
-                                            <a href="toSongPage(song.id)" target="_blank" onclick="" class="js_song" data-id="244200862" data-stat="y_new.index.toplist.songname">
-                                                叶叶
-                                                <span>test</span>
-                                            </a>
-                                        </div>
-                                        <div class="toplist__artist">
-                                            <a href="toSingerPage(song.ar[0].id)" target="_blank" onclick="" data-stat="y_new.index.toplist.singername">风清扬</a>
-                                        </div>
-                                    </li>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
+        <div class="row">
+            <div class="page-header">
+                <h2 class="text-center"><b>排 行 榜</b> </h2>
             </div>
         </div>
-</section>
+        <div class="row">
+
+            <ul class="toplist__list js_list">
+                <li class="toplist__item item1 mod_cover col-md-3">
+                    <div class="toplist__box ranking_hot">
+                        <h3 class="toplist__hd"><a href="/rank.html">热歌榜</a> </h3>
+                        <ul class="toplist__songlist">
+                            <div v-for="(song,index) in songs" >
+                                <li class="toplist__song" v-if="index < 5">
+                                    <div class="toplist__number">{{ index + 1 }}</div>
+                                    <div class="toplist__songname">
+                                        <a href="javascript:void(0)" @click="toSongPage(song.id)">
+                                            {{ song.name }}
+                                        </a>
+                                    </div>
+                                    <div class="toplist__artist">
+                                        <a :href="toSingerPage(song.singers[0].id)"  data-stat="y_new.index.toplist.singername">{{ song.singers[0].name }}</a>
+                                    </div>
+                                </li>
+                            </div>
+                        </ul>
+                    </div>
+                </li>
+                <li class="toplist__item item1 mod_cover col-md-3">
+                    <div class="toplist__box ranking_new">
+                        <h3 class="toplist__hd"><a href="/rank.html">新歌榜</a> </h3>
+                        <ul class="toplist__songlist">
+                            <div v-for="(song,index) in new_songs" >
+                                <li class="toplist__song" v-if="index < 5">
+                                    <div class="toplist__number">{{ index + 1 }}</div>
+                                    <div class="toplist__songname">
+                                        <a href="javascript:void(0)" @click="toSongPage(song.id)" class="js_song" data-id="244200862" data-stat="y_new.index.toplist.songname">
+                                            {{ song.name }}
+                                        </a>
+                                    </div>
+                                    <div class="toplist__artist">
+                                        <a :href="toSingerPage(song.singers[0].id)" data-stat="y_new.index.toplist.singername">{{ song.singers[0].name }}</a>
+                                    </div>
+                                </li>
+                            </div>
+                        </ul>
+                    </div>
+                </li>
+                <li class="toplist__item item1 mod_cover col-md-3">
+                    <div class="toplist__box ranking_singer">
+                        <h3 class="toplist__hd"><a href="/rank.html">歌手榜</a> </h3>
+                        <ul class="toplist__songlist">
+                            <div v-for="(singer,index) in singers" >
+                                <li class="toplist__song" v-if="index < 8">
+                                    <div class="toplist__number">{{ index + 1 }}</div>
+                                    <div class="toplist__songname">
+                                        <a :href="toSingerPage(singer.id)"  class="js_song" data-id="244200862" data-stat="y_new.index.toplist.songname">
+                                            {{ singer.name }}
+                                        </a>
+                                    </div>
+                                </li>
+                            </div>
+                        </ul>
+                    </div>
+                </li>
+                <li class="toplist__item item1 mod_cover col-md-3">
+                    <div class="toplist__box ranking_oumei">
+                        <h3 class="toplist__hd"><a href="/rank.html">飙升榜</a> </h3>
+                        <ul class="toplist__songlist">
+                            <div v-for="(song,index) in soar_songs" >
+                                <li class="toplist__song" v-if="index < 5">
+                                    <div class="toplist__number">{{ index + 1 }}</div>
+                                    <div class="toplist__songname">
+                                        <a href="javascript:void(0)" @click="toSongPage(song.id)"  class="js_song" data-id="244200862" data-stat="y_new.index.toplist.songname">
+                                            {{ song.name }}
+                                        </a>
+                                    </div>
+                                    <div class="toplist__artist">
+                                        <a :href="toSingerPage(song.singers[0].id)" data-stat="y_new.index.toplist.singername">{{ song.singers[0].name }}</a>
+                                    </div>
+                                </li>
+                            </div>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
 
 <!--歌手-->
 <div class="tabs-content" id="blog">
@@ -309,20 +230,23 @@
     </div>
 </div>
 <footer class="footer">
-    <div class="container" style="text-align: center">
-                <p>
-                    <b>Copyright © 2019
-                        <a href="https://superBoyJack.cn" target="_blank" title="superBoyJack"> superBoyJack</a> 版权所有 Powered By
-                        <a href="http://wpa.qq.com/msgrd?uin=2656288235" target="_blank" title="superBoyJack">superBoyJack</a> Design.&nbsp;&nbsp;
+    <div class="container">
+        <div style="text-decoration:none; text-align:center; padding:20px 0;">
+            <div style="width:600px;margin:0 auto; padding:20px 0;">
+                <p style="margin:10px 0px;">
+                    <b><span style="color:#939393;">Copyright © 2020</span>
+                        <a href="#" target="_blank" title="mapleLeafs"> mapleLeafs</a> <span style="color:#939393;">版权所有 Powered By</span>
+                        <a href="#" target="_blank" title="mapleLeafs">mapleLeafs</a> <span style="color:#939393;">Design.&nbsp;&nbsp;</span>
                     </b>
                     <!-- 备案信息代码 -->
                 </p>
-                <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=41152502000110" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
-                    <img src="https://superboyjack.cn/upload/2019/11/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87-b8473f72b5dc4bf1885d394815c38a9a.png" style="float:left;"/>
+                <a target="_blank" href="#" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
                     <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">
-                        豫公网安备 41152502000110号 豫ICP备19039675号
+                        鲁公网安备 99988882000110号 鲁ICP备99998888号
                     </p>
                 </a>
+            </div>
+        </div>
     </div>
 </footer>
 
@@ -339,9 +263,131 @@
 <script type="text/javascript" src="/assert/js/vendor/jquery-1.11.2.min.js"></script>
 <script src="/assert/js/searchbar/jquery.min(1).js"></script>
 <script src="/assert/js/searchbar/jquery.min(2).js"></script>
+<script src="/assert/js/playlists/vue.js"></script>
+<script src="/assert/js/playlists/jquery.base64.js"></script>
 
+<script>
+    var fastDfsPath='http://121.36.244.33:8080/';
 
-<script type="text/javascript">
+    // 格式化播放量
+    function formatPlayCount(count){
+        if(count >= 100000)
+            return (count/10000).toFixed(2) + "万";
+        else
+            return count;
+    }
+    $.getJSON(
+        "/playlists_getReCommendPlaylist",
+        function(data) {
+            recommendationVue.showloading = true;
+            for(var i=0;i<data.playlists.length;i++){
+                // 向推荐歌单数组里遍历添加歌单
+                recommendationVue.playlists.push({
+                    id: data.playlists[i].id,
+                    coverImgUrl: fastDfsPath+data.playlists[i].coverImgUrl,
+                    name: data.playlists[i].name,
+                    playCount: formatPlayCount(data.playlists[i].playCount)
+                });
+            }
+            recommendationVue.showloading = false;
+        }
+    );
+
+    // 推荐歌单Vue
+    var recommendationVue = new Vue({
+        el: '#recommendation',
+        data: {
+            searchtext: '',
+            showloading: true,
+            playlists: [
+
+            ]
+        },
+        methods: {
+            get_playlist: function (rows,colum){
+                if(rows == 1)
+                    return (colum-1)*rows;
+                else
+                    return (colum-1)+(rows-1)*6;
+            },
+            // 传送至相应的歌单详情页面
+            toPlaylistPage: function (id) {
+                return '/playlist.html?'+ $.base64.encode('id=' + id);
+            }
+        }
+    });
+
+    var rankingVue = new Vue({
+        el: '#ranking',
+        data: {
+            songs: [],//热歌榜
+            new_songs: [],//新歌榜
+            soar_songs: [],//飙升榜
+            singers: [],//歌手
+        },
+        methods: {
+            get_index: function (rows,colum){
+                if(rows == 1)
+                    return (colum-1)*rows;
+                else
+                    return (colum-1)+(rows-1)*6;
+            },
+            // 传送至相应的歌手详情页面
+            toSingerPage: function (id) {
+                return 'singer.html?'  +$.base64.encode('id=' + id);
+            },
+            // 传送至相应的歌单详情页面
+            toPlaylistPage: function (id) {
+                return 'playlist.html?' + $.base64.encode('id=' + id);
+            },
+            toSongPage: function (id) {
+                $("#player",parent.document).attr("data-id",id);
+                $("#player",parent.document).attr("data-type","song");
+                $("#player",parent.document).attr("data-autoplay",true);
+                window.parent.loadMeting();
+            },
+        }
+    });
+    setTimeout(function () {
+
+        // 获取热歌榜数据
+        $.getJSON(
+            "/rank_getSongForRank?rank_type=hot",
+            function(data) {
+                if(data.code == 200){
+                    rankingVue.songs = data.songs;
+                }
+            }
+        );
+        // 获取新歌榜数据
+        $.getJSON(
+            "/rank_getSongForRank?rank_type=new",
+            function(data) {
+                if(data.code == 200){
+                    rankingVue.new_songs = data.songs;
+                }
+            }
+        );
+        // 获取歌手榜数据
+        $.getJSON(
+            "/rank_getSingerRankInfo?type=singer",
+            function(data) {
+                if(data.code == 200){
+                    rankingVue.singers = data.songs;
+                }
+            }
+        );
+        // 获取飙升榜数据
+        $.getJSON(
+            "/rank_getSongForRank?rank_type=soar",
+            function(data) {
+                if(data.code == 200){
+                    rankingVue.soar_songs = data.songs;
+                }
+            }
+        );
+    }, 900);
+
 
 </script>
 </body>

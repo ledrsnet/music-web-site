@@ -19,5 +19,6 @@
         <property name="playCount" column="play_count"/>
         <property name="tags" column="tags"/>
         <property name="tagsText" column="tags_text"/>
+        <property name="oldPlayCount" column="old_play_count"/>
     </class>
 </hibernate-mapping>

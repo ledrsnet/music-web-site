@@ -3,6 +3,7 @@ package com.maple.music.web.action;
 import com.maple.music.service.RankService;
 import com.maple.music.util.ResultUtils;
 import com.opensymphony.xwork2.ActionSupport;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -51,9 +52,14 @@ public class RankAction  extends ActionSupport {
 	 */
 	public String getSingerRankInfo(){
 		String ids = ServletActionContext.getRequest().getParameter("ids");
+		String type = ServletActionContext.getRequest().getParameter("type");
 		Map<String,Object> map = new HashMap<>();
 		try {
-			map = rankService.getSingerRankInfo(ids);
+			if(StringUtils.isNotBlank(ids)){
+				map = rankService.getSingerRankInfoByIds(ids);
+			}else if(StringUtils.isNotBlank(type)){
+				map = rankService.getSingerRankInfoByType(type);
+			}
 			if(!map.isEmpty()){
 				map.put("code",200);
 				ResultUtils.toJson(ServletActionContext.getResponse(),map);

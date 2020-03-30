@@ -22,6 +22,7 @@ public class Playlists {
 	private String coverImgUrl;
 	private String description;
 	private BigInteger playCount;
+	private BigInteger oldPlayCount;
 	private String tags;
 	private String tagsText;
 
@@ -143,5 +144,14 @@ public class Playlists {
 
 	public void setTagsText(String tagsText) {
 		this.tagsText = tagsText;
+	}
+	@Basic
+	@Column(name = "old_play_count")
+	public BigInteger getOldPlayCount() {
+		return oldPlayCount;
+	}
+
+	public void setOldPlayCount(BigInteger oldPlayCount) {
+		this.oldPlayCount = oldPlayCount;
 	}
 }

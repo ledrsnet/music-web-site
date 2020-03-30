@@ -9,7 +9,9 @@ import java.util.Map;
 public interface RankService {
 	Map<String, Object> getRankInfo(String rankType);
 
-	Map<String, Object> getSingerRankInfo(String ids);
+	Map<String, Object> getSingerRankInfoByIds(String ids);
+
+	Map<String, Object> getSingerRankInfoByType(String type);
 
 	Map<String, Object> getSongsByType(String rank_type);
 }

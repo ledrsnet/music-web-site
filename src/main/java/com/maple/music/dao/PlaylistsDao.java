@@ -60,4 +60,10 @@ public interface PlaylistsDao {
 	 * @return
 	 */
 	List<Map<String,Object>> getSongsByIds(String ids);
+
+	/**
+	 * 获取推荐歌单
+	 * @return
+	 */
+	List<Map<String, Object>> getReCommendPlaylist();
 }

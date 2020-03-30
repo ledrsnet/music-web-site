@@ -133,4 +133,24 @@ public class PlaylistsDaoImpl implements PlaylistsDao {
 				"WHERE s.song_id IN  ("+ids+") order by s.song_id desc ";
 		return currentSession.createSQLQuery(sql).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
 	}
+
+	@Override
+	public List<Map<String, Object>> getReCommendPlaylist() {
+		Session currentSession = sessionFactory.getCurrentSession();
+		String sql ="SELECT p.id,\n" +
+				"  p.name,\n" +
+				"  p.user_id AS userId,\n" +
+				"  p.create_time AS createaTime,\n" +
+				"  p.update_time AS updateTime,\n" +
+				"  p.subscribed_count AS subscribedCount,\n" +
+				"  p.track_count AS trackCount,\n" +
+				"  p.cover_img_url AS coverImgUrl,\n" +
+				"  p.description,\n" +
+				"  p.play_count AS playCount,\n" +
+				"  p.tags,\n" +
+				"  u.user_id,\n" +
+				"  u.nickname FROM m_playlists p,m_user u" +
+				" WHERE p.user_id=u.user_id ORDER BY (p.play_count-p.old_play_count) DESC LIMIT 16";
+		return currentSession.createSQLQuery(sql).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+	}
 }

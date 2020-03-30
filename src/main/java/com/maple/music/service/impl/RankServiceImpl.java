@@ -56,8 +56,16 @@ public class RankServiceImpl implements RankService {
 	}
 
 	@Override
-	public Map<String, Object> getSingerRankInfo(String ids) {
+	public Map<String, Object> getSingerRankInfoByIds(String ids) {
 		List<Map<String,Object>> list = rankDao.getSingerRankInfo(ids);
+		Map<String,Object> map = new HashMap<>();
+		map.put("songs",list);
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> getSingerRankInfoByType(String type) {
+		List<Map<String,Object>> list = rankDao.getSingerRankInfoByType(type);
 		Map<String,Object> map = new HashMap<>();
 		map.put("songs",list);
 		return map;

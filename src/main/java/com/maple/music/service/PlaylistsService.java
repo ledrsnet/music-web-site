@@ -45,5 +45,9 @@ public interface PlaylistsService {
 	 */
 	Map<String, Object> getSongsByIds(String ids);
 
-
+	/**
+	 * 获取推荐歌单
+	 * @return
+	 */
+	Map<String, Object> getReCommendPlaylist();
 }

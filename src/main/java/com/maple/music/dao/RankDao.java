@@ -18,4 +18,6 @@ public interface RankDao {
 	List<Map<String, Object>> getSingerRankInfo(String ids);
 
 	List<Map<String, Object>> getSongsByType(String rank_type);
+
+	List<Map<String, Object>> getSingerRankInfoByType(String type);
 }

@@ -138,4 +138,24 @@ public class PlaylistsAction extends ActionSupport {
 		}
 		return null;
 	}
+
+	/**
+	 * 获取推荐歌单
+	 * @return
+	 */
+	public String getReCommendPlaylist(){
+		Map<String,Object> map = new HashMap<>();
+		try {
+			map = playlistsService.getReCommendPlaylist();
+			if(!map.isEmpty()){
+				map.put("code",200);
+			}else{
+				map.put("code",500);
+			}
+			ResultUtils.toJson(ServletActionContext.getResponse(),map);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
