@@ -98,4 +98,6 @@ public interface CrawlerService {
 	 * @param name
 	 */
 	void updateSingerNameByid(BigInteger id,String name);
+
+	void insertPlaylistComments(CommentsForPlaylist commentsForPlaylist);
 }

@@ -108,4 +108,9 @@ public class CrawlerServiceImpl implements CrawlerService {
 	public void updateSingerNameByid(BigInteger id, String name) {
 		crawlerDao.updateNameById(id,name);
 	}
+
+	@Override
+	public void insertPlaylistComments(CommentsForPlaylist commentsForPlaylist) {
+		crawlerDao.insertPlaylistComments(commentsForPlaylist);
+	}
 }

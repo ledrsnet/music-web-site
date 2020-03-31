@@ -39,7 +39,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="javascript:void(0)" onclick="jumpIframe('index2')" class="navbar-brand scroll-top"><em><img alt="Brand" src="/assert/img/logo.ico">听语阁</em></a>
+                <a href="javascript:void(0)" onclick="jumpIframe('index2')" class="navbar-brand scroll-top"><em style="text-transform: none"><img alt="Brand" src="/assert/img/logo.ico">听语Music</em></a>
 
             </div>
             <!--/.navbar-header-->
@@ -53,10 +53,8 @@
                     <li><a href="javascript:void(0)" onclick="jumpIframe('game')">猜歌闯关</a></li>
                 </ul>
                 <section class="webdesigntuts-workshop">
-                    <form action="" method="">
-                        <input type="search" placeholder="What are you looking for?">
-                        <button>Search</button>
-                    </form>
+                        <input id="keywords" type="search" placeholder="What are you looking for?">
+                    <a href="javascript:void(0)" onclick="jumpIframe('search')"><button>Search</button></a>
                 </section>
                 <ul class="nav navbar-nav navbar-right " id="isLogin">
                 </ul>
@@ -114,7 +112,12 @@ function jumpIframe(name) {
         if(name==='myMusic'){
             $("#contentIframe").attr("src","/toMyMusic");
             refreshUserStatus();
-        }else{
+        }else if(name ==='search'){
+            let value = $("#keywords").val();
+            console.log(value);
+            $("#contentIframe").attr("src","/"+name+".html?keywords="+value);
+        }
+        else{
             $("#contentIframe").attr("src","/"+name+".html");
         }
 }

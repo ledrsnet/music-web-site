@@ -191,4 +191,15 @@ public class CrawlerDaoImpl implements CrawlerDao {
 		session.flush();
 		session.clear();
 	}
+
+	@Override
+	public void insertPlaylistComments(CommentsForPlaylist commentsForPlaylist) {
+		Session session = sessionFactory.getCurrentSession();
+		try {
+			session.save(commentsForPlaylist);
+		} catch (Exception e) {
+			logger.error("插入评论失败！");
+			e.printStackTrace();
+		}
+	}
 }

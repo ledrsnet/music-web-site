@@ -24,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import javax.annotation.Resource;
 import java.io.*;
 import java.math.BigInteger;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -225,7 +226,7 @@ public class CrawlerAction extends ActionSupport {
 		JSONArray songUrlArray = null;//歌曲URL数组
 		JSONObject songUrlObject = null;//歌曲URL对象
 		JSONObject lrcObject = null;// 歌词对象
-		String lrcStr =null;
+		String lrcStr = null;
 		String songUrl = null;
 		String fastDFSMp3Url = null;
 		StringBuilder sb = new StringBuilder();//拼接歌手id
@@ -248,7 +249,7 @@ public class CrawlerAction extends ActionSupport {
 								for (int j = 0; j < tracks.size(); j++) {
 									jo = tracks.getJSONObject(j);
 									playlistSong.setSongId(BigInteger.valueOf(jo.getLong("id")));
-									if(!isPlaylistSongExists(playlistSong.getPlaylistId(),playlistSong.getSongId())){
+									if (!isPlaylistSongExists(playlistSong.getPlaylistId(), playlistSong.getSongId())) {
 										crawlerService.insertPlaylistSong(playlistSong);
 									}
 
@@ -290,7 +291,7 @@ public class CrawlerAction extends ActionSupport {
 									albumObject = jo.getJSONObject("al");
 									songs.setAlbumId(BigInteger.valueOf(albumObject.getLong("id")));
 									songs.setDateTime(jo.getInt("dt"));
-									songs.setSongUrl("https://music.163.com/song/media/outer/url?id="+songs.getSongId());
+									songs.setSongUrl("https://music.163.com/song/media/outer/url?id=" + songs.getSongId());
 									resJson = HttpClientUtils.doGetHtml("http://121.36.244.33:3000/lyric?id=" + songs.getSongId());
 									dataJson = JSONObject.fromObject(resJson);
 									lrcObject = dataJson.getJSONObject("lrc");
@@ -298,7 +299,7 @@ public class CrawlerAction extends ActionSupport {
 										lrcStr = lrcObject.getString("lyric");
 										songs.setLrc(lrcStr);
 									} catch (Exception e) {
-										log.error("==============>"+songs.getSongId()+"没有对应歌词<==============");
+										log.error("==============>" + songs.getSongId() + "没有对应歌词<==============");
 									} finally {
 										crawlerService.insertSongs(songs);
 
@@ -340,19 +341,19 @@ public class CrawlerAction extends ActionSupport {
 		JSONObject jo = null;
 		JSONObject singerInfo = null;
 		JSONObject aro = null;
-		String dfsPath =null;
+		String dfsPath = null;
 		for (int i = 0; i < list.size(); i++) {
-			int o =0;
-			while(true){
-				resJson = HttpClientUtils.doGetHtml("http://121.36.244.33:3000/artist/list?cat=" + list.get(i)+"&offset="+o);
+			int o = 0;
+			while (true) {
+				resJson = HttpClientUtils.doGetHtml("http://121.36.244.33:3000/artist/list?cat=" + list.get(i) + "&offset=" + o);
 				dataJson = JSONObject.fromObject(resJson);
-				if(dataJson.getBoolean("more")==false){
+				if (dataJson.getBoolean("more") == false) {
 					break;
 				}
 				artists = dataJson.getJSONArray("artists");
 				for (int i1 = 0; i1 < artists.size(); i1++) {
 					jo = artists.getJSONObject(i1);
-					if(singerService.isSingerExists(BigInteger.valueOf(jo.getLong("id")))){
+					if (singerService.isSingerExists(BigInteger.valueOf(jo.getLong("id")))) {
 						log.info("该歌手已存在，继续下一个.");
 						continue;
 					}
@@ -377,8 +378,8 @@ public class CrawlerAction extends ActionSupport {
 				}
 				o++;
 			}
-			log.info("歌手类别："+list.get(i)+"插入数据库完毕！");
-			o=0;
+			log.info("歌手类别：" + list.get(i) + "插入数据库完毕！");
+			o = 0;
 		}
 		return null;
 	}
@@ -386,16 +387,16 @@ public class CrawlerAction extends ActionSupport {
 	/**
 	 * 从歌曲表中查出所有的歌手id，插入数据库
 	 */
-	public String insertSingersFromSongs(){
+	public String insertSingersFromSongs() {
 		List<String> list = singerService.getSingerIdsFromSong();
-		String dataJson2 =null;
+		String dataJson2 = null;
 		JSONObject aro = null;
 		JSONObject dataObject = null;
 		String dfsPath = null;
 		for (int i = 0; i < list.size(); i++) {
 			String[] singers = list.get(i).split(",");
 			for (int i1 = 0; i1 < singers.length; i1++) {
-				if(singerService.isSingerExists(new BigInteger(singers[i1]))){
+				if (singerService.isSingerExists(new BigInteger(singers[i1]))) {
 					continue;
 				}
 				try {
@@ -427,25 +428,26 @@ public class CrawlerAction extends ActionSupport {
 
 	/**
 	 * 5.爬取专辑数据插入到数据库
+	 *
 	 * @return
 	 */
-	public String insertAlbums(){
+	public String insertAlbums() {
 		// 从歌曲表查出所有关联专辑ID
 		List<BigInteger> albumIds = albumService.getAlbumIdsFromSongs();
-		if(albumIds!=null&&albumIds.size()>0){
+		if (albumIds != null && albumIds.size() > 0) {
 			String resJson = null;
-			JSONObject dataJson =null;
-			JSONObject albumObject =null;
+			JSONObject dataJson = null;
+			JSONObject albumObject = null;
 			String dfsPath = null;
-			JSONArray alias =null;
-			JSONObject artist =null;
+			JSONArray alias = null;
+			JSONObject artist = null;
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < albumIds.size(); i++) {
-				if(albumService.isAlbumExist(albumIds.get(i))){
+				if (albumService.isAlbumExist(albumIds.get(i))) {
 					continue;
 				}
 				resJson = HttpClientUtils.doGetHtml("http://121.36.244.33:3000/album?id=" + albumIds.get(i));
-				if(StringUtils.isNotBlank(resJson)){
+				if (StringUtils.isNotBlank(resJson)) {
 					dataJson = JSONObject.fromObject(resJson);
 					albumObject = dataJson.getJSONObject("album");
 					Album album = new Album();
@@ -453,23 +455,23 @@ public class CrawlerAction extends ActionSupport {
 					album.setName(albumObject.getString("name"));
 					album.setDescription(albumObject.getString("description"));
 					try {
-						dfsPath = download2UploadFile(albumObject.getString("blurPicUrl"),"jpg");
+						dfsPath = download2UploadFile(albumObject.getString("blurPicUrl"), "jpg");
 					} catch (Exception e) {
 						log.error("下载专辑图片失败！");
 						e.printStackTrace();
 					}
 					album.setPicUrl(dfsPath);
 					alias = albumObject.getJSONArray("alias");
-					if(alias!=null&&alias.size()>0){
+					if (alias != null && alias.size() > 0) {
 						for (int i1 = 0; i1 < alias.size(); i1++) {
-							if(i1==alias.size()-1){
+							if (i1 == alias.size() - 1) {
 								sb.append(alias.get(i1));
-							}else{
-								sb.append(alias.get(i1)+",");
+							} else {
+								sb.append(alias.get(i1) + ",");
 							}
 						}
 						album.setAlias(sb.toString());
-						sb.delete(0,sb.length());
+						sb.delete(0, sb.length());
 					}
 					album.setSize(albumObject.getInt("size"));
 					artist = albumObject.getJSONObject("artist");
@@ -481,16 +483,80 @@ public class CrawlerAction extends ActionSupport {
 		return null;
 	}
 
-
+	/**
+	 * 6.插入歌单评论
+	 *
+	 * @return
+	 */
+	public String insertCommentsByPlaylist() {
+		// 查询数据库中现有歌单的id
+		List<BigInteger> listIds = crawlerService.getAllPlaylistId();
+		String resJson = "";
+		JSONObject dataJson = null;
+		JSONArray jsonArray = null;
+		JSONObject userObject = null;
+		JSONObject commentObject = null;
+		if (listIds != null && listIds.size() > 0) {
+			for (int i = 0; i < listIds.size(); i++) {
+				resJson = HttpClientUtils.doGetHtml("http://121.36.244.33:3000/comment/playlist?id=" + listIds.get(i));
+				dataJson = JSONObject.fromObject(resJson);
+				if (dataJson != null) {
+					jsonArray = dataJson.getJSONArray("hotComments");
+					if (jsonArray != null && jsonArray.size() > 0) {
+						for (int i1 = 0; i1 < jsonArray.size(); i1++) {
+							commentObject = (JSONObject) jsonArray.get(i1);
+							userObject = (JSONObject) commentObject.get("user");
+							CommentsForPlaylist commentsForPlaylist = new CommentsForPlaylist();
+							commentsForPlaylist.setCommentsId(BigInteger.valueOf(commentObject.getLong("commentId")));
+							commentsForPlaylist.setPlaylistId(listIds.get(i));
+							commentsForPlaylist.setUserId(userObject.getLong("userId"));
+							commentsForPlaylist.setContent(commentObject.getString("content"));
+							long time = commentObject.getLong("time");
+							commentsForPlaylist.setCreateTime(ConversionUtils.stampToDate(time));
+							if (isUserExists(userObject.getLong("userId"))) {
+								log.info("用户已存在，继续爬取下一个.");
+							} else {
+								User user = new User();
+								user.setUserId(userObject.getLong("userId"));
+								user.setUsername("commentsUser" + i);
+								user.setPassword(MD5.encryptPassword("redhat", "123"));
+								user.setNickname(userObject.getString("nickname"));
+								user.setCreatTime(ConversionUtils.stampToDate(1521047305000L));
+								user.setLastTime(ConversionUtils.stampToDate(1521047305000L));
+								// =====下载图片上传到fastdfs=====
+								String avatarImgUrl = userObject.getString("avatarUrl");
+								String avatarImgFastdfsPath = null;
+								try {
+									avatarImgFastdfsPath = download2UploadFile(avatarImgUrl, "jpg");
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+								// 存储fastdfs的地址
+								user.setAvatarUrl(avatarImgFastdfsPath);
+								// =====fastdfs存储完成=====
+								user.setState(1);
+								user.setSignature("comments_Test111");
+								user.setGender(1);
+								userService.saveUser(user);
+							}
+							crawlerService.insertPlaylistComments(commentsForPlaylist);
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * 判断歌单和歌映射关系是否存在
+	 *
 	 * @param playlistId
 	 * @param songId
 	 * @return
 	 */
 	private boolean isPlaylistSongExists(BigInteger playlistId, BigInteger songId) {
-		return crawlerService.isPlaylistSongExists(playlistId,songId);
+		return crawlerService.isPlaylistSongExists(playlistId, songId);
 	}
 
 

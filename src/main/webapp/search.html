@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+	<link rel="icon" href="img/favicon.ico">
+    <title>搜索结果</title>
+
+	  <link rel="stylesheet" href="/assert/css/bootstrap.css">
+	  <link rel="stylesheet" href="/assert/css/playlists/main.css">
+	  <link rel="stylesheet" href="/assert/css/playlists/star.css">
+	<style>
+		.mod_tab {
+		    position: relative;
+		    zoom: 1;
+		    border-bottom: 1px solid #f7f7f7;
+		    margin-bottom: 30px;
+		}
+		.mod_tab, .mod_tab__item {
+		    height: 56px;
+		    line-height: 56px;
+		}
+		.mod_tab__current {
+		    color: #508d92;
+		}
+		.mod_tab__item {
+		    position: relative;
+		    float: left;
+		    font-size: 18px;
+		    overflow: hidden;
+		    margin-right: 55px;
+		}
+		body {
+			margin-top: 70px;
+			background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+		}
+		.color {
+			color: yellowgreen;
+		}
+		.table-hover > tbody > tr:hover {
+			background-color: black;
+		}
+		#stars3:after{
+			top: 800px;
+		}
+		#stars2:after{
+			top: 800px;
+		}
+		#stars1:after{
+			top: 800px;
+		}
+		.table > tbody > tr > td{
+			vertical-align: unset;
+		}
+	</style>
+  </head>
+  <body>
+  <div id="stars1"></div>
+  <div id="stars2"></div>
+  <div id = "stars3"></div>
+    <div class="container color">
+		<div class="row">
+			<div class="mod_tab">
+				  <a id="tab_song" class="mod_tab__item mod_tab__current" href = "javascript:void(0);" onclick ="show_song()">单曲</a>
+				  <a id="tab_album" class="mod_tab__item" href = "javascript:void(0);" onclick ="show_album()">专辑</a>
+				  <a id="tab_songlist" class="mod_tab__item" href = "javascript:void(0);" onclick ="show_songlist()">歌单</a>
+				  <a id="tab_singer" class="mod_tab__item" href = "javascript:void(0);" onclick ="show_singer()">歌手</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12" id="show">
+				<!-- 单曲展示 -->
+				<div id="show_song" style="display:block;">
+					<div class="row">
+						<div class="col-md-12">
+							<table class="table table-hover"> 
+								<thead> 
+									<tr> 
+										<td>歌曲</td>
+										<td>歌手</td>
+										<td>专辑</td>
+										<td>时长</td>
+									</tr>
+								</thead > 
+								<tbody v-for="song in songs"> 
+									<tr> 
+										<td>
+											<a href="javascript:void(0)" @click="toSongPage(song.id)">
+												<span >{{ song.name }}</span>
+<!--												<span v-if="song.alia.length>0" > ({{ song.alias[0] }})</span>-->
+											</a>
+										</td> 
+										<td> 
+											<!-- 遍历出歌手 -->
+											<span v-for="(singer,index) in song.singers" >
+												<a :href="toSingerPage(singer.id)">
+													{{ singer.name }}
+												</a>
+												<!-- 判断是否加入分隔符 -->
+												<span v-if="index < song.singers.length-1">/</span>
+											</span>
+											
+										</td>
+										 <td><a :href="toAlbumPage(song.album.id)">{{ song.album.name }}</a></td>
+										 <td><span >{{ formatDuraton(song.dateTime) }}</span>  </td>
+									</tr>
+								</tbody> 
+							 </table> 
+						</div>
+					</div>
+				</div>
+				<!-- 专辑展示 -->
+				<div id="show_album" style="display:none;">
+					<div class="row">
+						<div class="col-md-12">
+							<table class="table table-hover"> 
+								<thead> 
+									<tr> 
+										<td>专辑</td>
+										<td>歌手</td>
+									</tr>
+								</thead > 
+								<tbody v-for="album in albums"> 
+									<tr>
+										<td>
+											<a :href="toAlbumPage(album.id)">
+												<img width="100" height="100" :src="fastDfsPath+album.blurPicUrl + '?param=200y200'" />
+												<span class="search_name" >{{ album.name }}</span>
+											</a>
+										</td>
+										<td>
+											<a :href="toSingerPage(album.artist.singerId)">
+												<span >{{ album.artist.singerName }}</span>
+											</a>
+										</td>
+									</tr>
+								</tbody> 
+							 </table> 
+						</div>
+					</div>
+				</div>
+				<!-- 歌单展示 -->
+				<div id="show_songlist" style="display:none;">
+					<div class="row">
+						<div class="col-md-12">
+							<table class="table table-hover"> 
+								<thead> 
+									<tr> 
+										<td>歌单</td>
+										<td>创建者</td>
+										<td>创建时间</td>
+										<td>播放量</td>
+									</tr> 
+								</thead > 
+								<tbody v-for="playlist in playlists">
+									<tr> 
+										<td>
+											<a :href="toPlaylistPage(playlist.id)">
+												<img width="100" height="100" :src="fastDfsPath+playlist.coverImgUrl + '?param=200y200'" />
+												<span class="search_name">{{ playlist.name }}</span>
+											</a>
+										</td> 
+										<td>
+											<a href="#">
+												<span>{{ playlist.nickname }}</span>
+											</a>
+										</td>
+										<td><span >{{ timestampToTime(playlist.createTime.time) }}</span></td>
+										<td><span >{{ formatPlayCount(playlist.playCount) }}</span></td>
+									</tr>
+								</tbody> 
+							 </table> 
+						</div>
+					</div>
+				</div>
+				<!-- 展示歌手 -->
+				<div id="show_singer" style="display:none;">
+					<div class="row">
+						<div class="col-md-12">
+							<table class="table table-hover"> 
+								<thead> 
+									<tr> 
+										<td></td>
+									</tr> 
+								</thead > 
+								<tbody v-for="singer in singers"> 
+									<tr> 
+										<td>
+											<a :href="toSingerPage(singer.id)">
+												<img width="100" height="100" :src="fastDfsPath+singer.picUrl + '?param=200y200'" />
+												<span class="search_name">{{ singer.name }}</span>
+											</a>
+										</td> 
+									</tr>
+								</tbody> 
+							 </table> 
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+  <footer class="footer">
+	  <div class="container">
+		  <div style="text-decoration:none; text-align:center; padding:20px 0;">
+			  <div style="width:600px;margin:0 auto; padding:20px 0;">
+				  <p style="margin:10px 0px;">
+					  <b><span style="color:#939393;">Copyright © 2020</span>
+						  <a href="#" target="_blank" title="mapleLeafs"> mapleLeafs</a> <span style="color:#939393;">版权所有 Powered By</span>
+						  <a href="#" target="_blank" title="mapleLeafs">mapleLeafs</a> <span style="color:#939393;">Design.&nbsp;&nbsp;</span>
+					  </b>
+					  <!-- 备案信息代码 -->
+				  </p>
+				  <a target="_blank" href="#" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+					  <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">
+						  鲁公网安备 99988882000110号 鲁ICP备99998888号
+					  </p>
+				  </a>
+			  </div>
+		  </div>
+	  </div>
+  </footer>
+
+	<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+	<script src="/assert/js/jquery.js"></script>
+	<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+	<script src="/assert/js/vendor/bootstrap.js"></script>
+	<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+	<script src="/assert/js/playlists/vue.js"></script>
+	<script src="/assert/js/playlists/jquery.base64.js"></script>
+  </body>
+  <script>
+		function oneValues(){
+			var result;
+			var url=window.location.search; //获取url中"?"符后的字串  
+			if(url.indexOf("?")!=-1)
+				result = url.substr(url.indexOf("=")+1);
+			return result;
+		}
+		
+	  // 根据id修改当前选中的选项卡
+		function tab_switch(id){
+			var tab_items=["tab_song","tab_album","tab_songlist","tab_singer"];
+			for(var i=0,len=tab_items.length; i<len ;i++){
+				if(tab_items[i] == id)
+					$("#"+tab_items[i]).attr("class","mod_tab__item mod_tab__current");
+				else
+					$("#"+tab_items[i]).attr("class","mod_tab__item");					
+			} 
+		}
+		// 根据id修改当前展示的内容
+		function show_switch(id){
+			var shows=["show_song","show_album","show_songlist","show_singer"];
+			for(var i=0,len=shows.length; i<len ;i++){
+				if(shows[i] == id)
+					$("#"+shows[i]).attr("style","display:block;");
+				else
+					$("#"+shows[i]).attr("style","display:none;");					
+			}
+		}
+		// 展示单曲事件
+		function show_song(){
+			tab_switch("tab_song");
+			show_switch("show_song");
+		}
+		// 展示专辑事件
+		function show_album(){
+			tab_switch("tab_album");
+				// type=10搜索专辑
+				$.getJSON(
+				    "/search_search?type=10&keywords=" + oneValues(),
+				    function(data) {
+						if(data.code == 200){
+							searchVue.albums = data.albums;
+							console.log(searchVue.albums);
+						}
+				    }
+				);
+			show_switch("show_album");
+		}
+		// 展示歌单事件
+		function show_songlist(){
+			tab_switch("tab_songlist");
+				// type=1000搜索歌单
+				$.getJSON(
+				    "/search_search?type=1000&keywords=" + oneValues(),
+				    function(data) {
+						if(data.code == 200){
+							searchVue.playlists = data.playlists;
+							console.log(searchVue.playlists);
+						}
+				    }
+				);
+			show_switch("show_songlist");
+		}
+		// 展示歌手事件
+		function show_singer(){
+			tab_switch("tab_singer");
+				// type=100搜索歌手
+				$.getJSON(
+				    "/search_search?type=100&keywords=" + oneValues(),
+				    function(data) {
+						if(data.code == 200){
+							searchVue.singers = data.singers;
+						}
+				    }
+				);
+			show_switch("show_singer");
+		}
+		
+		var searchVue = new Vue({
+			el: '#show',
+			data: {
+				keywords: oneValues(),
+				songs: [],
+				albums: [],
+				playlists: [],
+				singers :[],
+				fastDfsPath: 'http://121.36.244.33:8080/'
+			},
+			methods: {
+				// 传送至相应的歌曲详情页面
+				toSongPage: function (id) {
+					$("#player",parent.document).attr("data-id",id);
+					$("#player",parent.document).attr("data-type","song");
+					$("#player",parent.document).attr("data-autoplay",true);
+					window.parent.loadMeting();
+				},
+				//传送至相应的专辑详情页面
+				toAlbumPage: function (id) {
+					return 'album.html?' + $.base64.encode('id=' + id);
+				},
+				// 传送至相应的歌单详情页面
+				toPlaylistPage: function (id) {
+					return 'playlist.html?' + $.base64.encode('id=' + id);
+				},
+				// 传送至相应的歌手详情页面
+				toSingerPage: function (id) {
+					return 'singer.html?' + $.base64.encode('id=' + id);
+				},
+				// 传送至用户详情页面
+				toUserPage: function (id) {
+					return 'user.html?' + $.base64.encode('id=' + id);
+				},
+				// 格式化音乐时长
+				formatDuraton: function (time){
+					if(time > -1){
+						var temp;
+						var sec = Math.floor(time/1000);
+						//var min = Math.floor(time/60) % 60;
+						var min = Math.floor(sec/60);
+						sec = sec - min*60;
+						if(min < 10){
+							temp = "0" + min + ":";
+						}else
+							temp = min + ":";
+						if(sec < 10){
+							temp += "0" + sec ;
+						}else
+							temp += sec ;
+					}
+					return temp;
+				},
+				//时间戳转换为日期
+				timestampToTime: function(timestamp) {
+					var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+					var Y = date.getFullYear() ;
+					var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) ;
+					var D = date.getDate() ;
+					var h = date.getHours() ;
+					if(h < 10)
+						h = '0' + h;
+					var m = date.getMinutes() ;
+					if(m < 10)
+						m = '0' + m;
+					var s = date.getSeconds();
+					return Y + '年' + M + '月' + D + '日';
+				},
+				// 格式化播放量
+				formatPlayCount: function (count){
+					if(count >= 100000)
+						return (count/10000).toFixed(2) + "万";
+					else
+						return count;
+				},
+			}
+		});
+		// 搜索单曲
+		$.getJSON(
+		    "/search_search?keywords=" + oneValues(),
+		    function(data) {
+				if(data.code == 200){
+					searchVue.songs = data.songs;
+					console.log(searchVue.songs);
+				}
+		    }
+		);
+		
+
+		
+  </script>
+</html>

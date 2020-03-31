@@ -2,9 +2,18 @@ package com.maple.music.dao;
 
 import com.github.tobato.fastdfs.domain.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.maple.music.entity.TokenDto;
+import com.maple.music.entity.TokensDto;
 import com.maple.music.service.CrawlerService;
 import com.maple.music.service.SingerService;
 import com.maple.music.util.FileUtils;
+import com.maple.music.util.HttpClientUtils;
+import com.sun.tools.javac.parser.Tokens;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.annotation.Rollback;
@@ -81,5 +90,14 @@ public class CommonDaoTest {
 	@Rollback(false)
 	public void testUpdate(){
 		crawlerService.updateSingerNameByid(BigInteger.valueOf(2637),"曾一鸣");
+	}
+	@Test
+	public void testIkAnalyze(){
+		String resJson = HttpClientUtils.doGetHtml("http://121.36.244.33:9200/_analyze?analyzer=ik_smart&text=" + "最熟悉的陌生人");
+		Gson gson = new Gson();
+		TokensDto tokensDto = gson.fromJson(resJson, TokensDto.class);
+		for (int i = 0; i < tokensDto.getTokens().size(); i++) {
+			System.out.println(tokensDto.getTokens().get(i).toString());
+		}
 	}
 }

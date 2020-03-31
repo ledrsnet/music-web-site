@@ -96,4 +96,6 @@ public interface CrawlerDao {
 	String getNameByCategoryId(String tags);
 
 	void updateNameByIdFromPlaylist(BigInteger id, String names);
+
+	void insertPlaylistComments(CommentsForPlaylist commentsForPlaylist);
 }
