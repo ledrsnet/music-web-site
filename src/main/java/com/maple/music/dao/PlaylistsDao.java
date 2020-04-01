@@ -1,9 +1,6 @@
 package com.maple.music.dao;
 
-import com.maple.music.entity.CategoriesBigConfig;
-import com.maple.music.entity.CategoriesConfig;
-import com.maple.music.entity.Playlists;
-import com.maple.music.entity.Songs;
+import com.maple.music.entity.*;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -66,4 +63,27 @@ public interface PlaylistsDao {
 	 * @return
 	 */
 	List<Map<String, Object>> getReCommendPlaylist();
+
+	/**
+	 * 获取指定歌单的评论
+	 * @param id
+	 * @return
+	 */
+	List<Map<String, Object>> getCommentForPlaylist(String id);
+
+	/**
+	 * 添加歌单评论
+	 * @param txt
+	 * @param playlistId
+	 * @param userId
+	 * @return
+	 */
+	int addComment(String txt, BigInteger playlistId, Long userId);
+
+	/**
+	 * 收藏歌单
+	 * @param userFavorite
+	 * @return
+	 */
+	int addFavorite(UserFavorite userFavorite);
 }

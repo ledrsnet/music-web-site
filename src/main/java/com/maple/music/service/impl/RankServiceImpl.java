@@ -1,10 +1,7 @@
 package com.maple.music.service.impl;
 
 import com.maple.music.dao.RankDao;
-import com.maple.music.entity.Album;
-import com.maple.music.entity.RankNew;
-import com.maple.music.entity.Singer;
-import com.maple.music.entity.SongsDto;
+import com.maple.music.entity.*;
 import com.maple.music.service.RankService;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.exception.DataException;
@@ -113,5 +110,34 @@ public class RankServiceImpl implements RankService {
 			map.put("code",500);
 		}
 		return map;
+	}
+
+	@Override
+	public Map<String, Object> getGuessRank() {
+		Map<String,Object> map = new HashMap<>();
+		List<Map<String, Object>> list = rankDao.getGuessRank();
+		map.put("list",list);
+		return map;
+	}
+
+	@Override
+	public int addGuessRankInfo(GuessRank guessRank) {
+		return rankDao.addGuessRankInfo(guessRank);
+	}
+
+
+	@Override
+	public Map<String, Object> getGuessSongsInfo() {
+		Map<String, Object> map = new HashMap<>();
+		List<Map<String, Object>> list = rankDao.getGuessSongsInfo();
+		if(list!=null&&list.size()>0){
+			map.put("list",list);
+		}
+		return map;
+	}
+
+	@Override
+	public boolean isInsertGuessRank(BigInteger userId, int obNum) {
+		return rankDao.isInsertGuessRank(userId,obNum);
 	}
 }

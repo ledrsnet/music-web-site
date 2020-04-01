@@ -1,7 +1,9 @@
 package com.maple.music.dao.impl;
 
 import com.maple.music.dao.RankDao;
+import com.maple.music.entity.GuessRank;
 import com.maple.music.entity.RankNew;
+import com.maple.music.entity.Songs;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
@@ -92,6 +95,53 @@ public class RankDaoImpl implements RankDao {
 				"WHERE r.rank_type = :type " +
 				"ORDER BY r.play_count DESC";
 		return session.createSQLQuery(sql).setParameter("type",type).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+	}
+
+	@Override
+	public List<Map<String, Object>> getGuessRank() {
+		Session session = sessionFactory.getCurrentSession();
+		String sql = "SELECT \n" +
+					"  g.*,\n" +
+					"  u.nickname, \n" +
+					"  u.avatar_url \n" +
+					"FROM\n" +
+					"  m_guess_rank g \n" +
+					"  LEFT JOIN m_user u \n" +
+					"    ON g.user_id = u.user_id ";
+		return session.createSQLQuery(sql).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+	}
+
+	@Override
+	public List<Map<String, Object>> getGuessSongsInfo() {
+		Session session = sessionFactory.getCurrentSession();
+		String sql = "SELECT NAME,song_url,date_time FROM m_Songs WHERE song_id IN \n" +
+				"(SELECT song_id FROM m_playlist_song WHERE playlist_id =4875099155)";
+		return session.createSQLQuery(sql).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+	}
+
+	@Override
+	public int addGuessRankInfo(GuessRank guessRank) {
+		Session session = sessionFactory.getCurrentSession();
+		try {
+			session.save(guessRank);
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public boolean isInsertGuessRank(BigInteger userId, int obNum) {
+		Session session = sessionFactory.getCurrentSession();
+		String sql = "select g.count from GuessRank g where g.userId = :id";
+		Integer count = (Integer) session.createQuery(sql).setParameter("id", userId).uniqueResult();
+		if(count==null){
+			return true;
+		}else if(obNum>count){
+			return true;
+		}
+		return false;
 	}
 
 }

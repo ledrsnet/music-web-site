@@ -59,6 +59,14 @@
 						<span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
 						播放全部
 					</a>
+					<a class="a_play_all" href="javascript:void(0)" @click="addFavorite(id)">
+						<img src="/assert/img/playlist/收藏到歌单.png" height="40" width="40"/>
+						收藏
+					</a>
+					<a class="a_play_all" href="javascript:void(0)" id="btnComment">
+						<img src="assert/img/playlist/歌单.png" height="40" width="40"/>
+						评论
+					</a>
 				</div>
 		</div>
 		  <div class="col-md-4"></div>
@@ -118,6 +126,45 @@
 			</div>
 		</div>
 
+	</div>
+
+	<!--评论-->
+	<div class="row" id="comment" v-cloak>
+		<div class="row">
+			<div class="col-md-4 col-md-offset-1">
+				<h2  style="color: yellowgreen">添加评论</h2>
+				<textarea id="txtComment" class="form-control" rows="3"></textarea>
+				<input class="btn btn-default" type="button" style="margin-top: 10px" @click="addComment(id)" value="提交">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 col-md-offset-1">
+				<h2  style="color: yellowgreen">精彩评论</h2>
+			</div>
+		</div>
+		<div class="row" >
+			<div class="col-md-10 col-md-offset-1">
+				<div class="row" v-for="hotComment in hotComments">
+					<hr />
+					<div class="col-md-1">
+						<img class="img-circle user-photo" :src="fastDfsPath+hotComment.user.avatarUrl" />
+					</div>
+					<div class="col-md-11 comment">
+						<div class="row">
+							<span  style="color: yellowgreen">{{ hotComment.user.nickname }}</span>
+						</div>
+						<div class="row color">
+							<span>{{ hotComment.content }}</span>
+						</div>
+						<div class="row">
+							<div class="col-md-5 comment-footer">
+								{{ timestampToTime(hotComment.time.time) }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<footer class="footer">
@@ -210,7 +257,17 @@
 			}
 			return temp;
 		};
-	 
+	 function getComments() {
+		 // 获取评论
+		 $.getJSON(
+				 "/playlists_getCommentForPlaylist?id=" +oneValues(),
+				 function(data) {
+					 if(data.code == 200){
+						 commentVue.hotComments = data.hotComments;
+					 }
+				 }
+		 );
+	 }
 	  var playlistVue = new Vue({
 	  			el: '#list',
 	  
@@ -269,8 +326,59 @@
 					toAlbumPage: function (id) {
 						return '/album.html?' +$.base64.encode('id=' + id);
 					},
+					addFavorite: function (id) {
+						// 收藏歌单
+						$.getJSON(
+								"/playlists_addFavorite?id=" +oneValues(),
+								function(data) {
+									if(data.code == 200){
+										alert(data.errMsg);
+									}else{
+										alert(data.errMsg);
+									}
+								}
+						);
+					}
 				  }
 	  });
+	  // 评论Vue对象实例,绑定comment组件
+	  var commentVue = new Vue({
+		  el: '#comment',
+		  data: {
+			  id: oneValues(),
+			  hotComments: [],
+			  fastDfsPath: 'http://121.36.244.33:8080/',
+		  },
+		  methods:{
+			  timestampToTime: function(timestamp) {
+				  var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+				  var Y = date.getFullYear() ;
+				  var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) ;
+				  var D = date.getDate() ;
+				  var h = date.getHours() ;
+				  if(h < 10)
+					  h = '0' + h;
+				  var m = date.getMinutes() ;
+				  if(m < 10)
+					  m = '0' + m;
+				  var s = date.getSeconds();
+				  return Y + '年' + M + '月' + D + '日 ' + h + ':' + m ;
+			  },
+			  addComment: function (id) {
+					let val = $("#txtComment").val();
+					$.getJSON("/playlists_addComment?txt="+val+"&playlistId="+id,function (data) {
+						if(data.code==200){
+							alert(data.errMsg);
+							$("#txtComment").val("").focus();
+							getComments();
+						}else{
+							alert(data.errMsg);
+						}
+					})
+			  },
+		  },
+	  });
+
 	  $.getJSON(
 	      "/playlists_getPlaylistDetail?id=" + oneValues(),
 			function(data) {
@@ -316,6 +424,11 @@
 				}
 	      }
 	  );
-
+	  getComments();
+	  $("#btnComment").click(function () {
+		  $("#txtComment").focus();
+		  var scroll_offset = $("#txtComment").offset(); //site为目标位置的ID
+		  $("html,body").animate({ scrollTop: scroll_offset.button }, 500); //	利用scrollTop将页面顶部位置指定到某坐标
+	  });
   </script>
 </html>

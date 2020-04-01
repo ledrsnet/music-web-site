@@ -1,6 +1,7 @@
 package com.maple.music.service;
 
 import com.maple.music.entity.PlayerVo;
+import com.maple.music.entity.UserFavorite;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -50,4 +51,25 @@ public interface PlaylistsService {
 	 * @return
 	 */
 	Map<String, Object> getReCommendPlaylist();
+
+	/**
+	 * 获取指定歌单的歌曲
+	 * @param id
+	 * @return
+	 */
+	Map<String, Object> getCommentForPlaylist(String id);
+
+	/**
+	 * 添加评论
+	 * @param txt
+	 * @return
+	 */
+	int addComment(String txt,BigInteger playlistId,Long userId);
+
+	/**
+	 * 收藏歌单
+	 * @param userFavorite
+	 * @return
+	 */
+	int addFavorite(UserFavorite userFavorite);
 }

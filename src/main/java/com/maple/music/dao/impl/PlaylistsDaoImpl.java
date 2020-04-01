@@ -2,10 +2,7 @@ package com.maple.music.dao.impl;
 
 import com.maple.music.dao.CrawlerDao;
 import com.maple.music.dao.PlaylistsDao;
-import com.maple.music.entity.CategoriesBigConfig;
-import com.maple.music.entity.CategoriesConfig;
-import com.maple.music.entity.Playlists;
-import com.maple.music.entity.Songs;
+import com.maple.music.entity.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -13,7 +10,9 @@ import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -152,5 +151,52 @@ public class PlaylistsDaoImpl implements PlaylistsDao {
 				"  u.nickname FROM m_playlists p,m_user u" +
 				" WHERE p.user_id=u.user_id ORDER BY (p.play_count-p.old_play_count) DESC LIMIT 16";
 		return currentSession.createSQLQuery(sql).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+	}
+
+	@Override
+	public List<Map<String, Object>> getCommentForPlaylist(String id) {
+		Session session = sessionFactory.getCurrentSession();
+		String sql = "SELECT \n" +
+					"  c.comments_id,\n" +
+					"  c.content,\n" +
+					"  c.create_time,\n" +
+					"  u.user_id,\n" +
+					"  u.nickname,\n" +
+					"  u.avatar_url \n" +
+					"FROM\n" +
+					"  m_comments_for_playlist c \n" +
+					"  LEFT JOIN m_user u \n" +
+					"    ON u.user_id = c.user_id \n" +
+					"WHERE c.playlist_id = :id ";
+		return session.createSQLQuery(sql).setParameter("id",id).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+	}
+
+	@Override
+	public int addComment(String txt, BigInteger playlistId, Long userId) {
+		Session session = sessionFactory.getCurrentSession();
+		CommentsForPlaylist commentsForPlaylist = new CommentsForPlaylist();
+		commentsForPlaylist.setPlaylistId(playlistId);
+		commentsForPlaylist.setUserId(userId);
+		commentsForPlaylist.setContent(txt);
+		commentsForPlaylist.setCreateTime(new Date());
+		try {
+			Serializable save = session.save(commentsForPlaylist);
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public int addFavorite(UserFavorite userFavorite) {
+		Session session = sessionFactory.getCurrentSession();
+		try {
+			session.save(userFavorite);
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }

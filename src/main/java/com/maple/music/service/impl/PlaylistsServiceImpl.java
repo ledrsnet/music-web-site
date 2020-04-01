@@ -8,6 +8,8 @@ import com.maple.music.redisclient.RedisService;
 import com.maple.music.service.PlaylistsService;
 import com.maple.music.util.PinYinUtil;
 import com.maple.music.util.RedisTool;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -231,6 +233,40 @@ public class PlaylistsServiceImpl implements PlaylistsService {
 		}
 		map.put("playlists",list);
 		return map;
+	}
+
+	@Override
+	public Map<String, Object> getCommentForPlaylist(String id) {
+		Map<String,Object> map = new HashMap<>();
+		List<Map<String,Object>> list = playlistsDao.getCommentForPlaylist(id);
+		JSONArray jsonArray = new JSONArray();
+		if(list!=null&&list.size()>0){
+			for (int i = 0; i < list.size(); i++) {
+				JSONObject jo = new JSONObject();
+				JSONObject user= new JSONObject();
+				user.put("userId",list.get(i).get("user_id"));
+				user.put("nickname",list.get(i).get("nickname"));
+				user.put("avatarUrl",list.get(i).get("avatar_url"));
+				jo.put("user",user);
+				jo.put("commentId",list.get(i).get("comments_id"));
+				jo.put("content",list.get(i).get("content"));
+				jo.put("time",list.get(i).get("create_time"));
+				jsonArray.add(jo);
+			}
+			map.put("hotComments",jsonArray);
+		}
+		return map;
+	}
+
+	@Override
+	public int addComment(String txt, BigInteger playlistId, Long userId) {
+		int i =playlistsDao.addComment(txt,playlistId,userId);
+		return i;
+	}
+
+	@Override
+	public int addFavorite(UserFavorite userFavorite) {
+		return playlistsDao.addFavorite(userFavorite);
 	}
 
 }

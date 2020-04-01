@@ -43,7 +43,8 @@
     </package>
     <package name="playlists" extends="struts-default" namespace="/">
         <action name="playlists_*" class="playlistsAction" method="{1}">
-            <allowed-methods>getCategories,getPlaylists,getPlaylistDetail,getReCommendPlaylist,getPlaySongs</allowed-methods><!-- struts 2.5 之后，使用通配符必须加上这一行 ，否则无法使用通配符访问-->
+            <allowed-methods>getCategories,getPlaylists,getPlaylistDetail,getReCommendPlaylist,getPlaySongs,addComment,getCommentForPlaylist,
+                addFavorite</allowed-methods><!-- struts 2.5 之后，使用通配符必须加上这一行 ，否则无法使用通配符访问-->
         </action>
     </package>
     <package name="playerAction" extends="struts-default" namespace="/">
@@ -53,7 +54,7 @@
     </package>
     <package name="rank" extends="struts-default" namespace="/">
         <action name="rank_*" class="rankAction" method="{1}">
-            <allowed-methods>getRankInfoByType,getSingerRankInfo,getSongForRank</allowed-methods><!-- struts 2.5 之后，使用通配符必须加上这一行 ，否则无法使用通配符访问-->
+            <allowed-methods>getRankInfoByType,getSingerRankInfo,getSongForRank,getGuessRank,getGuessSongsInfo,addGuessRankInfo</allowed-methods><!-- struts 2.5 之后，使用通配符必须加上这一行 ，否则无法使用通配符访问-->
         </action>
     </package>
     <package name="search" extends="struts-default" namespace="/">
