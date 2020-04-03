@@ -5,13 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <link rel="icon" href="img/favicon.ico">
     <title>歌单广场</title>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="/assert/css/bootstrap.css">
-    <link rel="stylesheet" href="/assert/css/playlists/main.css">
-    <link rel="stylesheet" href="/assert/css/playlists/star.css">
+    <link rel="stylesheet" href="assert/css/bootstrap.css">
+    <link rel="stylesheet" href="assert/css/playlists/main.css">
+    <link rel="stylesheet" href="assert/css/playlists/star.css">
     <style>
         body {
             margin-top: 70px;
@@ -120,12 +119,12 @@
 
 
 <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-<script src="/assert/js/jquery.js"></script>
+<script src="assert/js/jquery.js"></script>
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-<script src="/assert/js/vendor/bootstrap.js"></script>
+<script src="assert/js/vendor/bootstrap.js"></script>
 <!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
-<script src="/assert/js/playlists/vue.js"></script>
-<script src="/assert/js/playlists/jquery.base64.js"></script>
+<script src="assert/js/playlists/vue.js"></script>
+<script src="assert/js/playlists/jquery.base64.js"></script>
 </body>
 <script>
         var tag = '华语';
@@ -152,7 +151,7 @@
 
 
         $.getJSON(
-            "/playlists_getCategories",
+            "playlists_getCategories",
             function (data) {
                 if (data.code == 200) {
                     playlistsVue.categories = data.categories;
@@ -168,7 +167,7 @@
         );
 
         $.getJSON(
-            "/playlists_getPlaylists",
+            "playlists_getPlaylists",
             function (data) {
                 if (data.code == 200) {
                     playlistsVue.playlists = data.playlists;
@@ -180,7 +179,7 @@
             var tag_var = "cat=" + tag;
             var order_var = "order=" + order;
             $.getJSON(
-                "/playlists_getPlaylists?" + tag_var + "&" + order_var,
+                "playlists_getPlaylists?" + tag_var + "&" + order_var,
                 function (data) {
                     if (data.code == 200) {
                         playlistsVue.playlists = data.playlists;
@@ -201,7 +200,7 @@
             methods: {
                 // 传送至相应的歌手详情页面
                 toPlaylistPage: function (id) {
-                    return '/playlist.html?' + $.base64.encode('id=' + id);
+                    return 'playlist.html?' + $.base64.encode('id=' + id);
                 },
                 formatPlayCount: function (count) {
                     if (count >= 100000)

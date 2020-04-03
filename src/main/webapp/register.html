@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>注册</title>
-<link rel="stylesheet" href="/assert/css/login/login.css">
+<link rel="stylesheet" href="assert/css/login/login.css">
 
 
 </head>
@@ -50,7 +50,7 @@
         <div class="styled-input__circle"></div>
       </div>
 
-      <a href="/login.html" style="font-size: 15px;margin-bottom:10px;color: yellow">已有账号？请登录</a>
+      <a href="login.html" style="font-size: 15px;margin-bottom:10px;color: yellow">已有账号？请登录</a>
       <button type="button" onclick="register()" class="styled-button"> <span class="styled-button__real-text-holder"> <span class="styled-button__real-text">Submit</span> <span class="styled-button__moving-block face"> <span class="styled-button__text-holder"> <span class="styled-button__text">注册</span> </span> </span><span class="styled-button__moving-block back"> <span class="styled-button__text-holder"> <span class="styled-button__text">注册</span> </span> </span> </span> </button>
     </div>
   </form>
@@ -58,9 +58,9 @@
 <div id='stars'></div>
 <div id='stars2'></div>
 <div id='stars3'></div>
-<script src="/assert/js/jquery.js"></script>
-<script  src="/assert/js/login/login.js"></script>
-<script src="/assert/js/common.js"></script>
+<script src="assert/js/jquery.js"></script>
+<script  src="assert/js/login/login.js"></script>
+<script src="assert/js/common.js"></script>
 <script>
   function register() {
     if(checkForm()){
@@ -68,12 +68,12 @@
         //几个参数需要注意一下
         type: "POST",//方法类型
         dataType: "json",//预期服务器返回的数据类型
-        url: "/user_saveUser" ,//url
+        url: "user_saveUser" ,//url
         data: $('#form1').serialize(),
         success:function (result) {
             if(result.resultStatus===true){
               alert("注册成功");
-              location.href="/login.html";
+              location.href="login.html";
             }else{
               alert("注册失败！");
             }
@@ -99,13 +99,13 @@
     $.ajaxSetup({
       async : false
     });
-     $.post("/user_checkNickname",{"nickname":nValue},function (result) {
+     $.post("user_checkNickname",{"nickname":nValue},function (result) {
         if(result.resultStatus===false){//false昵称存在，true昵称不存在
           alert("该昵称已存在");
           nFlag= false;
         }
     });
-    $.post("/user_checkUsername",{"username":uValue},function (result) {
+    $.post("user_checkUsername",{"username":uValue},function (result) {
       if(result.resultStatus===false){//false用户名存在，true用户名不存在
         alert("用户名已存在");
         nFlag= false;

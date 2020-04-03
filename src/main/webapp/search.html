@@ -5,12 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-	<link rel="icon" href="img/favicon.ico">
     <title>搜索结果</title>
 
-	  <link rel="stylesheet" href="/assert/css/bootstrap.css">
-	  <link rel="stylesheet" href="/assert/css/playlists/main.css">
-	  <link rel="stylesheet" href="/assert/css/playlists/star.css">
+	  <link rel="stylesheet" href="assert/css/bootstrap.css">
+	  <link rel="stylesheet" href="assert/css/playlists/main.css">
+	  <link rel="stylesheet" href="assert/css/playlists/star.css">
 	<style>
 		.mod_tab {
 		    position: relative;
@@ -225,12 +224,12 @@
   </footer>
 
 	<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-	<script src="/assert/js/jquery.js"></script>
+	<script src="assert/js/jquery.js"></script>
 	<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-	<script src="/assert/js/vendor/bootstrap.js"></script>
+	<script src="assert/js/vendor/bootstrap.js"></script>
 	<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
-	<script src="/assert/js/playlists/vue.js"></script>
-	<script src="/assert/js/playlists/jquery.base64.js"></script>
+	<script src="assert/js/playlists/vue.js"></script>
+	<script src="assert/js/playlists/jquery.base64.js"></script>
   </body>
   <script>
 		function oneValues(){
@@ -271,7 +270,7 @@
 			tab_switch("tab_album");
 				// type=10搜索专辑
 				$.getJSON(
-				    "/search_search?type=10&keywords=" + oneValues(),
+				    "search_search?type=10&keywords=" + oneValues(),
 				    function(data) {
 						if(data.code == 200){
 							searchVue.albums = data.albums;
@@ -286,7 +285,7 @@
 			tab_switch("tab_songlist");
 				// type=1000搜索歌单
 				$.getJSON(
-				    "/search_search?type=1000&keywords=" + oneValues(),
+				    "search_search?type=1000&keywords=" + oneValues(),
 				    function(data) {
 						if(data.code == 200){
 							searchVue.playlists = data.playlists;
@@ -301,7 +300,7 @@
 			tab_switch("tab_singer");
 				// type=100搜索歌手
 				$.getJSON(
-				    "/search_search?type=100&keywords=" + oneValues(),
+				    "search_search?type=100&keywords=" + oneValues(),
 				    function(data) {
 						if(data.code == 200){
 							searchVue.singers = data.singers;
@@ -390,7 +389,7 @@
 		});
 		// 搜索单曲
 		$.getJSON(
-		    "/search_search?keywords=" + oneValues(),
+		    "search_search?keywords=" + oneValues(),
 		    function(data) {
 				if(data.code == 200){
 					searchVue.songs = data.songs;

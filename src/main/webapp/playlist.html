@@ -9,9 +9,9 @@
 
     <!-- Bootstrap -->
 	  <!-- Bootstrap -->
-	  <link rel="stylesheet" href="/assert/css/bootstrap.css">
-	  <link rel="stylesheet" href="/assert/css/playlists/main.css">
-	  <link rel="stylesheet" href="/assert/css/playlists/star.css">
+	  <link rel="stylesheet" href="assert/css/bootstrap.css">
+	  <link rel="stylesheet" href="assert/css/playlists/main.css">
+	  <link rel="stylesheet" href="assert/css/playlists/star.css">
 	  <style>
 		  body {
 			  margin-top: 70px;
@@ -60,7 +60,7 @@
 						播放全部
 					</a>
 					<a class="a_play_all" href="javascript:void(0)" @click="addFavorite(id)">
-						<img src="/assert/img/playlist/收藏到歌单.png" height="40" width="40"/>
+						<img src="assert/img/playlist/收藏到歌单.png" height="40" width="40"/>
 						收藏
 					</a>
 					<a class="a_play_all" href="javascript:void(0)" id="btnComment">
@@ -189,12 +189,12 @@
 	</footer>
 
 	<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-	<script src="/assert/js/jquery.js"></script>
+	<script src="assert/js/jquery.js"></script>
 	<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-	<script src="/assert/js/vendor/bootstrap.js"></script>
+	<script src="assert/js/vendor/bootstrap.js"></script>
 	<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
-	<script src="/assert/js/playlists/vue.js"></script>
-	<script src="/assert/js/playlists/jquery.base64.js"></script>
+	<script src="assert/js/playlists/vue.js"></script>
+	<script src="assert/js/playlists/jquery.base64.js"></script>
   </body>
   <script>
 	  var title;
@@ -260,7 +260,7 @@
 	 function getComments() {
 		 // 获取评论
 		 $.getJSON(
-				 "/playlists_getCommentForPlaylist?id=" +oneValues(),
+				 "playlists_getCommentForPlaylist?id=" +oneValues(),
 				 function(data) {
 					 if(data.code == 200){
 						 commentVue.hotComments = data.hotComments;
@@ -306,7 +306,7 @@
 				methods: {
 					// 传送至相应的歌手详情页面
 					toSingerPage: function (id) {
-						return '/singer.html?' +$.base64.encode('id=' + id);
+						return 'singer.html?' +$.base64.encode('id=' + id);
 					},
 					toAllSongPage: function (id) {
 						$("#player",parent.document).attr("data-id",id);
@@ -324,12 +324,12 @@
 					},
 					//传送至相应的专辑详情页面
 					toAlbumPage: function (id) {
-						return '/album.html?' +$.base64.encode('id=' + id);
+						return 'album.html?' +$.base64.encode('id=' + id);
 					},
 					addFavorite: function (id) {
 						// 收藏歌单
 						$.getJSON(
-								"/playlists_addFavorite?id=" +oneValues(),
+								"playlists_addFavorite?id=" +oneValues(),
 								function(data) {
 									if(data.code == 200){
 										alert(data.errMsg);
@@ -366,7 +366,7 @@
 			  },
 			  addComment: function (id) {
 					let val = $("#txtComment").val();
-					$.getJSON("/playlists_addComment?txt="+val+"&playlistId="+id,function (data) {
+					$.getJSON("playlists_addComment?txt="+val+"&playlistId="+id,function (data) {
 						if(data.code==200){
 							alert(data.errMsg);
 							$("#txtComment").val("").focus();
@@ -380,7 +380,7 @@
 	  });
 
 	  $.getJSON(
-	      "/playlists_getPlaylistDetail?id=" + oneValues(),
+	      "playlists_getPlaylistDetail?id=" + oneValues(),
 			function(data) {
 				if(data.code == 200){
 					playlistVue.coverImgUrl =fastDfsPath+data.playlist.coverImgUrl;//歌单图片
@@ -405,7 +405,7 @@
 					}
 					document.title = playlistVue.name;
 					$.getJSON(
-							"/playlists_getPlaySongs?ids="+ idString,
+							"playlists_getPlaySongs?ids="+ idString,
 							function(data) {
 								console.log(data);
 								for(var j=0;j<data.songs.length;j++){

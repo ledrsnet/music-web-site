@@ -34,16 +34,16 @@ public class RankServiceImpl implements RankService {
 		}
 		if("soar".equals(rankType)){
 			map.put("name","飙升榜");
-			map.put("coverImgUrl","/assert/img/rank/飙升榜400y400.jpg");
+			map.put("coverImgUrl","assert/img/rank/飙升榜400y400.jpg");
 		}else if("new".equals(rankType)){
 			map.put("name","新歌榜");
-			map.put("coverImgUrl","/assert/img/rank/新歌榜400y400.jpg");
+			map.put("coverImgUrl","assert/img/rank/新歌榜400y400.jpg");
 		}else if("hot".equals(rankType)){
 			map.put("name","热歌榜");
-			map.put("coverImgUrl","/assert/img/rank/热歌榜400y400.jpg");
+			map.put("coverImgUrl","assert/img/rank/热歌榜400y400.jpg");
 		}else if("singer".equals(rankType)){
 			map.put("name","歌手榜");
-			map.put("coverImgUrl","/assert/img/rank/热歌榜400y400.jpg");
+			map.put("coverImgUrl","assert/img/rank/歌手榜400y400.jpg");
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String date = sdf.format(list.get(0).getUpdateTime());

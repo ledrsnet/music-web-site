@@ -21,7 +21,7 @@ import java.util.Map;
 public class PlayerServiceImpl implements PlayerService {
 
 	private static final String preFixPath ="http://121.36.244.33:8080/";
-	private static final String lrcPreFixPath ="/playerAction_lrc?songId=";
+	private static final String lrcPreFixPath ="playerAction_lrc?songId=";
 	@Resource
 	private PlayerDao playerDao;
 

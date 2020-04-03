@@ -8,9 +8,9 @@
     <title>猜歌闯关</title>
     <!-- Bootstrap -->
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="/assert/css/bootstrap.css">
-    <link rel="stylesheet" href="/assert/css/playlists/main.css">
-    <link rel="stylesheet" href="/assert/css/playlists/star.css">
+    <link rel="stylesheet" href="assert/css/bootstrap.css">
+    <link rel="stylesheet" href="assert/css/playlists/main.css">
+    <link rel="stylesheet" href="assert/css/playlists/star.css">
     <style>
         body {
             margin-top: 70px;
@@ -77,7 +77,7 @@
         <div class="col-md-9">
             <div class="row mod_data">
                 <div class="col-md-4 data__cover">
-                    <img class="img-responsive data__photo" src="/assert/img/guess/2.png"/>
+                    <img id="img1" class="img-responsive data__photo" src="assert/img/guess/2.png"/>
                 </div>
                 <div class="col-md-7 data__cont">
                     <div class="row data__row">
@@ -163,9 +163,9 @@
 </footer>
 
 <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-<script src="/assert/js/jquery.js"></script>
+<script src="assert/js/jquery.js"></script>
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-<script src="/assert/js/vendor/bootstrap.js"></script>
+<script src="assert/js/vendor/bootstrap.js"></script>
 </body>
 <script>
     var title;
@@ -183,7 +183,7 @@
 
     function getGuessRank() {
         let baseStr = '<h3 style=\"color: navajowhite\">猜歌闯关榜</h3>';
-        $.getJSON("/rank_getGuessRank", function (data) {
+        $.getJSON("rank_getGuessRank", function (data) {
             if (data.code == 200) {
                 for (let i = 0; i < data.list.length; i++) {
                     baseStr += '<div class="media">\n' +
@@ -213,7 +213,7 @@
         $(".btn-default").show();
     }
     function getGuessSongsInfo() {
-        $.getJSON("/rank_getGuessSongsInfo", function (data) {
+        $.getJSON("rank_getGuessSongsInfo", function (data) {
             if (data.code == 200) {
                 songsInfo = data.list;
                 refreshItem();
@@ -236,6 +236,7 @@
         $("#select").html(items);
     }
     function toRisk(){
+        $("#img1").attr("src","assert/img/guess/1.gif");
         audio = '<audio autoplay="autoplay" src="'+songsInfo[obNum].song_url+'"></audio>';
         $("#obNum").text("现在是第"+obNum+"关,加油！");
         $("#adoSpan").html(audio);
@@ -248,7 +249,7 @@
             seed = 30;
             $("#tip").text('');
             alert("倒计时结束,你的闯关数为"+obNum);
-            $.getJSON("/rank_addGuessRankInfo?obNum="+obNum,function (data) {
+            $.getJSON("rank_addGuessRankInfo?obNum="+obNum,function (data) {
                 if(data.code==200){
                     alert(data.errMsg);
                 }else{
@@ -273,7 +274,7 @@
             toRisk();
         }else{
             alert("猜错了,你本次闯了"+obNum+"关");
-            $.getJSON("/rank_addGuessRankInfo?obNum="+obNum,function (data) {
+            $.getJSON("rank_addGuessRankInfo?obNum="+obNum,function (data) {
                 if(data.code==200){
                     alert(data.errMsg);
                 }else{

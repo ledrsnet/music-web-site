@@ -9,19 +9,19 @@
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,820" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-    <link rel="stylesheet" href="/assert/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assert/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="/assert/css/fontAwesome.css">
-    <link rel="stylesheet" href="/assert/css/hero-slider.css">
-    <link rel="stylesheet" href="/assert/css/owl-carousel.css">
-    <link rel="stylesheet" href="/assert/css/templatemo-style.css">
-    <link rel="stylesheet" href="/assert/css/lightbox.css">
-    <link rel="stylesheet" href="/assert/css/font-awesome.4.6.0.css">
-    <link rel="stylesheet" href="/assert/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/assert/css/banner.css">
-    <link rel="stylesheet" href="/assert/css/search/style.css" media="screen" type="text/css">
-    <link rel="stylesheet" href="/assert/css/main.css">
-    <link rel="stylesheet" href="/assert/css/APlayer.min.css">
+    <link rel="stylesheet" href="assert/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assert/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="assert/css/fontAwesome.css">
+    <link rel="stylesheet" href="assert/css/hero-slider.css">
+    <link rel="stylesheet" href="assert/css/owl-carousel.css">
+    <link rel="stylesheet" href="assert/css/templatemo-style.css">
+    <link rel="stylesheet" href="assert/css/lightbox.css">
+    <link rel="stylesheet" href="assert/css/font-awesome.4.6.0.css">
+    <link rel="stylesheet" href="assert/css/style.css">
+    <link rel="stylesheet" type="text/css" href="assert/css/banner.css">
+    <link rel="stylesheet" href="assert/css/search/style.css" media="screen" type="text/css">
+    <link rel="stylesheet" href="assert/css/main.css">
+    <link rel="stylesheet" href="assert/css/APlayer.min.css">
 
 
 </head>
@@ -39,7 +39,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="javascript:void(0)" onclick="jumpIframe('index2')" class="navbar-brand scroll-top"><em style="text-transform: none"><img alt="Brand" src="/assert/img/logo.ico">听语Music</em></a>
+                <a href="javascript:void(0)" onclick="jumpIframe('index2')" class="navbar-brand scroll-top"><em style="text-transform: none"><img alt="Brand" src="assert/img/logo.ico">听语Music</em></a>
 
             </div>
             <!--/.navbar-header-->
@@ -76,22 +76,22 @@
      data-autoplay="false" data-volume="0.6"></div>
 <script>
     // var meting_api = 'http://api.mizore.cn/meting/api.php?server=:server&type=:type&id=:id'
-    var meting_api = 'http://localhost:8080/playerAction_playerApi?type=:type&id=:id'
+    var meting_api = 'playerAction_playerApi?type=:type&id=:id'
 </script>
 
 
-<script src="/assert/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-<script src="/assert/js/vendor/jquery-1.11.2.min.js"></script>
-<script>window.jQuery || document.write('<script src="/assert/js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
-<script src="/assert/js/vendor/bootstrap.min.js"></script>
-<script src="/assert/js/plugins.js"></script>
-<script src="/assert/js/main.js"></script>
-<script type="text/javascript" src="/assert/js/banner.js"></script>
-<script type="text/javascript" src="/assert/js/vendor/jquery-1.11.2.min.js"></script>
-<script src="/assert/js/searchbar/jquery.min(1).js"></script>
-<script src="/assert/js/searchbar/jquery.min(2).js"></script>
-<script src="/assert/js/APlayer.min.js"></script>
-<script src="/assert/js/Meting.min.js"></script>
+<script src="assert/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+<script src="assert/js/vendor/jquery-1.11.2.min.js"></script>
+<script>window.jQuery || document.write('<script src="assert/js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+<script src="assert/js/vendor/bootstrap.min.js"></script>
+<script src="assert/js/plugins.js"></script>
+<script src="assert/js/main.js"></script>
+<script type="text/javascript" src="assert/js/banner.js"></script>
+<script type="text/javascript" src="assert/js/vendor/jquery-1.11.2.min.js"></script>
+<script src="assert/js/searchbar/jquery.min(1).js"></script>
+<script src="assert/js/searchbar/jquery.min(2).js"></script>
+<script src="assert/js/APlayer.min.js"></script>
+<script src="assert/js/Meting.min.js"></script>
 <script type="text/javascript">
     $(function () {
         refreshUserStatus();
@@ -100,25 +100,25 @@
     });
 function refreshUserStatus() {
     // 判断用户是否登录
-    $.post("/getParam_user",{},function (data) {
+    $.post("getParam_user",{},function (data) {
         if(data.resultStatus===true){
-            $("#isLogin").html('<li><a href="/myMusic.html" style="text-transform: none;display: inline-block">'+data.user.nickname+'</a>&nbsp;&nbsp;<a href="/user_logout" style="display:inline-block">注销</a></li>');
+            $("#isLogin").html('<li><a href="javascript:void(0)" onclick="jumpIframe(\'myMusic\')" style="text-transform: none;display: inline-block">'+data.user.nickname+'</a>&nbsp;&nbsp;<a href="user_logout" style="display:inline-block">注销</a></li>');
         }else{
-            $("#isLogin").html('<li><a href="/login.html"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登录</a></li>');
+            $("#isLogin").html('<li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登录</a></li>');
         }
     });
 }
 function jumpIframe(name) {
         if(name==='myMusic'){
-            $("#contentIframe").attr("src","/toMyMusic");
+            $("#contentIframe").attr("src","toMyMusic");
             refreshUserStatus();
         }else if(name ==='search'){
             let value = $("#keywords").val();
             console.log(value);
-            $("#contentIframe").attr("src","/"+name+".html?keywords="+value);
+            $("#contentIframe").attr("src",name+".html?keywords="+value);
         }
         else{
-            $("#contentIframe").attr("src","/"+name+".html");
+            $("#contentIframe").attr("src",name+".html");
         }
 }
 

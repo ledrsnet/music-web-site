@@ -8,9 +8,9 @@
     <title>我的音乐</title>
     <!-- Bootstrap -->
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="/assert/css/bootstrap.css">
-    <link rel="stylesheet" href="/assert/css/playlists/main.css">
-    <link rel="stylesheet" href="/assert/css/playlists/star.css">
+    <link rel="stylesheet" href="assert/css/bootstrap.css">
+    <link rel="stylesheet" href="assert/css/playlists/main.css">
+    <link rel="stylesheet" href="assert/css/playlists/star.css">
     <style>
         body {
             margin-top: 70px;
@@ -200,12 +200,12 @@
 </footer>
 
 <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-<script src="/assert/js/jquery.js"></script>
+<script src="assert/js/jquery.js"></script>
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-<script src="/assert/js/vendor/bootstrap.js"></script>
+<script src="assert/js/vendor/bootstrap.js"></script>
 <!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
-<script src="/assert/js/playlists/vue.js"></script>
-<script src="/assert/js/playlists/jquery.base64.js"></script>
+<script src="assert/js/playlists/vue.js"></script>
+<script src="assert/js/playlists/jquery.base64.js"></script>
 </body>
 <script>
     var title;
@@ -272,7 +272,7 @@
 
     function toRankType(rank_type) {
         $.getJSON(
-            "/rank_getRankInfoByType?rank_type=" + rank_type,
+            "rank_getRankInfoByType?rank_type=" + rank_type,
             function(data) {
                 if(data.code == 200){
                     rankVue.name=data.name;//排行榜名称
@@ -296,7 +296,7 @@
                     document.title = rankVue.name;
                     if("singer"===rank_type){
                         $.getJSON(
-                            "/rank_getSingerRankInfo?ids="+ idString,
+                            "rank_getSingerRankInfo?ids="+ idString,
                             function(data3) {
                                 console.log(data3);
                                 for(var j=0;j<data3.songs.length;j++){
@@ -311,7 +311,7 @@
                         );
                     }else{
                         $.getJSON(
-                            "/rank_getSongForRank?rank_type="+ rank_type,
+                            "rank_getSongForRank?rank_type="+ rank_type,
                             function(data2) {
                                 console.log(data2);
                                 for(var j=0;j<data2.songs.length;j++){

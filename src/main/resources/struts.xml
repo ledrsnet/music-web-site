@@ -37,7 +37,7 @@
 <!--                insertSingers-->
 <!--                insertAlbums-->
 <!--                insertSingersFromSongs-->
-                insertCommentsByPlaylist
+<!--                insertCommentsByPlaylist-->
             </allowed-methods><!--爬取数据的，预防不下心重复抓取，爬取完成就直接取消访问权限-->
         </action>
     </package>

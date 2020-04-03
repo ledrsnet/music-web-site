@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>登录</title>
-<link rel="stylesheet" href="/assert/css/login/login.css">
+<link rel="stylesheet" href="assert/css/login/login.css">
 
 
 </head>
@@ -40,9 +40,9 @@
           <div class="styled-input__circle"></div>
         </div>
         <div class="styled-input" style="width: 45%;position: absolute;margin-left: 145px;margin-top: 59px;height: 54px">
-          <img  id="kaptcha_img" style="width: 100%;height: 100%" src="/Kaptcha.jpg" onclick="_change()" alt="点击更换" title="点击更换"/>
+          <img  id="kaptcha_img" style="width: 100%;height: 100%" src="Kaptcha.jpg" onclick="_change()" alt="点击更换" title="点击更换"/>
         </div>
-      <a href="/register.html" style="font-size: 15px;margin-bottom:5px;color: yellow">没有账号？请注册</a>
+      <a href="register.html" style="font-size: 15px;margin-bottom:5px;color: yellow">没有账号？请注册</a>
       <button type="button" onclick="login()" class="styled-button"> <span class="styled-button__real-text-holder"> <span class="styled-button__real-text">Submit</span> <span class="styled-button__moving-block face"> <span class="styled-button__text-holder"> <span class="styled-button__text">Submit</span> </span> </span><span class="styled-button__moving-block back"> <span class="styled-button__text-holder"> <span class="styled-button__text">Submit</span> </span> </span> </span> </button>
     </div>
   </form>
@@ -50,20 +50,20 @@
 <div id='stars'></div>
 <div id='stars2'></div>
 <div id='stars3'></div>
-<script src="/assert/js/jquery.js"></script>
-<script  src="/assert/js/login/login.js"></script>
-<script src="/assert/js/common.js"></script>
+<script src="assert/js/jquery.js"></script>
+<script  src="assert/js/login/login.js"></script>
+<script src="assert/js/common.js"></script>
 <script>
   function login() {
     $.ajax({
       //几个参数需要注意一下
       type: "POST",//方法类型
       dataType: "json",//预期服务器返回的数据类型
-      url: "/user_login" ,//url
+      url: "user_login" ,//url
       data: $('#form1').serialize(),
       success: function (result) {
         if (result.resultStatus === true) {
-          location.href="/index.html";
+          location.href="index.html";
         }else{
           alert(result.resultMsg);
         }
