@@ -11,7 +11,7 @@ import java.math.BigInteger;
 @Table(name = "m_user_favorite", schema = "ssh_music")
 public class UserFavorite {
 	private long id;
-	private Long userId;
+	private BigInteger userId;
 	private BigInteger playlistId;
 
 	@Id
@@ -26,11 +26,11 @@ public class UserFavorite {
 
 	@Basic
 	@Column(name = "user_id")
-	public Long getUserId() {
+	public BigInteger getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(BigInteger userId) {
 		this.userId = userId;
 	}
 
@@ -44,23 +44,5 @@ public class UserFavorite {
 		this.playlistId = playlistId;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
 
-		UserFavorite that = (UserFavorite) o;
-
-		if (id != that.id) return false;
-		if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
-		return playlistId != null ? playlistId.equals(that.playlistId) : that.playlistId == null;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = (int) (id ^ (id >>> 32));
-		result = 31 * result + (userId != null ? userId.hashCode() : 0);
-		result = 31 * result + (playlistId != null ? playlistId.hashCode() : 0);
-		return result;
-	}
 }

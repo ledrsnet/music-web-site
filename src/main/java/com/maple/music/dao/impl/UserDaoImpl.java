@@ -103,7 +103,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public int deSubscrib(Long userId,BigInteger id) {
+	public int deSubscrib(BigInteger userId,BigInteger id) {
 		Session session = sessionFactory.getCurrentSession();
 		String sql = "delete from UserFavorite where userId = :uid and playlistId =:id";
 		try {
@@ -121,5 +121,18 @@ public class UserDaoImpl implements UserDao {
 			e.printStackTrace();
 		}
 		return 200;
+	}
+
+	@Override
+	public long getMaxUserId() {
+		Session session = sessionFactory.getCurrentSession();
+		String sql = "select max(userId) from User";
+		return (long) session.createQuery(sql).uniqueResult();
+	}
+
+	@Override
+	public void updateUser(User sessionUser) {
+		Session session = sessionFactory.getCurrentSession();
+		session.update(sessionUser);
 	}
 }

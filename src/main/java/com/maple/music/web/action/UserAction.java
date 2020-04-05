@@ -1,5 +1,7 @@
 package com.maple.music.web.action;
 
+import com.github.tobato.fastdfs.domain.StorePath;
+import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.maple.music.entity.User;
 import com.maple.music.service.UserService;
 import com.maple.music.util.CodeUtil;
@@ -14,10 +16,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.io.PrintWriter;
+import javax.servlet.http.HttpServletRequest;
+import java.io.*;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,6 +39,33 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 	private static final Logger logger = LoggerFactory.getLogger(UserAction.class);
 	//定义存放到值栈中的对象
 	private User user = new User();
+	private File uploadImage;
+	private String uploadImageFileName;
+	private String uploadImageContentType;
+
+	public File getUploadImage() {
+		return uploadImage;
+	}
+
+	public void setUploadImage(File uploadImage) {
+		this.uploadImage = uploadImage;
+	}
+
+	public String getUploadImageFileName() {
+		return uploadImageFileName;
+	}
+
+	public void setUploadImageFileName(String uploadImageFileName) {
+		this.uploadImageFileName = uploadImageFileName;
+	}
+
+	public String getUploadImageContentType() {
+		return uploadImageContentType;
+	}
+
+	public void setUploadImageContentType(String uploadImageContentType) {
+		this.uploadImageContentType = uploadImageContentType;
+	}
 
 	@Override
 	public User getModel() {
@@ -47,6 +79,10 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 	public void setCheckCode(String checkCode) {
 		this.checkCode = checkCode;
 	}
+
+	@Resource
+	private FastFileStorageClient fastFileStorageClient;
+
 
 
 	//依赖service
@@ -69,6 +105,7 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 	 */
 	public String saveUser(){
 		Date date =new Date();
+		user.setUserId(userService.getMaxUserId()+1);
 		user.setCreatTime(date);
 		user.setLastTime(date);
 		user.setState(1);
@@ -202,7 +239,7 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 			User user = (User) ActionContext.getContext().getSession().get("user");
 			String playlistId = ServletActionContext.getRequest().getParameter("playlistId");
 			if(user!=null){
-				int flag = userService.deSubscrib(user.getUserId(), new BigInteger(playlistId));
+				int flag = userService.deSubscrib(BigInteger.valueOf(user.getUserId()), new BigInteger(playlistId));
 				if(flag==200){
 					map.put("code",200);
 				}else{
@@ -221,6 +258,45 @@ public class UserAction extends ActionSupport implements ModelDriven<User> {
 			}
 			e.printStackTrace();
 		}
+		return null;
+	}
+
+	/**
+	 * 修改用户信息
+	 * @return
+	 */
+	public String updateUserInfo(){
+		Map<String,Object> map = new HashMap<>();
+		HttpServletRequest request = ServletActionContext.getRequest();
+		User sessionUser = (User) request.getSession().getAttribute("user");
+		sessionUser.setNickname(user.getNickname());
+		sessionUser.setSignature(user.getSignature());
+		sessionUser.setEmailAddress(user.getEmailAddress());
+		sessionUser.setGender(user.getGender());
+		sessionUser.setLastTime(new Date());
+		if(uploadImage!=null){
+			FileInputStream fileInputStream = null;
+			try {
+//				fastFileStorageClient.deleteFile(sessionUser.getAvatarUrl());
+				fileInputStream = new FileInputStream(uploadImage);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			StorePath storePath = fastFileStorageClient.uploadFile(null, fileInputStream, uploadImage.length(), uploadImageFileName.substring(uploadImageFileName.lastIndexOf(".")));
+			sessionUser.setAvatarUrl(storePath.getFullPath());
+		}
+		try {
+			userService.updateUser(sessionUser);
+			request.getSession().removeAttribute("user");
+			request.getSession().setAttribute("user",sessionUser);
+			map.put("success",true);
+			map.put("avatarUrl",sessionUser.getAvatarUrl());
+			ResultUtils.toJson(ServletActionContext.getResponse(),map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//fastFileStorageClient.uploadFile(null,userImg.getInputStream(),userImg.getSize(),userImg.getContentType());
+
 		return null;
 	}
 }

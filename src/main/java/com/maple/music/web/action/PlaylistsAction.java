@@ -234,7 +234,7 @@ public class PlaylistsAction extends ActionSupport {
 		}else{
 			UserFavorite userFavorite = new UserFavorite();
 			userFavorite.setPlaylistId(new BigInteger(id));
-			userFavorite.setUserId(user.getUserId());
+			userFavorite.setUserId(BigInteger.valueOf(user.getUserId()));
 			int i = playlistsService.addFavorite(userFavorite);
 			if (i > 0) {
 				map.put("code", 200);
@@ -251,4 +251,27 @@ public class PlaylistsAction extends ActionSupport {
 		}
 		return null;
 	}
+
+	/**
+	 * 判断用户是否收藏歌单
+	 * @return
+	 */
+	public String isFavoritePlaylist(){
+		Map<String,Object> map = new HashMap<>();
+		try {
+			User user = (User) ServletActionContext.getRequest().getSession().getAttribute("user");
+			if(user!=null){
+				String playlistId = ServletActionContext.getRequest().getParameter("id");
+				boolean flag = playlistsService.isFavoritePlaylist(BigInteger.valueOf(user.getUserId()),new BigInteger(playlistId));
+				map.put("flag",flag);
+			}else{
+				map.put("flag",false);
+			}
+			ResultUtils.toJson(ServletActionContext.getResponse(),map);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	};
 }

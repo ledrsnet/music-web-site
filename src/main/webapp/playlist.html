@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,427 +8,455 @@
     <title>歌单</title>
 
     <!-- Bootstrap -->
-	  <!-- Bootstrap -->
-	  <link rel="stylesheet" href="assert/css/bootstrap.css">
-	  <link rel="stylesheet" href="assert/css/playlists/main.css">
-	  <link rel="stylesheet" href="assert/css/playlists/star.css">
-	  <style>
-		  body {
-			  margin-top: 70px;
-			  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-		  }
-          .color {
-              color: yellowgreen;
-          }
-          .table-hover > tbody > tr:hover {
-              background-color: black;
-          }
-	  </style>
-  </head>
-  <body>
-	<div id="stars1"></div>
-	<div id="stars2"></div>
-	<div id = "stars3"></div>
-	<div id="list" class="container hidden" v-cloak>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="assert/css/bootstrap.css">
+    <link rel="stylesheet" href="assert/css/playlists/main.css">
+    <link rel="stylesheet" href="assert/css/playlists/star.css">
+    <style>
+        body {
+            margin-top: 70px;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
 
-		<div class="row mod_data">
-		  <div class="col-md-4 data__cover">
-			<img class="img-responsive data__photo" :src="coverImgUrl + '?param=400y400'" />  
-		  </div>
-		<div class="col-md-4 data__cont">
-			<div class="row data__row">
-				<h2 class="color">{{ name }}</h2>
-			</div>
-			<div class="row data__row">
-				<h4 style="color: navajowhite">标签:
-				<span v-for="tag in tags" class="label label-info">
+        .color {
+            color: yellowgreen;
+        }
+
+        .table-hover > tbody > tr:hover {
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+<div id="stars1"></div>
+<div id="stars2"></div>
+<div id="stars3"></div>
+<div id="list" class="container hidden" v-cloak>
+
+    <div class="row mod_data">
+        <div class="col-md-4 data__cover">
+            <img class="img-responsive data__photo" :src="coverImgUrl + '?param=400y400'"/>
+        </div>
+        <div class="col-md-4 data__cont">
+            <div class="row data__row">
+                <h2 class="color">{{ name }}</h2>
+            </div>
+            <div class="row data__row">
+                <h4 style="color: navajowhite">标签:
+                    <span v-for="tag in tags" class="label label-info">
 					<a href="#" style="color:yellow">
 						{{ tag }} &nbsp;
 					</a>
-				</span> 
-				</h4>
-			</div>
-			<div class="row data__row ">
-				<span style="color: navajowhite">创建人: <span class="web-font">{{ ownerName }}</span></span>
-			</div>
-			<div class="row data__row ">
-				<span style="color: navajowhite">播放量: <span class="web-font">{{ playCount }}</span></span>
-			</div>
-				<div class="data_play__all">
-					<a class="a_play_all" href="javascript:void(0)" @click="toAllSongPage(id)">
-						<span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
-						播放全部
-					</a>
-					<a class="a_play_all" href="javascript:void(0)" @click="addFavorite(id)">
-						<img src="assert/img/playlist/收藏到歌单.png" height="40" width="40"/>
-						收藏
-					</a>
-					<a class="a_play_all" href="javascript:void(0)" id="btnComment">
-						<img src="assert/img/playlist/歌单.png" height="40" width="40"/>
-						评论
-					</a>
-				</div>
-		</div>
-		  <div class="col-md-4"></div>
-		</div>
-		<div class="row">
-			<div class="col-sm-9">
-				<table class="table table-hover" style="color: yellowgreen">
-					<thead> 
-						<tr> 
-							<td></td>
-							<td>歌曲</td>
-							<td>歌手</td>
-							<td>专辑</td>
-							<td>时长</td>
-						</tr>
-					</thead > 
-					<tbody >
+				</span>
+                </h4>
+            </div>
+            <div class="row data__row ">
+                <span style="color: navajowhite">创建人: <span class="web-font">{{ ownerName }}</span></span>
+            </div>
+            <div class="row data__row ">
+                <span style="color: navajowhite">播放量: <span class="web-font">{{ playCount }}</span></span>
+            </div>
+            <div class="data_play__all">
+                <a class="a_play_all" href="javascript:void(0)" @click="toAllSongPage(id)">
+                    <span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
+                    播放全部
+                </a>
+                <span id="favSpan">
+				</span>
+                <a class="a_play_all" href="javascript:void(0)" id="btnComment">
+                    <img src="assert/img/playlist/歌单.png" height="40" width="40"/>
+                    评论
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-9">
+            <table class="table table-hover" style="color: yellowgreen">
+                <thead>
+                <tr>
+                    <td></td>
+                    <td>歌曲</td>
+                    <td>歌手</td>
+                    <td>专辑</td>
+                    <td>时长</td>
+                </tr>
+                </thead>
+                <tbody>
 
-						<tr v-for="(song,index) in songs">
-							<td><span >{{ index+1 }}</span></td> 
-							<td>
-								<a href="javascript:void(0)" @click="toSongPage(song.id)">
-									<span>{{ song.name }}</span>
-									<span v-if="song.alia.length>0" > ({{ song.alia[0] }})</span>
-								</a>
-							</td> 
-							<td> 
-								<!-- 遍历出歌手 -->
-								<span v-for="(singer,index) in song.ar" >
+                <tr v-for="(song,index) in songs">
+                    <td><span>{{ index+1 }}</span></td>
+                    <td>
+                        <a href="javascript:void(0)" @click="toSongPage(song.id)">
+                            <span>{{ song.name }}</span>
+                            <span v-if="song.alia.length>0"> ({{ song.alia[0] }})</span>
+                        </a>
+                    </td>
+                    <td>
+                        <!-- 遍历出歌手 -->
+                        <span v-for="(singer,index) in song.ar">
 									<a :href="toSingerPage(singer.id)">
 										{{ singer.name }}
 									</a>
-									
-									<!-- 判断是否加入分隔符 -->
+
+                            <!-- 判断是否加入分隔符 -->
 									<span v-if="index < song.ar.length-1">/</span>
 								</span>
-								
-							</td>
-							 <td><a :href="toAlbumPage(song.al.id)">{{ song.al.name }}</a></td>
-							 <td><span >{{ song.dt }}</span></td>
-							<!-- 学习模块 -->
-<!--							<td>-->
-<!--								<a href="javascript:;" :data-id="song.id" :data-name="song.name + ' - ' + song.ar[0].name" onclick="downlode(this)" download>-->
-<!--									<svg t="1575511417195" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1474" width="32" height="32"><path d="M551.783587 591.158874 551.783587 249.237481 472.216413 249.237481 472.216413 591.160921 336.806397 455.740672 280.542976 512.00921 511.995395 743.448326 743.454978 512.00921 687.192579 455.740672Z" p-id="1475"></path><path d="M982.400045 313.280076c-25.713638-60.794621-62.521962-115.3921-109.403712-162.27385-46.880727-46.879704-101.477182-83.691097-162.272827-109.403712-62.950727-26.626427-129.811508-40.126906-198.727087-40.126906-68.915579 0-135.778406 13.500479-198.72811 40.126906-60.794621 25.712615-115.390054 62.524009-162.269757 109.403712-46.879704 46.88175-83.687004 101.479229-109.400642 162.27385-26.624381 62.951751-40.123836 129.813554-40.123836 198.727087 0 68.915579 13.499455 135.77636 40.123836 198.72504 25.713638 60.794621 62.520939 115.390054 109.400642 162.269757 46.879704 46.87868 101.475136 83.687004 162.269757 109.399619 62.949704 26.624381 129.811508 40.122813 198.72811 40.122813s135.777383-13.498432 198.727087-40.122813c60.795645-25.712615 115.3921-62.521962 162.272827-109.399619 46.880727-46.879704 83.689051-101.475136 109.403712-162.269757 26.625404-62.949704 40.124859-129.810484 40.124859-198.72504C1022.525927 443.093631 1009.025449 376.230804 982.400045 313.280076zM679.751097 909.096017c-53.122895 22.468734-109.563348 33.861202-167.754678 33.861202-58.182121 0-114.617457-11.392468-167.738305-33.861202-51.316759-21.703301-97.407494-52.780087-136.993071-92.363617-39.585577-39.58353-70.663386-85.672218-92.368734-136.986931-22.470781-53.119825-33.864272-109.556185-33.864272-167.738305 0-58.18826 11.394515-114.63076 33.864272-167.754678 21.705348-51.316759 52.783157-97.40954 92.368734-136.995117 39.584554-39.58353 85.675288-70.660316 136.992047-92.365664 53.120848-22.468734 109.556185-33.861202 167.738305-33.861202 58.19133 0 114.631784 11.392468 167.754678 33.861202 51.316759 21.705348 97.40647 52.782134 136.988977 92.365664s70.656223 85.676311 92.360548 136.995117c22.466688 53.121871 33.858132 109.563348 33.858132 167.754678 0 58.184167-11.391445 114.620527-33.858132 167.738305-21.704324 51.316759-52.77804 97.40647-92.359524 136.986931C777.157567 856.314906 731.067856 887.392716 679.751097 909.096017z" p-id="1476"></path></svg>-->
-<!--								</a>-->
-<!--							</td>-->
-						</tr>
 
-					</tbody> 
-				 </table> 
-			</div>
-			<div class="col-md-3" style="color: yellowgreen">
-				<h3>歌单简介</h3>
-				<p class="web-font">
-					{{ description }}
-				</p>
-			</div>
-		</div>
+                    </td>
+                    <td><a :href="toAlbumPage(song.al.id)">{{ song.al.name }}</a></td>
+                    <td><span>{{ song.dt }}</span></td>
+                </tr>
 
-	</div>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3" style="color: yellowgreen">
+            <h3>歌单简介</h3>
+            <p class="web-font">
+                {{ description }}
+            </p>
+        </div>
+    </div>
 
-	<!--评论-->
-	<div class="row" id="comment" v-cloak>
-		<div class="row">
-			<div class="col-md-4 col-md-offset-1">
-				<h2  style="color: yellowgreen">添加评论</h2>
-				<textarea id="txtComment" class="form-control" rows="3"></textarea>
-				<input class="btn btn-default" type="button" style="margin-top: 10px" @click="addComment(id)" value="提交">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-4 col-md-offset-1">
-				<h2  style="color: yellowgreen">精彩评论</h2>
-			</div>
-		</div>
-		<div class="row" >
-			<div class="col-md-10 col-md-offset-1">
-				<div class="row" v-for="hotComment in hotComments">
-					<hr />
-					<div class="col-md-1">
-						<img class="img-circle user-photo" :src="fastDfsPath+hotComment.user.avatarUrl" />
-					</div>
-					<div class="col-md-11 comment">
-						<div class="row">
-							<span  style="color: yellowgreen">{{ hotComment.user.nickname }}</span>
-						</div>
-						<div class="row color">
-							<span>{{ hotComment.content }}</span>
-						</div>
-						<div class="row">
-							<div class="col-md-5 comment-footer">
-								{{ timestampToTime(hotComment.time.time) }}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+</div>
 
-	<footer class="footer">
-		<div class="container">
-			<div style="text-decoration:none; text-align:center; padding:20px 0;">
-				<div style="width:600px;margin:0 auto; padding:20px 0;">
-					<p style="margin:10px 0px;">
-						<b><span style="color:#939393;">Copyright © 2020</span>
-							<a href="#" target="_blank" title="mapleLeafs"> mapleLeafs</a> <span style="color:#939393;">版权所有 Powered By</span>
-							<a href="#" target="_blank" title="mapleLeafs">mapleLeafs</a> <span style="color:#939393;">Design.&nbsp;&nbsp;</span>
-						</b>
-						<!-- 备案信息代码 -->
-					</p>
-					<a target="_blank" href="#" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
-						<p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">
-							鲁公网安备 99988882000110号 鲁ICP备99998888号
-						</p>
-					</a>
-				</div>
-			</div>
-		</div>
-	</footer>
+<!--评论-->
+<div class="row" id="comment" v-cloak style="margin-left: 80px">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-1">
+            <h2 style="color: yellowgreen">添加评论</h2>
+            <textarea id="txtComment" class="form-control" rows="3"></textarea>
+            <input class="btn btn-default" type="button" style="margin-top: 10px" @click="addComment(id)" value="提交">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-1">
+            <h2 style="color: yellowgreen">精彩评论</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="row" v-for="hotComment in hotComments">
+                <hr/>
+                <div class="col-md-1">
+                    <img class="img-circle user-photo" :src="fastDfsPath+hotComment.user.avatarUrl"/>
+                </div>
+                <div class="col-md-11 comment">
+                    <div class="row">
+                        <span style="color: yellowgreen">{{ hotComment.user.nickname }}</span>
+                    </div>
+                    <div class="row color">
+                        <span>{{ hotComment.content }}</span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 comment-footer">
+                            {{ timestampToTime(hotComment.time.time) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-	<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-	<script src="assert/js/jquery.js"></script>
-	<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-	<script src="assert/js/vendor/bootstrap.js"></script>
-	<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
-	<script src="assert/js/playlists/vue.js"></script>
-	<script src="assert/js/playlists/jquery.base64.js"></script>
-  </body>
-  <script>
-	  var title;
-	  var idString = '';
-	  var fastDfsPath='http://121.36.244.33:8080/';
-		//接收一个值
-		function oneValues(){
-			var result;
-			var errors = ['404.html','505.html'];
-			var url=(window.location.search); //获取url中"?"符后的字串
-			try{
-				var decodeUrl = $.base64.decode(url.substring(1));
-			}catch(e){
-				window.location.href=errors[Math.floor(Math.random() * errors.length)];
-			}
-			if(url.indexOf("?")!=-1){
-				result = decodeUrl.substr(decodeUrl.indexOf("=")+1);
-			}
-			return result;
-		}
-		
-		//接收多值
-		function manyValues(){
-			var url=window.location.search;
-			if(url.indexOf("?")!=-1){
-				var str = url.substr(1);
-				strs = str.split("&"); 
-				var key=new Array(strs.length);
-				var value=new Array(strs.length);
-				for(i=0;i<strs.length;i++){
-					key[i]=strs[i].split("=")[0]
-					value[i]=unescape(strs[i].split("=")[1]); 
-					alert(key[i]+"="+value[i]);
-				} 
-			} 
-		}
-		// 格式化播放次数
-		function formatPlayCount(count){
-			if(count >= 100000)
-				return (count/10000).toFixed(2) + "万";
-			else
-				return count;
-		}
-		// 格式化音乐时长
-		function formatDuraton(time){
-			if(time > -1){
-				var temp;
-				var sec = Math.floor(time/1000);
-				//var min = Math.floor(time/60) % 60;
-				var min = Math.floor(sec/60);
-				sec = sec - min*60;
-				if(min < 10){
-					temp = "0" + min + ":";
-				}else
-					temp = min + ":";
-				if(sec < 10){
-					temp += "0" + sec ;
-				}else
-					temp += sec ;
-			}
-			return temp;
-		};
-	 function getComments() {
-		 // 获取评论
-		 $.getJSON(
-				 "playlists_getCommentForPlaylist?id=" +oneValues(),
-				 function(data) {
-					 if(data.code == 200){
-						 commentVue.hotComments = data.hotComments;
-					 }
-				 }
-		 );
-	 }
-	  var playlistVue = new Vue({
-	  			el: '#list',
-	  
-	  			data: {
-	  				id: oneValues(),
-	  				coverImgUrl: '',
-	  				name: '',
-	  				playCount: '',
-					trackCount: '',
-					description: '',
-					ownerName: '',
-					singer: {
-						id: '',
-						name: ''
-					},
-					song: {
-						id:'',//歌曲id
-						name: '',//歌名
-						ar: [],//歌手数组
-						alia: [],//别名
-						al: {},//专辑
-						dt: '',//时长
-						
-					},
-	  				idLists: [
-	  						
-	  				],
-					songs: [
-							
-					],
-					tags: [
-						
-					],
-					
-	  			},
-				methods: {
-					// 传送至相应的歌手详情页面
-					toSingerPage: function (id) {
-						return 'singer.html?' +$.base64.encode('id=' + id);
-					},
-					toAllSongPage: function (id) {
-						$("#player",parent.document).attr("data-id",id);
-						$("#player",parent.document).attr("data-type","playlist");
-						$("#player",parent.document).attr("data-autoplay",true);
-						console.log($("#player",parent.document).data());
-						window.parent.loadMeting();
-					},
-					toSongPage: function (id) {
-						$("#player",parent.document).attr("data-id",id);
-						$("#player",parent.document).attr("data-type","song");
-						$("#player",parent.document).attr("data-autoplay",true);
-						window.parent.loadMeting();
+<footer class="footer">
+    <div class="container">
+        <div style="text-decoration:none; text-align:center; padding:20px 0;">
+            <div style="width:600px;margin:0 auto; padding:20px 0;">
+                <p style="margin:10px 0px;">
+                    <b><span style="color:#939393;">Copyright © 2020</span>
+                        <a href="#" target="_blank" title="mapleLeafs"> mapleLeafs</a> <span style="color:#939393;">版权所有 Powered By</span>
+                        <a href="#" target="_blank" title="mapleLeafs">mapleLeafs</a> <span style="color:#939393;">Design.&nbsp;&nbsp;</span>
+                    </b>
+                    <!-- 备案信息代码 -->
+                </p>
+                <a target="_blank" href="#"
+                   style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+                    <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">
+                        鲁公网安备 99988882000110号 鲁ICP备99998888号
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
 
-					},
-					//传送至相应的专辑详情页面
-					toAlbumPage: function (id) {
-						return 'album.html?' +$.base64.encode('id=' + id);
-					},
-					addFavorite: function (id) {
-						// 收藏歌单
-						$.getJSON(
-								"playlists_addFavorite?id=" +oneValues(),
-								function(data) {
-									if(data.code == 200){
-										alert(data.errMsg);
-									}else{
-										alert(data.errMsg);
-									}
-								}
-						);
-					}
-				  }
-	  });
-	  // 评论Vue对象实例,绑定comment组件
-	  var commentVue = new Vue({
-		  el: '#comment',
-		  data: {
-			  id: oneValues(),
-			  hotComments: [],
-			  fastDfsPath: 'http://121.36.244.33:8080/',
-		  },
-		  methods:{
-			  timestampToTime: function(timestamp) {
-				  var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-				  var Y = date.getFullYear() ;
-				  var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) ;
-				  var D = date.getDate() ;
-				  var h = date.getHours() ;
-				  if(h < 10)
-					  h = '0' + h;
-				  var m = date.getMinutes() ;
-				  if(m < 10)
-					  m = '0' + m;
-				  var s = date.getSeconds();
-				  return Y + '年' + M + '月' + D + '日 ' + h + ':' + m ;
-			  },
-			  addComment: function (id) {
-					let val = $("#txtComment").val();
-					$.getJSON("playlists_addComment?txt="+val+"&playlistId="+id,function (data) {
-						if(data.code==200){
-							alert(data.errMsg);
-							$("#txtComment").val("").focus();
-							getComments();
-						}else{
-							alert(data.errMsg);
-						}
-					})
-			  },
-		  },
-	  });
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script src="assert/js/jquery.js"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script src="assert/js/vendor/bootstrap.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+<script src="assert/js/playlists/vue.js"></script>
+<script src="assert/js/playlists/jquery.base64.js"></script>
+</body>
+<script>
+    var title;
+    var idString = '';
+    var fastDfsPath = 'http://121.36.244.33:8080/';
 
-	  $.getJSON(
-	      "playlists_getPlaylistDetail?id=" + oneValues(),
-			function(data) {
-				if(data.code == 200){
-					playlistVue.coverImgUrl =fastDfsPath+data.playlist.coverImgUrl;//歌单图片
-					playlistVue.name = data.playlist.name;//歌单名
-					playlistVue.playCount = formatPlayCount(data.playlist.playCount);//歌单播放次数
-					playlistVue.ownerName = data.nickname;//创建人名称
-					playlistVue.trackCount = data.playlist.trackCount;//歌单歌曲数量
-					playlistVue.description = data.playlist.description;//歌单描述
-					for(var i=0;i<data.tags.length;i++){
-						playlistVue.tags.push(data.tags[i]);//歌单标签
-					}
-					for(var i=0;i<data.trackIds.length;i++){
-						// 向推荐歌单数组里遍历添加歌单
-						playlistVue.idLists.push(
-							data.trackIds[i]
-							);
-						// 将歌曲的id拼装成接口参数字符串
-						if(i<data.trackIds.length-1)
-							idString += playlistVue.idLists[i] + ",";
-						else
-							idString += playlistVue.idLists[i];
-					}
-					document.title = playlistVue.name;
-					$.getJSON(
-							"playlists_getPlaySongs?ids="+ idString,
-							function(data) {
-								console.log(data);
-								for(var j=0;j<data.songs.length;j++){
-									playlistVue.songs.push({
-										id:data.songs[j].id, //歌曲id
-										name:data.songs[j].name, //歌曲名
-										ar: data.songs[j].singers, //歌手
-										alia:data.songs[j].alia, //别名
-										al: data.songs[j].album, //专辑
-										dt: formatDuraton(data.songs[j].dateTime), //时长
-									});
-								}
-							}
-					);
-					$("div#list").removeClass("hidden");
-				}
-	      }
-	  );
-	  getComments();
-	  $("#btnComment").click(function () {
-		  $("#txtComment").focus();
-		  var scroll_offset = $("#txtComment").offset(); //site为目标位置的ID
-		  $("html,body").animate({ scrollTop: scroll_offset.button }, 500); //	利用scrollTop将页面顶部位置指定到某坐标
-	  });
-  </script>
+    //接收一个值
+    function oneValues() {
+        var result;
+        var errors = ['404.html', '505.html'];
+        var url = (window.location.search); //获取url中"?"符后的字串
+        try {
+            var decodeUrl = $.base64.decode(url.substring(1));
+        } catch (e) {
+            window.location.href = errors[Math.floor(Math.random() * errors.length)];
+        }
+        if (url.indexOf("?") != -1) {
+            result = decodeUrl.substr(decodeUrl.indexOf("=") + 1);
+        }
+        return result;
+    }
+
+    //接收多值
+    function manyValues() {
+        var url = window.location.search;
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            var key = new Array(strs.length);
+            var value = new Array(strs.length);
+            for (i = 0; i < strs.length; i++) {
+                key[i] = strs[i].split("=")[0]
+                value[i] = unescape(strs[i].split("=")[1]);
+                alert(key[i] + "=" + value[i]);
+            }
+        }
+    }
+
+    // 格式化播放次数
+    function formatPlayCount(count) {
+        if (count >= 100000)
+            return (count / 10000).toFixed(2) + "万";
+        else
+            return count;
+    }
+
+    // 格式化音乐时长
+    function formatDuraton(time) {
+        if (time > -1) {
+            var temp;
+            var sec = Math.floor(time / 1000);
+            //var min = Math.floor(time/60) % 60;
+            var min = Math.floor(sec / 60);
+            sec = sec - min * 60;
+            if (min < 10) {
+                temp = "0" + min + ":";
+            } else
+                temp = min + ":";
+            if (sec < 10) {
+                temp += "0" + sec;
+            } else
+                temp += sec;
+        }
+        return temp;
+    };
+
+    // 获取歌单评论
+    function getComments() {
+        $.getJSON(
+            "playlists_getCommentForPlaylist?id=" + oneValues(),
+            function (data) {
+                if (data.code == 200) {
+                    commentVue.hotComments = data.hotComments;
+                }
+            }
+        );
+    }
+
+    // 收藏
+    function addFavorite(id) {
+        $.getJSON(
+            "playlists_addFavorite?id=" + oneValues(),
+            function (data) {
+                if (data.code == 200) {
+                    refreshFavorite(id);
+                    alert(data.errMsg);
+                } else {
+                    alert(data.errMsg);
+                }
+            }
+        );
+    }
+    // 取消用户收藏
+    function deSubscrib(id) {
+        if (confirm("你确定要删除吗？")) {
+            $.getJSON("user_deSubscrib?playlistId=" + id, function (data) {
+                if (data.code == 200) {
+                    refreshFavorite(id);
+                    alert("取消收藏成功！");
+                }
+            });
+        }
+    }
+
+    //判断用户受否收藏
+    function refreshFavorite(id) {
+        let addStr = '<a class="a_play_all" href="javascript:void(0)" onclick="addFavorite('+id+')">\n' +
+            '<img src="assert/img/playlist/收藏到歌单.png" height="40" width="40"/>\n' +
+            '收藏\n' +
+            '</a>';
+        let delStr = '<a class="a_play_all" href="javascript:void(0)" onclick="deSubscrib('+id+')">\n' +
+            '<img src="assert/img/playlist/收藏到歌单.png" height="40" width="40"/>\n' +
+            '取消收藏\n' +
+            '</a>';
+        $.getJSON("playlists_isFavoritePlaylist?id=" + id, function (data) {
+            if (data.flag == true) {
+                $("#favSpan").html(delStr);
+            } else {
+                $("#favSpan").html(addStr);
+            }
+        })
+    }
+
+    var playlistVue = new Vue({
+        el: '#list',
+
+        data: {
+            id: oneValues(),
+            coverImgUrl: '',
+            name: '',
+            playCount: '',
+            trackCount: '',
+            description: '',
+            ownerName: '',
+            singer: {
+                id: '',
+                name: ''
+            },
+            song: {
+                id: '',//歌曲id
+                name: '',//歌名
+                ar: [],//歌手数组
+                alia: [],//别名
+                al: {},//专辑
+                dt: '',//时长
+
+            },
+            idLists: [],
+            songs: [],
+            tags: [],
+
+        },
+        methods: {
+            // 传送至相应的歌手详情页面
+            toSingerPage: function (id) {
+                return 'singer.html?' + $.base64.encode('id=' + id);
+            },
+            toAllSongPage: function (id) {
+                $("#player", parent.document).attr("data-id", id);
+                $("#player", parent.document).attr("data-type", "playlist");
+                $("#player", parent.document).attr("data-autoplay", true);
+                console.log($("#player", parent.document).data());
+                window.parent.loadMeting();
+            },
+            toSongPage: function (id) {
+                $("#player", parent.document).attr("data-id", id);
+                $("#player", parent.document).attr("data-type", "song");
+                $("#player", parent.document).attr("data-autoplay", true);
+                window.parent.loadMeting();
+
+            },
+            //传送至相应的专辑详情页面
+            toAlbumPage: function (id) {
+                return 'album.html?' + $.base64.encode('id=' + id);
+            },
+
+        }
+    });
+    // 评论Vue对象实例,绑定comment组件
+    var commentVue = new Vue({
+        el: '#comment',
+        data: {
+            id: oneValues(),
+            hotComments: [],
+            fastDfsPath: 'http://121.36.244.33:8080/',
+        },
+        methods: {
+            timestampToTime: function (timestamp) {
+                var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                var Y = date.getFullYear();
+                var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+                var D = date.getDate();
+                var h = date.getHours();
+                if (h < 10)
+                    h = '0' + h;
+                var m = date.getMinutes();
+                if (m < 10)
+                    m = '0' + m;
+                var s = date.getSeconds();
+                return Y + '年' + M + '月' + D + '日 ' + h + ':' + m;
+            },
+            addComment: function (id) {
+                let val = $("#txtComment").val();
+                $.getJSON("playlists_addComment?txt=" + val + "&playlistId=" + id, function (data) {
+                    if (data.code == 200) {
+                        alert(data.errMsg);
+                        $("#txtComment").val("").focus();
+                        getComments();
+                    } else {
+                        alert(data.errMsg);
+                    }
+                })
+            },
+        },
+    });
+
+    $.getJSON(
+        "playlists_getPlaylistDetail?id=" + oneValues(),
+        function (data) {
+            if (data.code == 200) {
+                playlistVue.coverImgUrl = fastDfsPath + data.playlist.coverImgUrl;//歌单图片
+                playlistVue.name = data.playlist.name;//歌单名
+                playlistVue.playCount = formatPlayCount(data.playlist.playCount);//歌单播放次数
+                playlistVue.ownerName = data.nickname;//创建人名称
+                playlistVue.trackCount = data.playlist.trackCount;//歌单歌曲数量
+                playlistVue.description = data.playlist.description;//歌单描述
+                for (var i = 0; i < data.tags.length; i++) {
+                    playlistVue.tags.push(data.tags[i]);//歌单标签
+                }
+                for (var i = 0; i < data.trackIds.length; i++) {
+                    // 向推荐歌单数组里遍历添加歌单
+                    playlistVue.idLists.push(
+                        data.trackIds[i]
+                    );
+                    // 将歌曲的id拼装成接口参数字符串
+                    if (i < data.trackIds.length - 1)
+                        idString += playlistVue.idLists[i] + ",";
+                    else
+                        idString += playlistVue.idLists[i];
+                }
+                document.title = playlistVue.name;
+                $.getJSON(
+                    "playlists_getPlaySongs?ids=" + idString,
+                    function (data) {
+                        console.log(data);
+                        for (var j = 0; j < data.songs.length; j++) {
+                            playlistVue.songs.push({
+                                id: data.songs[j].id, //歌曲id
+                                name: data.songs[j].name, //歌曲名
+                                ar: data.songs[j].singers, //歌手
+                                alia: data.songs[j].alia, //别名
+                                al: data.songs[j].album, //专辑
+                                dt: formatDuraton(data.songs[j].dateTime), //时长
+                            });
+                        }
+                    }
+                );
+                $("div#list").removeClass("hidden");
+            }
+        }
+    );
+    getComments();
+    refreshFavorite(oneValues());
+    $("#btnComment").click(function () {
+        $("#txtComment").focus();
+        var scroll_offset = $("#txtComment").offset(); //site为目标位置的ID
+        $("html,body").animate({scrollTop: scroll_offset.button}, 500); //	利用scrollTop将页面顶部位置指定到某坐标
+    });
+</script>
 </html>

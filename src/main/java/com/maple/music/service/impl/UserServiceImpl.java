@@ -51,7 +51,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int deSubscrib(Long userId,BigInteger id) {
+	public int deSubscrib(BigInteger userId,BigInteger id) {
 		return userDao.deSubscrib(userId,id);
+	}
+
+	@Override
+	public long getMaxUserId() {
+		return userDao.getMaxUserId();
+	}
+
+	@Override
+	public void updateUser(User sessionUser) {
+		userDao.updateUser(sessionUser);
 	}
 }

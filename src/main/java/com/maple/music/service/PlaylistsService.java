@@ -72,4 +72,12 @@ public interface PlaylistsService {
 	 * @return
 	 */
 	int addFavorite(UserFavorite userFavorite);
+
+	/**
+	 * 判断用户是否收藏指定歌单
+	 * @param userId
+	 * @param playlistId
+	 * @return
+	 */
+	boolean isFavoritePlaylist(BigInteger userId, BigInteger playlistId);
 }

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>用户信息</title>
+    <!-- Bootstrap -->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="assert/css/bootstrap.css">
+    <link rel="stylesheet" href="assert/css/playlists/main.css">
+    <link rel="stylesheet" href="assert/css/playlists/star.css">
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            margin-top: 70px;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        a:focus {
+            color: #FFFFFF;
+        }
+
+        .color {
+            color: navajowhite;
+        }
+
+        .table-hover > tbody > tr:hover {
+            background-color: black;
+        }
+
+        #stars3:after {
+            top: 200px;
+        }
+
+        #stars2:after {
+            top: 200px;
+        }
+
+        #stars1:after {
+            top: 200px;
+        }
+
+        #pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        input {
+            width: 300px;
+
+        }
+
+        td {
+            width: 50px;
+        }
+
+        input,#text1 {
+            background: #222;
+            background: -webkit-linear-gradient(#333, #222);
+            background: -moz-linear-gradient(#333, #222);
+            background: -o-linear-gradient(#333, #222);
+            background: -ms-linear-gradient(#333, #222);
+            background: linear-gradient(#333, #222);
+            border: 1px solid #444;
+            border-radius: 5px 0 0 5px;
+            box-shadow: 0 2px 0 #000;
+            background-color: unset;
+            color: yellowgreen;
+            display: block;
+            float: left;
+            font-family: 'Cabin', helvetica, arial, sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            height: 40px;
+            margin: 0;
+            padding: 0 10px;
+            text-shadow: 0 -1px 0 #000;
+            width: 200px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="stars2"></div>
+<div id="stars1"></div>
+<div id="stars3"></div>
+<div class="container" id="list" style="height: 480px">
+    <div class="row">
+        <h2 style="color: navajowhite;margin-left: 200px">个人设置</h2>
+        <hr width="800px">
+        <form  enctype="multipart/form-data" method="post" id="formSubmit">
+            <div class="col-md-4" style="margin-left: 200px;">
+                <table class="color" style="width: 350px;height: 300px">
+                    <tr>
+                        <td>昵称：</td>
+                        <td>
+                            <input id="nickname" name="nickname" type="text"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top;padding-top: 8px">介绍：</td>
+                        <td><textarea name="signature" id="text1" class="form-control" rows="3" style="width: 300px;height: 100px"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>邮箱：</td>
+                        <td><input type="text" name="emailAddress" id="email"></td>
+                    </tr>
+                    <tr>
+                        <td>性别：</td>
+                        <td>
+                            <label><input name="gender" type="radio" id="male"  value="1" checked="true" style="width: 15px;height: 15px">男</label>
+                            <label style="margin-left: 5px;"><input name="gender" id="female" type="radio"  value="2" style="width: 15px;height: 15px">女</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button class="btn btn-info" type="submit">保存</button>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="col-md-3" style="margin-left: 80px">
+                <input id="upload" name="uploadImage"  type="file" style="display: none"/>
+                <br>
+                <img id="pic" src="">   
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div style="text-decoration:none; text-align:center; padding:20px 0;">
+            <div style="width:600px;margin:0 auto; padding:20px 0;">
+                <p style="margin:10px 0px;">
+                    <b><span style="color:#939393;">Copyright © 2020</span>
+                        <a href="#" target="_blank" title="mapleLeafs"> mapleLeafs</a> <span style="color:#939393;">版权所有 Powered By</span>
+                        <a href="#" target="_blank" title="mapleLeafs">mapleLeafs</a> <span style="color:#939393;">Design.&nbsp;&nbsp;</span>
+                    </b>
+                    <!-- 备案信息代码 -->
+                </p>
+                <a target="_blank" href="#"
+                   style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+                    <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">
+                        鲁公网安备 99988882000110号 鲁ICP备99998888号
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script src="assert/js/jquery.js"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script src="assert/js/vendor/bootstrap.js"></script>
+</body>
+<script>
+    var fastDfsPath='http://121.36.244.33:8080/';
+    $(function () {
+        $("#pic").click(function () {
+            $("#upload").click(); //隐藏了input:file样式后，点击头像就可以本地上传
+
+            $("#upload").on("change", function () {
+                var objUrl = getObjectURL(this.files[0]); //获取图片的路径，该路径不是图片在本地的路径
+                if (objUrl) {
+                    $("#pic").attr("src", objUrl); //将图片路径存入src中，显示出图片
+                }
+            });
+        });
+        dataEcho();
+    });
+
+    //建立一個可存取到該file的url
+    function getObjectURL(file) {
+        var url = null;
+        if (window.createObjectURL != undefined) { //basic
+            url = window.createObjectURL(file);
+        } else if (window.URL != undefined) { //mozilla(firefox)
+            url = window.URL.createObjectURL(file);
+        } else if (window.webkitURL != undefined) { //webkit or chrome
+            url = window.webkitURL.createObjectURL(file);
+        }
+        return url;
+    }
+
+    // 用户数据回显
+    function dataEcho() {
+        $.post("getParam_user",function (data) {
+            if(data.resultStatus==true){
+                $("#nickname").val(data.user.nickname);
+                $("#text1").val(data.user.signature);
+                $("#email").val(data.user.emailAddress);
+                if(data.user.gender==1){
+                    $("#male").attr("checked","true");
+                }else{
+                    $("#female").attr("checked","true");
+                }
+                $("#pic").attr("src",fastDfsPath+data.user.avatarUrl);
+            }
+        })
+    }
+
+    $('#formSubmit').submit(function (event) {
+        // mulitipart form,如文件上传类
+        var formData = new FormData(this);
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "user_updateUserInfo",
+            data: formData,
+            dataType: "JSON",
+            mimeType: "multipart/form-data",
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data) {
+                if (data.success) {
+                    dataEcho();
+                    $("#isLogin > li > a > img",parent.document).attr("src",fastDfsPath+data.avatarUrl);
+                    alert("上传成功");
+                } else {
+                    alert(data.error);
+                }
+            }
+        });
+        return false;
+    });
+</script>
+</html>

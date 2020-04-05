@@ -167,7 +167,8 @@ public class PlaylistsDaoImpl implements PlaylistsDao {
 					"  m_comments_for_playlist c \n" +
 					"  LEFT JOIN m_user u \n" +
 					"    ON u.user_id = c.user_id \n" +
-					"WHERE c.playlist_id = :id ";
+					"WHERE c.playlist_id = :id " +
+					"order by c.create_time desc";
 		return session.createSQLQuery(sql).setParameter("id",id).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
 	}
 
@@ -198,5 +199,13 @@ public class PlaylistsDaoImpl implements PlaylistsDao {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	@Override
+	public boolean isFavoritePlaylist(BigInteger userId, BigInteger playlistId) {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "select 1 from UserFavorite where userId = :userId and playlistId =:playlistId";
+		List list = session.createQuery(hql).setParameter("userId", userId).setParameter("playlistId", playlistId).list();
+		return list!=null&&list.size()>0;
 	}
 }

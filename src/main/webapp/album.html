@@ -189,10 +189,14 @@
 		  	toSingerPage: function (id) {
 		  		return 'singer.html?' + $.base64.encode('id=' + id);
 		  	},
-		  	
-		  	toSongPage: function (id) {
-		  		return 'player.html?' + $.base64.encode('id=' + id);
-		  	},
+
+			  toSongPage: function (id) {
+				  $("#player", parent.document).attr("data-id", id);
+				  $("#player", parent.document).attr("data-type", "song");
+				  $("#player", parent.document).attr("data-autoplay", true);
+				  window.parent.loadMeting();
+
+			  },
 			// 格式化时间
 			formatTime: function(time){
 				if(time > -1){

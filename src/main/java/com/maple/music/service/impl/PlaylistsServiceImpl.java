@@ -269,4 +269,9 @@ public class PlaylistsServiceImpl implements PlaylistsService {
 		return playlistsDao.addFavorite(userFavorite);
 	}
 
+	@Override
+	public boolean isFavoritePlaylist(BigInteger userId, BigInteger playlistId) {
+		return playlistsDao.isFavoritePlaylist(userId,playlistId);
+	}
+
 }

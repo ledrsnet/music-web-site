@@ -62,5 +62,9 @@ public interface UserDao {
 	 * 取消用户收藏的指定歌单
 	 * @param id
 	 */
-	int deSubscrib(Long userId,BigInteger id);
+	int deSubscrib(BigInteger userId,BigInteger id);
+
+	long getMaxUserId();
+
+	void updateUser(User sessionUser);
 }

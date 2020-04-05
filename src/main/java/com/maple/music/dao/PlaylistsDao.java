@@ -86,4 +86,6 @@ public interface PlaylistsDao {
 	 * @return
 	 */
 	int addFavorite(UserFavorite userFavorite);
+
+	boolean isFavoritePlaylist(BigInteger userId, BigInteger playlistId);
 }
