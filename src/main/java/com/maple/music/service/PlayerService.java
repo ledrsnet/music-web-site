@@ -44,4 +44,11 @@ public interface PlayerService {
 	 * @return
 	 */
 	List<PlayerVo> getSongsByRank(String cat);
+
+	/**
+	 * 获取专辑内所有歌曲
+	 * @param id
+	 * @return
+	 */
+	List<PlayerVo> getSongsByAlbumId(BigInteger id);
 }

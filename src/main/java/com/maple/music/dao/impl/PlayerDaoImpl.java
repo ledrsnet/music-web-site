@@ -97,4 +97,16 @@ public class PlayerDaoImpl implements PlayerDao {
 				"ORDER BY r.play_count DESC";
 		return session.createSQLQuery(sql).setParameter("cat",cat).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
 	}
+
+	@Override
+	public List<Map<String, Object>> getSongsByAlbumId(BigInteger id) {
+		Session session = sessionFactory.getCurrentSession();
+		String sql = "SELECT \n" +
+					"  *\n" +
+					"FROM\n" +
+					"  m_Songs a\n" +
+					"WHERE \n" +
+					"  a.album_id = :id ";
+		return session.createSQLQuery(sql).setParameter("id",id).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+	}
 }

@@ -21,4 +21,6 @@ public interface PlayerDao {
 	List<Map<String, Object>> getSongsBySingerId(BigInteger id);
 
 	List<Map<String, Object>> getSongsByRank(String cat);
+
+    List<Map<String, Object>> getSongsByAlbumId(BigInteger id);
 }

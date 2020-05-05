@@ -255,7 +255,6 @@
                 }else{
                     alert(data.errMsg);
                 }
-
             });
             window.location.reload();
         } else {
@@ -282,12 +281,10 @@
                 }
                 window.location.reload();
             });
-
         }
-
     }
     function getSelectValue(obj){
-        $(obj).hide();
+        //$(obj).hide();
         let value = $(obj).text();
         let s = $("#answer").text();
         $("#answer").text(s+value);

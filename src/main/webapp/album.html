@@ -59,7 +59,7 @@
 				</h1>
 			</div>
 			<div class="row data__row">
-				<a :href="toSingerPage(singer.id)">
+				<a href="javascript:void(0)" @click="toSingerPage(singer.id)">
 					<h4 style="color: navajowhite">歌手: <span>{{ singer.name }}</span></h4>
 				</a>
 			</div>
@@ -95,14 +95,14 @@
 						<tr> 
 							<td>{{ index+1 }}</td> 
 							<td>
-								<a :href="toSongPage(song.id)" target="_blank">
+								<a href="javascript:void(0)" @click="toSongPage(song.id)">
 									{{ song.name }}
 									<span v-if="song.alia.length>0"> ({{ song.alia[0] }})</span>
 								</a>
 							</td> 
 							<td>
 								<span v-for="singer in song.ar">
-									<a :href="toSingerPage(singer.id)">
+									<a href="javascript:void(0)" @click="toSingerPage(singer.id)">
 										{{ singer.name }}
 										<span v-for="alia in singer.alias">{{ alia }}</span>
 									</a>
@@ -185,14 +185,20 @@
 			singer: {},
 		  },
 		  methods: {
-		  	// 传送至相应的歌手详情页面
-		  	toSingerPage: function (id) {
-		  		return 'singer.html?' + $.base64.encode('id=' + id);
-		  	},
-
+			  // 传送至相应的歌手详情页面
+			  toSingerPage: function (id) {
+				  return 'singer.html?' + $.base64.encode('id=' + id);
+			  },
+			  toAllSongPage: function (id) {
+				  $("#player", parent.document).attr("data-id", id);
+				  $("#player", parent.document).attr("data-type", "album");
+				  $("#player", parent.document).attr("data-autoplay", true);
+				  console.log($("#player", parent.document).data());
+				  window.parent.loadMeting();
+			  },
 			  toSongPage: function (id) {
 				  $("#player", parent.document).attr("data-id", id);
-				  $("#player", parent.document).attr("data-type", "song");
+				  $("#player", parent.document).attr("data-type", "tempSong");
 				  $("#player", parent.document).attr("data-autoplay", true);
 				  window.parent.loadMeting();
 
@@ -236,20 +242,20 @@
 	  $.getJSON(
 	      "https://api.music.superboyjack.cn/album?id=" + getId(),
 	      function(data) {
-	  	  if(data.code == 200){
-			  albumVue.name = data.album.name;
-			  albumVue.id = data.album.id;
-			  albumVue.description = data.album.description;
-			  albumVue.blurPicUrl = data.album.blurPicUrl;
-			  albumVue.alias = data.album.alias;
-			  albumVue.size = data.album.size;
-			  albumVue.songs = data.songs;
-			  albumVue.publishTime = data.album.publishTime;
-			  albumVue.singer = data.album.artist;
-			  document.title = albumVue.name;
-			  // 关闭加载动画
-			  $("div#album").removeClass("hidden");
-	  	  }
+			  if(data.code == 200){
+				  albumVue.name = data.album.name;
+				  albumVue.id = data.album.id;
+				  albumVue.description = data.album.description;
+				  albumVue.blurPicUrl = data.album.blurPicUrl;
+				  albumVue.alias = data.album.alias;
+				  albumVue.size = data.album.size;
+				  albumVue.songs = data.songs;
+				  albumVue.publishTime = data.album.publishTime;
+				  albumVue.singer = data.album.artist;
+				  document.title = albumVue.name;
+				  // 关闭加载动画
+				  $("div#album").removeClass("hidden");
+			  }
 	      }
 	  );
 	

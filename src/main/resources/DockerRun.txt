@@ -1,0 +1,41 @@
+# mysql
+docker run \
+-name=mysql \
+-env=MYSQL_ROOT_PASSWORD=Root2020\
+-volume=/usr/local/docker/mysql/conf:/etc/mysql \
+-volume=/usr/local/docker/mysql/logs:/var/log/mysql \
+-volume=/usr/local/docker/mysql/data:/var/lib/mysql \
+-p 3306:3306\
+mysql:5.7.22
+
+# fastdfs
+docker run \
+-name=fastdfs \
+-env=IP=121.36.244.33\
+-env=WEB_PORT=8080\
+-env=FDFS_PORT=22122\
+-volume=/usr/local/docker/fastdfs:/var/local/fdfs \
+-network=host \-privileged \
+registry.cn-beijing.aliyuncs.com/tianzuo/fastdfs
+
+# redis
+docker run \
+-name=redis \
+-p 6379:6379\
+-requirepass Root2020\
+redis
+
+# elasticsearch ik
+docker run \
+-name=elasticsearch \
+-env='ES_JAVA_OPTS=-Xms512m -Xmx512m'\
+-p 9300:9300\
+-p 9200:9200\
+seafileltd/elasticsearch-with-ik:5.6.16
+
+# tomcat
+docker run \
+-name=tomcat \
+-volume=/usr/local/docker/tomcat/webapps/:/usr/local/tomcat/webapps/\
+-p 80:8080\
+tomcat

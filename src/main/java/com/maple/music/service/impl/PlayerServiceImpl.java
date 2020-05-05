@@ -54,6 +54,12 @@ public class PlayerServiceImpl implements PlayerService {
 		return transToPlayerVo(list);
 	}
 
+	@Override
+	public List<PlayerVo> getSongsByAlbumId(BigInteger id) {
+		List<Map<String, Object>> list = playerDao.getSongsByAlbumId(id);;
+		return transToPlayerVo(list);
+	}
+
 	private List<PlayerVo> transToPlayerVo(List<Map<String,Object>> list){
 		List<PlayerVo> lists = new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
