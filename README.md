@@ -20,7 +20,7 @@ IntelliJ IDEA,Maven,SQLyog,Tomcat,Docker,FastDFS,IK Analyzer,Redis
 1. 相关中间件的部署都是在我的华为云里使用docker部署的
     在Resource文件夹里的DockerRun.txt有各个中间件的启动命令。只要你使用docker拉起相关镜像，使用启动命令启动即可。
     我的华为云到期了，配置文件中IP端口，用户名密码啥的我也就不用隐藏了。
-2. Resource文件夹下的back.sql是我之前爬取音乐数据到数据库的实例数据，不需要在爬取了。直接在mysql里面导入sql即可。
+2. Resource文件夹下的back.sql是我之前爬取音乐数据到数据库的实例数据，但是数据库只是保存的路径，图片都存到服务器上的fastdfs里了，服务器到期之后没有保存，使用CrawlerAction.java这个类的api再去爬取吧。现在不确定还能不能用了。
 3. Resource文件夹下的proc_rank.sql是几个模拟访问热歌的存过，导入即可。
 4. 然后把你的数据库，redis等环节替换完成启动访问首页index即可。
 
