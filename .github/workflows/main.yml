@@ -26,8 +26,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: run single command
         run: | 
-          id
-          pwd
+          rustc -V
+          cargo -V
           ls
 #       - name: Jenkinsfile Runner Prepackaged
 #         uses: jenkinsci/jenkinsfile-runner-github-actions@v0.2
