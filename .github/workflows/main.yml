@@ -31,8 +31,8 @@ jobs:
           ls
 #       - name: Jenkinsfile Runner Prepackaged
 #         uses: jenkinsci/jenkinsfile-runner-github-actions@v0.2
-      - name: Trigger jenkins job
-        uses: joshlk/jenkins-githubaction@master
+      - name: Jenkins-Action Deluxe
+        uses: ftsamis/jenkins-githubaction@v2
         with:
           url: ${{ secrets.JENKINS_URL }}
           job_name: test-github-ci-job
