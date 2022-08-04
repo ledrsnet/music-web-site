@@ -33,10 +33,12 @@ jobs:
 #         uses: jenkinsci/jenkinsfile-runner-github-actions@v0.2
       - name: Jenkins-Action Deluxe
         uses: ftsamis/jenkins-githubaction@v2
+        id: jenkins_test
         with:
           url: ${{ secrets.JENKINS_URL }}
           job_name: test-github-ci-job
           username: ${{ secrets.JENKINS_USER }}
           api_token: ${{ secrets.JENKINS_TOKEN }}
           timeout: "1000"
-
+      - name: run test
+        run: echo "${{ steps.jenkins_test.outputs }}"
