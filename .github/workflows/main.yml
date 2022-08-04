@@ -41,4 +41,4 @@ jobs:
           api_token: ${{ secrets.JENKINS_TOKEN }}
           timeout: "1000"
       - name: run test
-        run: echo "${{ steps.jenkins_test.outputs }}"
+        run: echo "${{ steps.jenkins_test.outputs.* }}"
